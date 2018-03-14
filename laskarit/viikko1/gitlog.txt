@@ -1,0 +1,81 @@
+commit 46f9e519755f6e3ffda29ac61a6e65860b9dcbcc
+Author: Karttune <karttunenkonsta@gmail.com>
+Date:   Wed Mar 14 13:43:35 2018 +0200
+
+    commit ei lopu
+
+ tiedostoja/file2.txt                 | 0
+ tiedostoja/{file1.txt => file22.txt} | 0
+ tiedostoja/file3.txt                 | 6 ++++++
+ 3 files changed, 6 insertions(+)
+
+commit 836d015e720b2f84d9d2c4771db9d59ca0643c45
+Author: Karttune <karttunenkonsta@gmail.com>
+Date:   Wed Mar 14 13:24:46 2018 +0200
+
+    lissää!
+
+ tiedostoja/file1.txt | 0
+ tiedostoja/file2.txt | 0
+ tiedostoja/file3.txt | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 8fe78b3285463944bf694fd7cd129606e73666d3
+Author: Karttune <karttunenkonsta@gmail.com>
+Date:   Wed Mar 14 12:46:28 2018 +0200
+
+    lisää muutoksia, muutos on jatkuvaa
+
+ eka.txt    |  6 ++++--
+ kolmas.txt | 19 +++++++++++++++++--
+ 2 files changed, 21 insertions(+), 4 deletions(-)
+
+commit ffb3560e649ecbd12a234ec061cbc70fe78208fe
+Author: Karttune <karttunenkonsta@gmail.com>
+Date:   Wed Mar 14 12:43:51 2018 +0200
+
+    muutoksia
+
+ tiedosto.txt => eka.txt | 0
+ toinen.txt              | 4 ----
+ 2 files changed, 4 deletions(-)
+
+commit c0ac6b2e96d500403bfc1d0bcb0b5c70e5ca2f1b
+Author: Karttune <karttunenkonsta@gmail.com>
+Date:   Wed Mar 14 12:32:06 2018 +0200
+
+    uutta tavaraa lisää jee jee
+
+ tiedosto.txt | 69 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 66 insertions(+), 3 deletions(-)
+
+commit 8c606874e4adce0465b30ff75faf8a56aa91a359
+Author: Karttune <karttunenkonsta@gmail.com>
+Date:   Wed Mar 14 12:12:18 2018 +0200
+
+    uutta tavaraa
+
+ kolmas.txt       | 5 +++++
+ stuff/neljas.txt | 0
+ toinen.txt       | 4 ++++
+ 3 files changed, 9 insertions(+)
+
+commit 0e1f7f4e2201999c8ac64f351ba3363acccdab32
+Author: Karttune <karttunenkonsta@gmail.com>
+Date:   Wed Mar 14 12:01:07 2018 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 3 +++
+ toinen.txt   | 0
+ 2 files changed, 3 insertions(+)
+
+commit 174b3930f00d0d0731476d02cf0fb5011dcf814c
+Author: Karttune <karttunenkonsta@gmail.com>
+Date:   Wed Mar 14 11:57:35 2018 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
