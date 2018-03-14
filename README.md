@@ -1,5 +1,9 @@
 # **Lorem ipsum**
 
+https://github.com/Karttune/otm-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt
+
+https://github.com/Karttune/otm-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt
+
 *dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
 et* 
 dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi 
