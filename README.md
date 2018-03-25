@@ -1,6 +1,6 @@
 ## **PCR-alukesuunnitteluohjelma**
 
-Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä ohjelmatyö.
+Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö.
 
 # Dokumentaatio
 
