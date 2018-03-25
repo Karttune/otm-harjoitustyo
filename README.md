@@ -1,10 +1,9 @@
-# **Lorem ipsum**
+## **PCR-alukesuunnitteluohjelma**
 
-[komentorivi.txt](https://github.com/Karttune/otm-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä ohjelmatyö.
 
-[gitlog.txt](https://github.com/Karttune/otm-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
+# Dokumentaatio
 
-*tämä on kursivoitua tekstiä*
-*aikamoista!*
+[Työaikakirjanpito](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
 
-Tämä on muutos joka aiheuttaa epäsynkroniaa
+[Vaatimusmäärittely](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
