@@ -2,5 +2,5 @@
 
 | päivä | aika | mitä tein  |
 | :----:|:-----| :-----|
-| 25.3  | 1    | Määrittelydokumentaatio tehty |
-| yht   | 0    |
+| 25.3  | 2    | Määrittelydokumentaatio tehty |
+| yht   | 2    |
