@@ -1,8 +1,8 @@
-## **PCR-alukesuunnitteluohjelma**
+# **PCR-alukesuunnitteluohjelma**
 
 Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö.
 
-# Dokumentaatio
+## Dokumentaatio
 
 [Työaikakirjanpito](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
 
