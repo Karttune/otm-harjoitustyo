@@ -35,5 +35,5 @@ _Kuva 2: Havainnollistava kuva alukkeiden paikoista DNA-juosteessa_
 
 - Tm ja Ta -lämpotilojen laskeminen tarkemmalla kaavalla, esimerkiksi Baldinon algoritmi (Tm = 81,5°C + 16,6 log[suolan konsentraatio reaktioliuoksessa millimooleina] + 0,41(GC%) - 675/alukkeen pituus) ja eri polymeraasientsyymien määrittäminen alukkeen suunnittelussa (joka polymeraasilla on omanlaisensa vaatimus suolakonsentraatiosta reaktioliuoksessa).
 - Tarkemmat suunnitteluvirheiden ilmoitukset.
-- Restriktiokohtien lisääminen alukkeiden 5'-päähän ja restriktiokohtien eli DNA:ta tietyistä paikoista leikkaavien entsyymien leikkauskohtien etsiminen sekvenssistä [samaan malliin kuin NEBCutterilla](http://nc2.neb.com/NEBcutter2/)
+- Restriktiokohtien lisääminen alukkeiden 5'-päähän ja restriktiokohtien eli DNA:ta tietyistä paikoista leikkaavien entsyymien leikkauskohtien etsiminen sekvenssistä [samaan malliin kuin NEBCutterilla.](http://nc2.neb.com/NEBcutter2/)
 - PCR-koneen ohjelman suunnittelutoiminnallisuus, johon ohjelma määrittelee käytetyn polymeraasientsyymin, amplikonin pituuden, Ta-lämpötilan jne. ja suunnittelee optimaalisen reaktiosyklin.
