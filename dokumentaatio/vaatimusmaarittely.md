@@ -2,7 +2,7 @@
 
 ## Sovelluksen tarkoitus
 
-Sovelluksen tarkoitus on toimia synteettisten DNA-alukkeiden suunnittelussa, joita käytetään [polymeraasiketjureaktiossa](https://fi.wikipedia.org/wiki/Polymeraasiketjureaktio). 
+Sovelluksen tarkoitus on toimia synteettisten DNA-alukkeiden (DNA primer) suunnittelussa, joita käytetään [polymeraasiketjureaktiossa](https://fi.wikipedia.org/wiki/Polymeraasiketjureaktio). 
 
 
 _Kuva 1: PCR-reaktio pähkinänkuoressa_
@@ -19,7 +19,7 @@ liian sekavaksi, funktionaalisuutta eriytetään omiin ikkunoihinsa.
 
 ## Perusversion tarjoama toiminnallisuus
 
-- Ohjelma keskittyy standardi-PCR -alukkeiden suunnitteluun, eli amplikonin (reaktiossa monistettavan DNA-jakson) pituus on korkeintaan noin 10 000 emäsparia.
+- Ohjelma keskittyy standardi-PCR -alukkeiden suunnitteluun, eli amplikonin (reaktiossa monistettavan DNA-jakson) pituus on korkeintaan noin 500-1000 yleisimmin käytetyllä _Taq_ DNA-polymeraasientsyymillä, joka on ohjelmassa oletusentsyymi.
 - Templaattijuosteen syöttäminen joko suoraan tekstinä tai .fasta -tiedostoformaatissa.
 - Luo automaattisesti sekä forward- että reverse -alukkeet sekvenssille. Alukkeiden alku- ja loppupaikkaa voi myös muokata oman maun mukaan.
 - Ohjelma laskee perustiedot alukkeista, kuten niiden nukleotidipituuden, kuinka monta nukleotidiä täsmää templaattijuosteen kanssa, GT-pitoisuuden prosenteissa, Tm-lämpötilan Wallacen kaavalla (Tm = 2°C x (A/T) + 4° x (C/G)) sekä Ta -lämpötilan (Ta = Tm - 5°C). Tm-lämpötila tarkoittaa lämpötilaa PCR-reaktiosyklissä, jossa aluke irtoaa templaattijuosteesta, ja Ta tarkoittaa lämpötilaa jossa aluke pystyy kiinnittymään templaattijuosteeseen.
@@ -33,7 +33,8 @@ _Kuva 2: Havainnollistava kuva alukkeiden paikoista DNA-juosteessa_
 
 ## Jatkokehitysideoita
 
-- Tm ja Ta -lämpotilojen laskeminen tarkemmalla kaavalla, esimerkiksi Baldinon algoritmi (Tm = 81,5°C + 16,6 log[suolan konsentraatio reaktioliuoksessa millimooleina] + 0,41(GC%) - 675/alukkeen pituus) ja eri polymeraasientsyymien määrittäminen alukkeen suunnittelussa (joka polymeraasilla on omanlaisensa vaatimus suolakonsentraatiosta reaktioliuoksessa).
+- Tm ja Ta -lämpotilojen laskeminen tarkemmalla kaavalla, esimerkiksi Baldinon algoritmi (Tm = 81,5°C + 16,6 log[suolan konsentraatio reaktioliuoksessa millimooleina] + 0,41(GC%) - 675/alukkeen pituus) ja eri polymeraasientsyymien määrittäminen alukkeen suunnittelussa (joka polymeraasilla on omanlaisensa vaatimus suolakonsentraatiosta reaktioliuoksessa, ja eri polymeraaseilla voidaan amplifikoida pitempiä DNA-jaksoja.).
 - Tarkemmat suunnitteluvirheiden ilmoitukset.
 - Restriktiokohtien lisääminen alukkeiden 5'-päähän ja restriktiokohtien eli DNA:ta tietyistä paikoista leikkaavien entsyymien leikkauskohtien etsiminen sekvenssistä [samaan malliin kuin NEBCutterilla.](http://nc2.neb.com/NEBcutter2/)
-- PCR-koneen ohjelman suunnittelutoiminnallisuus, johon ohjelma määrittelee käytetyn polymeraasientsyymin, amplikonin pituuden, Ta-lämpötilan jne. ja suunnittelee optimaalisen reaktiosyklin.
+- PCR-koneen ajo-ohjelman suunnittelutoiminnallisuus, johon ohjelma määrittelee käytetyn polymeraasientsyymin, amplikonin pituuden, Ta-lämpötilan jne. ja suunnittelee optimaalisen reaktiosyklin.
+- Alukkeiden suunnittelu muille PCR-ohjelmille, esimerkiksi qPCR.
