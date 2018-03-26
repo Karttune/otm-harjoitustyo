@@ -37,4 +37,4 @@ _Kuva 2: Havainnollistava kuva alukkeiden paikoista DNA-juosteessa_
 - Tarkemmat suunnitteluvirheiden ilmoitukset.
 - Restriktiokohtien lisääminen alukkeiden 5'-päähän ja restriktiokohtien eli DNA:ta tietyistä paikoista leikkaavien entsyymien leikkauskohtien etsiminen sekvenssistä [samaan malliin kuin NEBCutterilla.](http://nc2.neb.com/NEBcutter2/)
 - PCR-koneen ajo-ohjelman suunnittelutoiminnallisuus, johon ohjelma määrittelee käytetyn polymeraasientsyymin, amplikonin pituuden, Ta-lämpötilan jne. ja suunnittelee optimaalisen reaktiosyklin.
--Alukkeiden suunnittelu muille PCR-ohjelmille, esimerkiksi qPCR.
+- Alukkeiden suunnittelu muille PCR-ohjelmille, esimerkiksi qPCR.
