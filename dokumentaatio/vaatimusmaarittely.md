@@ -2,7 +2,7 @@
 
 ## Sovelluksen tarkoitus
 
-Sovelluksen tarkoitus on toimia synteettisten DNA-alukkeiden suunnittelussa, joita käytetään [polymeraasiketjureaktiossa](https://fi.wikipedia.org/wiki/Polymeraasiketjureaktio). 
+Sovelluksen tarkoitus on toimia synteettisten DNA-alukkeiden (DNA primer) suunnittelussa, joita käytetään [polymeraasiketjureaktiossa](https://fi.wikipedia.org/wiki/Polymeraasiketjureaktio). 
 
 
 _Kuva 1: PCR-reaktio pähkinänkuoressa_
