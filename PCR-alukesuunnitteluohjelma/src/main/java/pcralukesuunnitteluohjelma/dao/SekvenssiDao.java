@@ -3,17 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-import java.io.File;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+package pcralukesuunnitteluohjelma.dao;
 
 /**
  *
  * @author Konsta
  */
-public class FilePcrDao {
-
+public class SekvenssiDao {
+    
 }
