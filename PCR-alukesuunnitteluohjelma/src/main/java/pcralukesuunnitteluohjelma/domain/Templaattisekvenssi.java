@@ -28,6 +28,7 @@ public class Templaattisekvenssi {
 
     public String otsikkoRivinPalautusTiedostosta(File file) {
 
+        //Luetaan tiedostosta pelkkä ">" -merkillä alkava otsikkorivi.
         if (file != null) {
 
             StringBuilder sb = new StringBuilder();
@@ -60,8 +61,9 @@ public class Templaattisekvenssi {
         return null;
     }
 
-    public String SekvenssiRivienPalautusTiedostosta(File file) {
+    public String sekvenssiRivienPalautusTiedostosta(File file) {
 
+        //Luetaan sekvenssi tiedostosta ilman ">" -merkkiä alkavaa otsikkoriviä.
         if (file != null) {
 
             StringBuilder sb = new StringBuilder();
@@ -89,14 +91,14 @@ public class Templaattisekvenssi {
                 }
             }
 
-            //jaetaan sekvenssi 50 nukleotidin pätkiin
+            //jaetaan sekvenssi 50 nukleotidin pätkiin.
             String sekvenssi = sb.toString();
 
             String sekvenssipatkat = "";
 
             int i = 0;
             while (i < sekvenssi.length()) {
-                sekvenssipatkat = sekvenssipatkat.concat(i + 1 + " " + sekvenssi.substring(i, Math.min(i + 50, sekvenssi.length())) + "\n");
+                sekvenssipatkat = sekvenssipatkat.concat(sekvenssi.substring(i, Math.min(i + 50, sekvenssi.length())) + "\n");
                 i += 50;
             }
             return sekvenssipatkat;
