@@ -2,8 +2,7 @@
 import java.io.File;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import pcralukesuunnitteluohjelma.domain.Forwardprimer;
-import pcralukesuunnitteluohjelma.domain.Reverseprimer;
+import pcrprimerdesignapp.domain.Reverseprimer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

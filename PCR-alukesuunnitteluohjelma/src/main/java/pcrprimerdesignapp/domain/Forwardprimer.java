@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pcralukesuunnitteluohjelma.domain;
+package pcrprimerdesignapp.domain;
 
 import java.io.File;
-import pcralukesuunnitteluohjelma.ui.PcrprimerdesignApplication;
+import pcrprimerdesignapp.ui.PcrprimerdesignApplication;
 
 /**
  *

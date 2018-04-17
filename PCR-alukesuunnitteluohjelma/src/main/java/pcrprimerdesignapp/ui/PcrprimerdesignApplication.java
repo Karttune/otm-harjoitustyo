@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pcralukesuunnitteluohjelma.ui;
+package pcrprimerdesignapp.ui;
 
 import java.io.File;
 import javafx.application.Application;
@@ -20,9 +20,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import pcralukesuunnitteluohjelma.domain.Forwardprimer;
-import pcralukesuunnitteluohjelma.domain.Reverseprimer;
-import pcralukesuunnitteluohjelma.domain.Templatesequence;
+import pcrprimerdesignapp.domain.Forwardprimer;
+import pcrprimerdesignapp.domain.Reverseprimer;
+import pcrprimerdesignapp.domain.Templatesequence;
 
 public class PcrprimerdesignApplication extends Application {
 

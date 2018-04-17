@@ -2,7 +2,7 @@
 import java.io.File;
 import static org.junit.Assert.*;
 import org.junit.Test;
-import pcralukesuunnitteluohjelma.domain.Forwardprimer;
+import pcrprimerdesignapp.domain.Forwardprimer;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
