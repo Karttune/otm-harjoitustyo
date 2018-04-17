@@ -38,10 +38,10 @@ Checkstyle
 
 Ohjelman checkstyle-tarkistukset suoritetaan komennolla:
 
-...
+```
 mvn jxr:jxr checkstyle:checkstyle
-...
+```
 
-Virheilmoitukset selviävät avaamalla selaimella tiedosto target/site/checkstyle.html
+Virheilmoitukset selviävät avaamalla tiedosto _target/site/checkstyle.html_
 
 
