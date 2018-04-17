@@ -12,6 +12,6 @@ Ohjelman luokkarakenne on seuraava:
 
 Pari huomiota luokka/pakkauskaaviosta:
 
-Tällä hetkellä yksittäiset luokat eivät ole varsinaisesti yhden templaattisekvenssin tai alukkeen ilmentymiä, vaan niissä on vain toiminnallisuus tekstikentässä olevien sekvenssien muokkaamiseen. Tämä todennäköisesti muuttuu, jolloin yksittäiseen luokkaan liittyy aina muokattava sekvenssi. Tämä mahdollistaa esimerkiksi myös useamman alukkeen suunnittelun yhdelle templaattisekvenssille.
+Tällä hetkellä yksittäiset luokat eivät ole varsinaisesti yhden templaattisekvenssin tai alukkeen ilmentymiä, vaan niissä on vain toiminnallisuus UI:n tekstikentässä olevien sekvenssien muokkaamiseen. Tämä todennäköisesti muuttuu, jolloin yksittäiseen luokkaan liittyy aina muokattava sekvenssi. Tämä mahdollistaa esimerkiksi myös useamman alukkeen suunnittelun yhdelle templaattisekvenssille.
 
 Sen lisäksi tietokantatoiminnallisuutta ei ole vielä toteutettu, joten sen luokkarakenne voi muuttua.
