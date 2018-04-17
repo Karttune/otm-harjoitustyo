@@ -5,4 +5,5 @@
 | 25.3  | 2    | Määrittelydokumentaatio tehty |
 | 9.4   | 3    | Ui aloitettu, Fasta-tiedoston avaaminen toteutettu |
 | 10.4  | 4    | Ui:ta muokattu, Fasta-tiedoston avaaminen eriytetty omaan luokkaansa, alukkeiden raakaversiot|
-| yht   | 9    |
+| 17.4  | 8    | Alukkeiden viilaamista, UI:n viilaaista, lisää toiminnallisuutta muokkaamiseen, Tm ja GC% -arvot.
+| yht   | 17   |
