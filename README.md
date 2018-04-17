@@ -34,7 +34,7 @@ Testikattavuusraportti luodaan komennolla
 mvn jacoco:report
 ```
 
-Checkstyle
+### Checkstyle
 
 Ohjelman checkstyle-tarkistukset suoritetaan komennolla:
 
