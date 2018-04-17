@@ -12,21 +12,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import pcralukesuunnitteluohjelma.ui.PcrAlukesuunnitteluApplication;
+import pcralukesuunnitteluohjelma.ui.PcrprimerdesignApplication;
 
 /**
  *
  * @author Konsta
  */
-public class Templaattisekvenssi {
+public class Templatesequence {
 
-    public Templaattisekvenssi() {
-
-    }
-
-    public String otsikkoRivinPalautusTiedostosta(File file) {
+    public String headerLineFromFile(File file) {
 
         //Luetaan tiedostosta pelkkä ">" -merkillä alkava otsikkorivi.
         if (file != null) {
@@ -46,14 +40,14 @@ public class Templaattisekvenssi {
                 }
 
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(PcrAlukesuunnitteluApplication.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(PcrAlukesuunnitteluApplication.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 try {
                     bufferedReader.close();
                 } catch (IOException ex) {
-                    Logger.getLogger(PcrAlukesuunnitteluApplication.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             return sb.toString();
@@ -61,7 +55,7 @@ public class Templaattisekvenssi {
         return null;
     }
 
-    public String sekvenssiRivienPalautusTiedostosta(File file) {
+    public String sequenceFromFile(File file) {
 
         //Luetaan sekvenssi tiedostosta ilman ">" -merkkiä alkavaa otsikkoriviä.
         if (file != null) {
@@ -73,35 +67,34 @@ public class Templaattisekvenssi {
                 String text;
                 while ((text = bufferedReader.readLine()) != null) {
 
-                    if (text.startsWith(">")) {
-                    } else {
+                    if (!text.startsWith(">")) {
                         sb.append(text);
                     }
                 }
 
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(PcrAlukesuunnitteluApplication.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(PcrAlukesuunnitteluApplication.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 try {
                     bufferedReader.close();
                 } catch (IOException ex) {
-                    Logger.getLogger(PcrAlukesuunnitteluApplication.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 
-            //jaetaan sekvenssi 50 nukleotidin pätkiin.
-            String sekvenssi = sb.toString();
+            //jaetaan sekvenssi 50 nukleotidin pätkiin tekstikenttään syöttämistä varten.
+            String sequence = sb.toString();
 
-            String sekvenssipatkat = "";
+            String splitSequence = "";
 
             int i = 0;
-            while (i < sekvenssi.length()) {
-                sekvenssipatkat = sekvenssipatkat.concat(sekvenssi.substring(i, Math.min(i + 50, sekvenssi.length())) + "\n");
+            while (i < sequence.length()) {
+                splitSequence = splitSequence.concat(sequence.substring(i, Math.min(sequence.length(), i + 50)) + "\n");
                 i += 50;
             }
-            return sekvenssipatkat;
+            return splitSequence;
         }
         return null;
     }

@@ -10,7 +10,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath pcralukesuunnitteluohjelma.ui.PcrAlukesuunnitteluApplication</exec.args>
+                <exec.args>-classpath %classpath pcralukesuunnitteluohjelma.ui.PcrprimerdesignApplication</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
         </action>
@@ -24,7 +24,7 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath pcralukesuunnitteluohjelma.ui.PcrAlukesuunnitteluApplication</exec.args>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath pcralukesuunnitteluohjelma.ui.PcrprimerdesignApplication</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
             </properties>
@@ -39,8 +39,23 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath pcralukesuunnitteluohjelma.ui.PcrAlukesuunnitteluApplication</exec.args>
+                <exec.args>-classpath %classpath pcralukesuunnitteluohjelma.ui.PcrprimerdesignApplication</exec.args>
                 <exec.executable>java</exec.executable>
             </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-checkstyle</actionName>
+            <displayName>checkstyle</displayName>
+            <goals>
+                <goal>jxr:jxr</goal>
+                <goal>checkstyle:checkstyle</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-jacoco</actionName>
+            <displayName>jacoco</displayName>
+            <goals>
+                <goal>jacoco:report</goal>
+            </goals>
         </action>
     </actions>
