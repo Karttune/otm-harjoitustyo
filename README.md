@@ -8,6 +8,8 @@ Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, Jo
 
 [Vaatimusmäärittely](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
+[Arkkitehtuurikuvaus](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+
 ## Komentorivitoiminnot
 
 ### Testaus
@@ -25,3 +27,21 @@ mvn jacoco:report
 ```
 
 Kattavuusraporttia voi tarkastella avaamalla selaimella tiedosto _target/site/jacoco/index.html_
+
+Testikattavuusraportti luodaan komennolla
+
+```
+mvn jacoco:report
+```
+
+Checkstyle
+
+Ohjelman checkstyle-tarkistukset suoritetaan komennolla:
+
+...
+mvn jxr:jxr checkstyle:checkstyle
+...
+
+Virheilmoitukset selviävät avaamalla selaimella tiedosto target/site/checkstyle.html
+
+
