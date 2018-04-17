@@ -8,3 +8,10 @@ Ohjelman alustava pakkausrakenne on seuraava:
 
 Ohjelman luokkarakenne on seuraava:
 
+<img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/luokkajapakkauskaavio.jpg">
+
+Pari huomiota luokka/pakkauskaaviosta:
+
+Tällä hetkellä yksittäiset luokat eivät ole varsinaisesti yhden templaattisekvenssin tai alukkeen ilmentymiä, vaan niissä on vain toiminnallisuus tekstikentässä olevien sekvenssien muokkaamiseen. Tämä todennäköisesti muuttuu, jolloin yksittäiseen luokkaan liittyy aina muokattava sekvenssi. Tämä mahdollistaa esimerkiksi myös useamman alukkeen suunnittelun yhdelle templaattisekvenssille.
+
+Sen lisäksi tietokantatoiminnallisuutta ei ole vielä toteutettu, joten sen pakkausrakenne voi muuttua.
