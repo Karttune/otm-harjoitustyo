@@ -14,13 +14,13 @@ Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, Jo
 
 ### Testaus
 
-Testit suoritetaan komennolla
+Testit suoritetaan komennolla:
 
 ```
 mvn test
 ```
 
-Testikattavuusraportti luodaan komennolla
+Testikattavuusraportti luodaan komennolla:
 
 ```
 mvn jacoco:report
@@ -28,7 +28,7 @@ mvn jacoco:report
 
 Kattavuusraporttia voi tarkastella avaamalla selaimella tiedosto _target/site/jacoco/index.html_
 
-Testikattavuusraportti luodaan komennolla
+Testikattavuusraportti luodaan komennolla:
 
 ```
 mvn jacoco:report
