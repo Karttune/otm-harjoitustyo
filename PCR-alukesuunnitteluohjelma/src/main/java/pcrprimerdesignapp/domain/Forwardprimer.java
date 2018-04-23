@@ -29,20 +29,29 @@ public class Forwardprimer {
         }
     }
 
+    public String getForwardPrimer() {
+
+        return forwardPrimer;
+
+    }
+
     public Integer matchingNucleotides(String templateSequence) {
 
-        String[] template = templateSequence.split("");
-        String[] primer = forwardPrimer.split("");
+        if (templateSequence.length() >= 100) {
+            String[] template = templateSequence.split("");
+            String[] primer = forwardPrimer.split("");
 
-        int matches = 0;
+            int matches = 0;
 
-        for (int i = 0; i < primer.length; i++) {
+            for (int i = 0; i < primer.length; i++) {
 
-            if (template[i].equalsIgnoreCase(primer[i])) {
-                matches++;
+                if (template[i].equalsIgnoreCase(primer[i])) {
+                    matches++;
+                }
             }
+            return matches;
         }
-        return matches;
+        return 0;
     }
 
     public Double gcPercentage() {

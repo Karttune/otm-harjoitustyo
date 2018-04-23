@@ -5,6 +5,9 @@
  */
 package pcrprimerdesignapp.domain;
 
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+
 /**
  *
  * @author Konsta
@@ -40,6 +43,7 @@ public class Reverseprimer {
                 }
             }
             primer = String.join("", nucleotides);
+            primer = new StringBuilder(primer).reverse().toString();
             reversePrimer = primer;
             return reversePrimer;
 
@@ -48,20 +52,33 @@ public class Reverseprimer {
         }
     }
 
+    public String getReversePrimer() {
+
+        return reversePrimer;
+    }
+
     public Integer matchingNucleotides(String templateSequence) {
 
-        String[] template = templateSequence.split("");
-        String[] primer = reversePrimer.split("");
+        if (templateSequence.length() >= 100) {
 
-        int matches = 0;
+            String[] template = templateSequence.substring(templateSequence.length() - 50, templateSequence.length()).split("");
+            String[] primer = reversePrimer.split("");
 
-        for (int i = 0; i < primer.length; i++) {
+            int matches = 0;
+            int y = 49;
 
-            if (template[i].equalsIgnoreCase(primer[i])) {
-                matches++;
+            for (int i = 0; i < primer.length; i++) {
+
+                if (primer[i].equalsIgnoreCase("A") && template[y].equalsIgnoreCase("T") || primer[i].equalsIgnoreCase("T") && template[y].equalsIgnoreCase("A")) {
+                    matches++;
+                } else if (primer[i].equalsIgnoreCase("C") && template[y].equalsIgnoreCase("G") || primer[i].equalsIgnoreCase("G") && template[y].equalsIgnoreCase("C")) {
+                    matches++;
+                }
+                y--;
             }
+            return matches;
         }
-        return matches;
+        return 0;
     }
 
     public Double gcPercentage() {

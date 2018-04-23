@@ -18,8 +18,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import pcrprimerdesignapp.domain.Forwardprimer;
@@ -75,6 +77,15 @@ public class PcrprimerdesignApplication extends Application {
         Label forwardPrimerTm = new Label("Tm: 0°C");
         Label reversePrimerTm = new Label("Tm: 0°C");
 
+        Text f = new Text();
+        Text r = new Text();
+
+        TextFlow forwardSequenceAlignment = new TextFlow();
+        forwardSequenceAlignment.setPrefSize(400, 50);
+
+        TextFlow reverseSequenceAlignment = new TextFlow();
+        reverseSequenceAlignment.setPrefSize(400, 50);
+
         ChoiceBox databaseFunctions = new ChoiceBox();
 
         openFile.setOnAction((ActionEvent event) -> {
@@ -93,9 +104,8 @@ public class PcrprimerdesignApplication extends Application {
 
         textArea.textProperty().addListener((change, oldValue, newValue) -> {
 
-            templateSequence.setTemplateSequence(newValue);
-
             newValue = newValue.replaceAll("\n", "");
+            templateSequence.setTemplateSequence(newValue);
 
             if (newValue.matches("[ATCGatcg]*")) {
                 int nucleotides = newValue.length();
@@ -113,18 +123,15 @@ public class PcrprimerdesignApplication extends Application {
             forwardPrimerTm.setText("Tm: " + forwardPrimer.tmTemperature() + " °C");
             reversePrimerTm.setText("Tm: " + reversePrimer.tmTemperature() + " °C");
 
-            if (!forwardPrimerField.getText().equals("The template sequence is too short!")) {
-                String[] ayy = forwardPrimerField.getText().split("");
-                String[] lmao = newValue.substring(0, ayy.length).split("");
+            if (templateSequence.getTemplateSequence().length() >= 100) {
+                String fwdsequence = templateSequence.getTemplateSequence().substring(0, 50);
+                f.setText(fwdsequence + "\n");
 
-                for (int i = 0; i < ayy.length; i++) {
-
-                    if (ayy[i].equalsIgnoreCase(lmao[i])) {
-                        Text t = new Text();
-                        t.setFill(Color.GREEN);
-                    }
-                }
+                String revsequence = templateSequence.getTemplateSequence().substring(templateSequence.getTemplateSequence().length() - 50, templateSequence.getTemplateSequence().length());
+                revsequence = new StringBuilder(revsequence).reverse().toString();
+                r.setText(revsequence + "\n");
             }
+
         });
 
         forwardPrimerField.textProperty().addListener((change, oldValue, newValue) -> {
@@ -132,7 +139,6 @@ public class PcrprimerdesignApplication extends Application {
             forwardPrimer.setForwardPrimer(newValue);
 
             forwardPrimerLength.setText("Nucleotides: " + forwardPrimer.getPrimerLength());
-
             forwardPrimerMatches.setText("Matching nucleotides: " + forwardPrimer.matchingNucleotides(templateSequence.getTemplateSequence()));
 
             forwardPrimerGc.setText("GC-percentage: " + forwardPrimer.gcPercentage());
@@ -141,6 +147,49 @@ public class PcrprimerdesignApplication extends Application {
             forwardPrimerTm.setText("Tm: " + forwardPrimer.tmTemperature() + " °C");
             reversePrimerTm.setText("Tm: " + reversePrimer.tmTemperature() + " °C");
 
+            if (templateSequence.getTemplateSequence().length() >= 100) {
+                String[] fwdsequence = templateSequence.getTemplateSequence().substring(0, 50).split("");
+                String[] fwdprimer = forwardPrimer.getForwardPrimer().split("");
+
+                String[] revprimer = reversePrimer.getReversePrimer().split("");
+                String[] revsequence = templateSequence.getTemplateSequence().substring(templateSequence.getTemplateSequence().length() - 50, templateSequence.getTemplateSequence().length()).split("");
+
+                forwardSequenceAlignment.getChildren().clear();
+                forwardSequenceAlignment.getChildren().add(f);
+
+                for (int i = 0; i < fwdprimer.length; i++) {
+
+                    if (fwdprimer[i].equalsIgnoreCase(fwdsequence[i])) {
+                        Text match = new Text(fwdprimer[i]);
+                        match.setFill(Color.RED);
+                        forwardSequenceAlignment.getChildren().add(match);
+                    } else {
+                        Text mismatch = new Text(fwdprimer[i]);
+                        forwardSequenceAlignment.getChildren().add(mismatch);
+                    }
+                }
+
+                reverseSequenceAlignment.getChildren().clear();
+                reverseSequenceAlignment.getChildren().add(r);
+
+                int y = 49;
+
+                for (int i = 0; i < revprimer.length; i++) {
+                    if (revprimer[i].equalsIgnoreCase("A") && revsequence[y].equalsIgnoreCase("T") || revprimer[i].equalsIgnoreCase("T") && revsequence[y].equalsIgnoreCase("A")) {
+                        Text match = new Text(revprimer[i]);
+                        match.setFill(Color.RED);
+                        reverseSequenceAlignment.getChildren().add(match);
+                    } else if (revprimer[i].equalsIgnoreCase("C") && revsequence[y].equalsIgnoreCase("G") || revprimer[i].equalsIgnoreCase("G") && revsequence[y].equalsIgnoreCase("C")) {
+                        Text match = new Text(revprimer[i]);
+                        match.setFill(Color.RED);
+                        reverseSequenceAlignment.getChildren().add(match);
+                    } else {
+                        Text mismatch = new Text(revprimer[i]);
+                        reverseSequenceAlignment.getChildren().add(mismatch);
+                    }
+                    y--;
+                }
+            }
         });
 
         reversePrimerField.textProperty().addListener((change, oldValue, newValue) -> {
@@ -148,6 +197,7 @@ public class PcrprimerdesignApplication extends Application {
             reversePrimer.setReversePrimer(newValue);
 
             reversePrimerLength.setText("Nucleotides: " + reversePrimer.getPrimerLength());
+            reversePrimerMatches.setText("Matching nucleotides: " + reversePrimer.matchingNucleotides(templateSequence.getTemplateSequence()));
 
             forwardPrimerGc.setText("GC-percentage: " + forwardPrimer.gcPercentage());
             reversePrimerGc.setText("GC-percentage: " + reversePrimer.gcPercentage());
@@ -155,21 +205,76 @@ public class PcrprimerdesignApplication extends Application {
             forwardPrimerTm.setText("Tm: " + forwardPrimer.tmTemperature() + " °C");
             reversePrimerTm.setText("Tm: " + reversePrimer.tmTemperature() + " °C");
 
+            if (templateSequence.getTemplateSequence().length() >= 100) {
+
+                String[] fwdsequence = templateSequence.getTemplateSequence().substring(0, 50).split("");
+                String[] fwdprimer = forwardPrimer.getForwardPrimer().split("");
+
+                String[] revprimer = reversePrimer.getReversePrimer().split("");
+                String[] revsequence = templateSequence.getTemplateSequence().substring(templateSequence.getTemplateSequence().length() - 50, templateSequence.getTemplateSequence().length()).split("");
+
+                forwardSequenceAlignment.getChildren().clear();
+                forwardSequenceAlignment.getChildren().add(f);
+
+                for (int i = 0; i < fwdprimer.length; i++) {
+
+                    if (fwdprimer[i].equalsIgnoreCase(fwdsequence[i])) {
+                        Text match = new Text(fwdprimer[i]);
+                        match.setFill(Color.RED);
+                        forwardSequenceAlignment.getChildren().add(match);
+                    } else {
+                        Text mismatch = new Text(fwdprimer[i]);
+                        forwardSequenceAlignment.getChildren().add(mismatch);
+                    }
+                }
+
+                reverseSequenceAlignment.getChildren().clear();
+                reverseSequenceAlignment.getChildren().add(r);
+
+                int y = 49;
+
+                for (int i = 0; i < revprimer.length; i++) {
+
+                    if (revprimer[i].equalsIgnoreCase("A") && revsequence[y].equalsIgnoreCase("T") || revprimer[i].equalsIgnoreCase("T") && revsequence[y].equalsIgnoreCase("A")) {
+                        Text match = new Text(revprimer[i]);
+                        match.setFill(Color.RED);
+                        reverseSequenceAlignment.getChildren().add(match);
+                    } else if (revprimer[i].equalsIgnoreCase("C") && revsequence[y].equalsIgnoreCase("G") || revprimer[i].equalsIgnoreCase("G") && revsequence[y].equalsIgnoreCase("C")) {
+                        Text match = new Text(revprimer[i]);
+                        match.setFill(Color.RED);
+                        reverseSequenceAlignment.getChildren().add(match);
+                    } else {
+                        Text mismatch = new Text(revprimer[i]);
+                        reverseSequenceAlignment.getChildren().add(mismatch);
+                    }
+                    y--;
+                }
+            }
         });
 
-        HBox buttons = new HBox();
-        buttons.setPadding(new Insets(5, 5, 5, 5));
+        HBox buttonsBox = new HBox();
+        buttonsBox.setPadding(new Insets(5, 5, 5, 5));
+
+        buttonsBox.setSpacing(10);
+        buttonsBox.getChildren().add(openFile);
+        buttonsBox.getChildren().add(headerField);
 
         HBox databaseFunctionBox = new HBox();
-
-        buttons.setSpacing(10);
-        buttons.getChildren().add(openFile);
-        buttons.getChildren().add(headerField);
 
         databaseFunctionBox.setSpacing(10);
         databaseFunctionBox.getChildren().add(databaseFunctions);
 
+        VBox sequenceAlignmentBox = new VBox();
+        sequenceAlignmentBox.setPadding(new Insets(5, 5, 5, 5));
+        sequenceAlignmentBox.getChildren().add(new Label("Sequence alignment:"));
+        sequenceAlignmentBox.getChildren().add(new Label(""));
+        sequenceAlignmentBox.getChildren().add(new Label("Forward-primer (5'->3'):"));
+        sequenceAlignmentBox.getChildren().add(forwardSequenceAlignment);
+        sequenceAlignmentBox.getChildren().add(new Label("Reverse-primer (5'->3'):"));
+        sequenceAlignmentBox.getChildren().add(reverseSequenceAlignment);
+
         grid.add(nucleotideLabel, 1, 0, 5, 1);
+
         grid.add(new Label("Forward-primer:"), 1, 1);
         grid.add(new Label("Reverse-primer:"), 8, 1);
 
@@ -182,14 +287,16 @@ public class PcrprimerdesignApplication extends Application {
         grid.add(forwardPrimerTm, 1, 6);
 
         grid.add(reversePrimerField, 8, 2, 4, 1);
-        grid.add(new Label("3'"), 7, 2, 1, 1);
-        grid.add(new Label("5'"), 12, 2, 1, 1);
+        grid.add(new Label("5'"), 7, 2, 1, 1);
+        grid.add(new Label("3'"), 12, 2, 1, 1);
         grid.add(reversePrimerLength, 8, 3);
-        grid.add(reversePrimerGc, 8, 4);
-        grid.add(reversePrimerTm, 8, 5);
+        grid.add(reversePrimerMatches, 8, 4);
+        grid.add(reversePrimerGc, 8, 5);
+        grid.add(reversePrimerTm, 8, 6);
 
-        layout.setTop(buttons);
+        layout.setTop(buttonsBox);
         layout.setCenter(textArea);
+        layout.setRight(sequenceAlignmentBox);
         layout.setBottom(grid);
 
         Scene scene = new Scene(layout);

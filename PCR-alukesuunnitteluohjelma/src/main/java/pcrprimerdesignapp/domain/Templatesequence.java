@@ -90,7 +90,10 @@ public class Templatesequence {
                     Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            templateSequence = sb.toString();
+
+            String sequence = sb.toString();
+            sequence = sequence.replaceAll("\n", "");
+            templateSequence = sequence;
         }
     }
 
