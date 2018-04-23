@@ -20,7 +20,15 @@ import pcrprimerdesignapp.ui.PcrprimerdesignApplication;
  */
 public class Templatesequence {
 
-    public String headerLineFromFile(File file) {
+    private String sequenceTitle;
+    private String templateSequence;
+
+    public Templatesequence() {
+        sequenceTitle = "";
+        templateSequence = "";
+    }
+
+    public void headerLineFromFile(File file) {
 
         //Luetaan tiedostosta pelkkä ">" -merkillä alkava otsikkorivi.
         if (file != null) {
@@ -50,12 +58,11 @@ public class Templatesequence {
                     Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-            return sb.toString();
+            sequenceTitle = sb.toString();
         }
-        return null;
     }
 
-    public String sequenceFromFile(File file) {
+    public void sequenceFromFile(File file) {
 
         //Luetaan sekvenssi tiedostosta ilman ">" -merkkiä alkavaa otsikkoriviä.
         if (file != null) {
@@ -83,19 +90,36 @@ public class Templatesequence {
                     Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
-            //jaetaan sekvenssi 50 nukleotidin pätkiin tekstikenttään syöttämistä varten.
-            String sequence = sb.toString();
-
-            String splitSequence = "";
-
-            int i = 0;
-            while (i < sequence.length()) {
-                splitSequence = splitSequence.concat(sequence.substring(i, Math.min(sequence.length(), i + 50)) + "\n");
-                i += 50;
-            }
-            return splitSequence;
+            templateSequence = sb.toString();
         }
-        return null;
+    }
+
+    public String getTemplateSequence() {
+        return templateSequence;
+    }
+
+    public void setTemplateSequence(String templateSequence) {
+        this.templateSequence = templateSequence;
+    }
+
+    public String getSequenceTitle() {
+        return sequenceTitle;
+    }
+
+    public void setSequenceTitle(String sequenceTitle) {
+        this.sequenceTitle = sequenceTitle;
+    }
+
+    public String splitSequence() {
+
+        //jaetaan sekvenssi 50 nukleotidin pätkiin tekstikenttään syöttämistä varten.
+        String splitSequence = "";
+
+        int i = 0;
+        while (i < templateSequence.length()) {
+            splitSequence = splitSequence.concat(templateSequence.substring(i, Math.min(templateSequence.length(), i + 50)) + "\n");
+            i += 50;
+        }
+        return splitSequence;
     }
 }

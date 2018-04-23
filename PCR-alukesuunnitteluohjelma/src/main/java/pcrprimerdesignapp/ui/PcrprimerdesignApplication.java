@@ -18,6 +18,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import pcrprimerdesignapp.domain.Forwardprimer;
@@ -29,10 +31,10 @@ public class PcrprimerdesignApplication extends Application {
     private Templatesequence templateSequence = new Templatesequence();
     private Forwardprimer forwardPrimer = new Forwardprimer();
     private Reverseprimer reversePrimer = new Reverseprimer();
-    public static TextArea textField;
+    public static TextArea textArea;
 
     public PcrprimerdesignApplication() {
-        this.textField = new TextArea();
+        this.textArea = new TextArea();
     }
 
     @Override
@@ -55,12 +57,21 @@ public class PcrprimerdesignApplication extends Application {
 
         final Button openFile = new Button("Open file");
         Label headerField = new Label();
+
         TextField forwardPrimerField = new TextField();
         TextField reversePrimerField = new TextField();
+
         Label nucleotideLabel = new Label("Nucleotides: 0");
+
+        Label forwardPrimerLength = new Label("Nucleotides: 0");
+        Label reversePrimerLength = new Label("Nucleotides: 0");
+
+        Label forwardPrimerMatches = new Label("Matching nucleotides: 0");
+        Label reversePrimerMatches = new Label("Matching nucleotides: 0");
 
         Label forwardPrimerGc = new Label("GC-percentage: 0");
         Label reversePrimerGc = new Label("GC-percentage: 0");
+
         Label forwardPrimerTm = new Label("Tm: 0°C");
         Label reversePrimerTm = new Label("Tm: 0°C");
 
@@ -70,14 +81,19 @@ public class PcrprimerdesignApplication extends Application {
 
             File file = fileChooser.showOpenDialog(stage);
 
-            headerField.setText(templateSequence.headerLineFromFile(file));
-            textField.setText(templateSequence.sequenceFromFile(file));
+            templateSequence.headerLineFromFile(file);
+            headerField.setText(templateSequence.getSequenceTitle());
 
-            forwardPrimerField.setText(forwardPrimer.forwardPrimerFromFile(file));
-            reversePrimerField.setText(reversePrimer.reversePrimerFromFile(file));
+            templateSequence.sequenceFromFile(file);
+            textArea.setText(templateSequence.splitSequence());
+
+            forwardPrimerField.setText(forwardPrimer.getForwardPrimer(templateSequence.getTemplateSequence()));
+            reversePrimerField.setText(reversePrimer.getReversePrimer(templateSequence.getTemplateSequence()));
         });
 
-        textField.textProperty().addListener((change, oldValue, newValue) -> {
+        textArea.textProperty().addListener((change, oldValue, newValue) -> {
+
+            templateSequence.setTemplateSequence(newValue);
 
             newValue = newValue.replaceAll("\n", "");
 
@@ -88,33 +104,56 @@ public class PcrprimerdesignApplication extends Application {
                 nucleotideLabel.setText("Invalid input!");
             }
 
-            forwardPrimerField.setText(forwardPrimer.forwardPrimerFromTextField());
-            reversePrimerField.setText(reversePrimer.reversePrimerFromTextField());
-            forwardPrimerGc.setText(forwardPrimer.gcPercentage());
-            reversePrimerGc.setText(reversePrimer.gcPercentage());
+            forwardPrimerField.setText(forwardPrimer.getForwardPrimer(templateSequence.getTemplateSequence()));
+            reversePrimerField.setText(reversePrimer.getReversePrimer(templateSequence.getTemplateSequence()));
 
-            forwardPrimerTm.setText(forwardPrimer.tmTemperature());
-            reversePrimerTm.setText(reversePrimer.tmTemperature());
+            forwardPrimerGc.setText("GC-percentage: " + forwardPrimer.gcPercentage());
+            reversePrimerGc.setText("GC-percentage: " + reversePrimer.gcPercentage());
 
+            forwardPrimerTm.setText("Tm: " + forwardPrimer.tmTemperature() + " °C");
+            reversePrimerTm.setText("Tm: " + reversePrimer.tmTemperature() + " °C");
+
+            if (!forwardPrimerField.getText().equals("The template sequence is too short!")) {
+                String[] ayy = forwardPrimerField.getText().split("");
+                String[] lmao = newValue.substring(0, ayy.length).split("");
+
+                for (int i = 0; i < ayy.length; i++) {
+
+                    if (ayy[i].equalsIgnoreCase(lmao[i])) {
+                        Text t = new Text();
+                        t.setFill(Color.GREEN);
+                    }
+                }
+            }
         });
 
         forwardPrimerField.textProperty().addListener((change, oldValue, newValue) -> {
 
-            forwardPrimerGc.setText(forwardPrimer.gcPercentage());
-            reversePrimerGc.setText(reversePrimer.gcPercentage());
+            forwardPrimer.setForwardPrimer(newValue);
 
-            forwardPrimerTm.setText(forwardPrimer.tmTemperature());
-            reversePrimerTm.setText(reversePrimer.tmTemperature());
+            forwardPrimerLength.setText("Nucleotides: " + forwardPrimer.getPrimerLength());
+
+            forwardPrimerMatches.setText("Matching nucleotides: " + forwardPrimer.matchingNucleotides(templateSequence.getTemplateSequence()));
+
+            forwardPrimerGc.setText("GC-percentage: " + forwardPrimer.gcPercentage());
+            reversePrimerGc.setText("GC-percentage: " + reversePrimer.gcPercentage());
+
+            forwardPrimerTm.setText("Tm: " + forwardPrimer.tmTemperature() + " °C");
+            reversePrimerTm.setText("Tm: " + reversePrimer.tmTemperature() + " °C");
 
         });
 
         reversePrimerField.textProperty().addListener((change, oldValue, newValue) -> {
 
-            forwardPrimerGc.setText(forwardPrimer.gcPercentage());
-            reversePrimerGc.setText(reversePrimer.gcPercentage());
+            reversePrimer.setReversePrimer(newValue);
 
-            forwardPrimerTm.setText(forwardPrimer.tmTemperature());
-            reversePrimerTm.setText(reversePrimer.tmTemperature());
+            reversePrimerLength.setText("Nucleotides: " + reversePrimer.getPrimerLength());
+
+            forwardPrimerGc.setText("GC-percentage: " + forwardPrimer.gcPercentage());
+            reversePrimerGc.setText("GC-percentage: " + reversePrimer.gcPercentage());
+
+            forwardPrimerTm.setText("Tm: " + forwardPrimer.tmTemperature() + " °C");
+            reversePrimerTm.setText("Tm: " + reversePrimer.tmTemperature() + " °C");
 
         });
 
@@ -137,17 +176,20 @@ public class PcrprimerdesignApplication extends Application {
         grid.add(forwardPrimerField, 1, 2, 4, 1);
         grid.add(new Label("5'"), 0, 2, 1, 1);
         grid.add(new Label("3'"), 5, 2, 1, 1);
-        grid.add(forwardPrimerGc, 1, 3);
-        grid.add(forwardPrimerTm, 1, 4);
+        grid.add(forwardPrimerLength, 1, 3);
+        grid.add(forwardPrimerMatches, 1, 4);
+        grid.add(forwardPrimerGc, 1, 5);
+        grid.add(forwardPrimerTm, 1, 6);
 
         grid.add(reversePrimerField, 8, 2, 4, 1);
         grid.add(new Label("3'"), 7, 2, 1, 1);
         grid.add(new Label("5'"), 12, 2, 1, 1);
-        grid.add(reversePrimerGc, 8, 3);
-        grid.add(reversePrimerTm, 8, 4);
+        grid.add(reversePrimerLength, 8, 3);
+        grid.add(reversePrimerGc, 8, 4);
+        grid.add(reversePrimerTm, 8, 5);
 
         layout.setTop(buttons);
-        layout.setCenter(textField);
+        layout.setCenter(textArea);
         layout.setBottom(grid);
 
         Scene scene = new Scene(layout);

@@ -23,27 +23,12 @@ public class TemplatesequenceTest {
     }
 
     @Test
-    public void readSequenceFromFileWorks() {
+    public void sequenceFromFileWorks() {
 
         File file = new File("Testisekvenssi.fasta");
 
-        assertTrue(null != templateSequence.sequenceFromFile(file));
-    }
-
-    @Test
-    public void emptyFileCausesNoErrors() {
-
-        File file = new File("Tyhjatestisekvenssi.fasta");
-
-        assertEquals("", templateSequence.headerLineFromFile(file));
-    }
-
-    @Test(expected = NullPointerException.class)
-    public void wrongFileReturnsNull() {
-
-        File file = new File("tamaeioletiedosto.fasta");
-
-        fail(templateSequence.sequenceFromFile(file));
+        templateSequence.sequenceFromFile(file);
+        assertTrue(null != templateSequence.getTemplateSequence());
     }
 
     @Test
@@ -51,7 +36,17 @@ public class TemplatesequenceTest {
 
         File file = new File("Testisekvenssi.fasta");
 
-        assertEquals(">NM_001354656.1 Homo sapiens oxytocin receptor (OXTR)", templateSequence.headerLineFromFile(file));
+        templateSequence.headerLineFromFile(file);
+        assertEquals(">NM_001354656.1 Homo sapiens oxytocin receptor (OXTR)", templateSequence.getSequenceTitle());
+    }
+
+    @Test
+    public void emptyFileCausesNoErrors() {
+
+        File file = new File("Tyhjatestisekvenssi.fasta");
+
+        templateSequence.headerLineFromFile(file);
+        assertEquals("", templateSequence.getSequenceTitle());
     }
 
     @Test
@@ -59,7 +54,17 @@ public class TemplatesequenceTest {
 
         File file = new File("Otsikotontestisekvenssi.fasta");
 
-        assertEquals("", templateSequence.headerLineFromFile(file));
+        templateSequence.headerLineFromFile(file);
+        assertEquals("", templateSequence.getSequenceTitle());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void wrongFileReturnsNull() {
+
+        File file = new File("tamaeioletiedosto.fasta");
+
+        templateSequence.sequenceFromFile(file);
+        fail(templateSequence.getSequenceTitle());
     }
 
     @Test(expected = NullPointerException.class)
@@ -67,7 +72,8 @@ public class TemplatesequenceTest {
 
         File file = new File("tamaeioletiedosto.fasta");
 
-        fail(templateSequence.headerLineFromFile(file));
+        templateSequence.headerLineFromFile(file);
+        fail(templateSequence.getSequenceTitle());
     }
 
 }

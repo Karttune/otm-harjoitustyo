@@ -3,6 +3,7 @@ import java.io.File;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import pcrprimerdesignapp.domain.Forwardprimer;
+import pcrprimerdesignapp.domain.Templatesequence;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,9 +17,11 @@ import pcrprimerdesignapp.domain.Forwardprimer;
 public class ForwardprimerTest {
 
     private Forwardprimer fwd;
+    private Templatesequence temp;
 
     public ForwardprimerTest() {
         fwd = new Forwardprimer();
+        temp = new Templatesequence();
     }
 
     @Test
@@ -26,7 +29,8 @@ public class ForwardprimerTest {
 
         File file = new File("Testisekvenssi.fasta");
 
-        assertEquals("GCGGCAGGTGGATATGCTGA", fwd.forwardPrimerFromFile(file));
+        temp.sequenceFromFile(file);
+        assertEquals("GCGGCAGGTGGATATGCTGA", fwd.getForwardPrimer(temp.getTemplateSequence()));
     }
 
     @Test
@@ -34,6 +38,28 @@ public class ForwardprimerTest {
 
         File file = new File("Lyhyttestisekvenssi.fasta");
 
-        assertEquals("The template sequence is too short!", fwd.forwardPrimerFromFile(file));
+        temp.sequenceFromFile(file);
+        assertEquals("The template sequence is too short!", fwd.getForwardPrimer(temp.getTemplateSequence()));
+    }
+
+    @Test
+    public void getPrimerLengthWorks() {
+        fwd.setForwardPrimer("ATCGATCGATCG");
+
+        assertEquals(12, (int) fwd.getPrimerLength());
+    }
+
+    @Test
+    public void tmTemperatureWorks() {
+        fwd.setForwardPrimer("ATCGATCGATCG");
+
+        assertEquals(36, (int) fwd.tmTemperature());
+    }
+
+    @Test
+    public void gcPercentageWorks() {
+        fwd.setForwardPrimer("ATCGATCGATCG");
+
+        assertEquals(50.0, (double) fwd.gcPercentage(), 1e-15);
     }
 }

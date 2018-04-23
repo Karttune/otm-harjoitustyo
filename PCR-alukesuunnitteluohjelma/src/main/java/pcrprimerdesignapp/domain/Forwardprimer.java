@@ -5,54 +5,51 @@
  */
 package pcrprimerdesignapp.domain;
 
-import java.io.File;
-import pcrprimerdesignapp.ui.PcrprimerdesignApplication;
-
 /**
  *
  * @author Konsta
  */
 public class Forwardprimer {
 
-    private Templatesequence templateSequence;
+    private String forwardPrimer;
 
     public Forwardprimer() {
-        templateSequence = new Templatesequence();
+        forwardPrimer = "";
     }
 
-    public String forwardPrimerFromFile(File file) {
-
-        String sequence = templateSequence.sequenceFromFile(file);
+    public String getForwardPrimer(String templateSequence) {
 
         //Palautetaan oletusarvoinen 20 nukleotidin pituinen aluke.
-        if (sequence.length() >= 100) {
-            String primer = sequence.substring(0, 20).toUpperCase();
-            return primer;
+        if (templateSequence.length() >= 100) {
+            String primer = templateSequence.substring(0, 20).toUpperCase();
+            forwardPrimer = primer;
+            return forwardPrimer;
         } else {
             return "The template sequence is too short!";
         }
     }
 
-    public String forwardPrimerFromTextField() {
+    public Integer matchingNucleotides(String templateSequence) {
 
-        String sequence = PcrprimerdesignApplication.textField.getText();
-        sequence = sequence.replaceAll("\\n", "");
+        String[] template = templateSequence.split("");
+        String[] primer = forwardPrimer.split("");
 
-        if (sequence.length() >= 100) {
-            String primer = sequence.substring(0, 20).toUpperCase();
-            return primer;
-        } else {
-            return "The template sequence is too short!";
+        int matches = 0;
+
+        for (int i = 0; i < primer.length; i++) {
+
+            if (template[i].equalsIgnoreCase(primer[i])) {
+                matches++;
+            }
         }
+        return matches;
     }
 
-    public String gcPercentage() {
+    public Double gcPercentage() {
 
-        String primer = forwardPrimerFromTextField();
+        if (!forwardPrimer.equals("The template sequence is too short!")) {
 
-        if (!primer.equals("The template sequence is too short!")) {
-
-            String[] nucleotides = primer.split("");
+            String[] nucleotides = forwardPrimer.split("");
 
             double gc = 0;
 
@@ -64,19 +61,17 @@ public class Forwardprimer {
             }
 
             Double gcPercentage = Math.floor((gc / nucleotides.length) * 100);
-            return "GC-percentage: " + gcPercentage.toString();
+            return gcPercentage;
         } else {
-            return "GC-percentage: 0";
+            return 0.0;
         }
     }
 
-    public String tmTemperature() {
+    public Integer tmTemperature() {
 
-        String primer = forwardPrimerFromTextField();
+        if (!forwardPrimer.equals("The template sequence is too short!")) {
 
-        if (!primer.equals("The template sequence is too short!")) {
-
-            String[] nucleotides = primer.split("");
+            String[] nucleotides = forwardPrimer.split("");
 
             int meltingTemperature = 0;
 
@@ -88,9 +83,22 @@ public class Forwardprimer {
                     meltingTemperature += 2;
                 }
             }
-            return "Tm: " + meltingTemperature + "°C";
+            return meltingTemperature;
         } else {
-            return "Tm: 0";
+            return 0;
         }
+    }
+
+    public Integer getPrimerLength() {
+
+        if (!forwardPrimer.equals("The template sequence is too short!")) {
+            return forwardPrimer.length();
+        } else {
+            return 0;
+        }
+    }
+
+    public void setForwardPrimer(String forwardPrimer) {
+        this.forwardPrimer = forwardPrimer;
     }
 }

@@ -5,31 +5,26 @@
  */
 package pcrprimerdesignapp.domain;
 
-import java.io.File;
-import pcrprimerdesignapp.ui.PcrprimerdesignApplication;
-
 /**
  *
  * @author Konsta
  */
 public class Reverseprimer {
 
-    private Templatesequence templateSequence;
+    private String reversePrimer;
 
     public Reverseprimer() {
-        templateSequence = new Templatesequence();
+        reversePrimer = "";
     }
 
-    public String reversePrimerFromFile(File file) {
+    public String getReversePrimer(String templateSequence) {
 
-        String sequence = templateSequence.sequenceFromFile(file);
-        sequence = sequence.replaceAll("\\n", "");
-
+        templateSequence = templateSequence.replaceAll("\n", "");
         //Reverse-aluke kiinnittyy juosteen loppupäähän ja on komplementaarinen koodaavalle sekvenssille.
         //Tämän takia reverse-aluke täytyy muokata komplementaariseksi.
-        if (sequence.length() >= 100) {
+        if (templateSequence.length() >= 100) {
 
-            String primer = sequence.substring(sequence.length() - 20, sequence.length());
+            String primer = templateSequence.substring(templateSequence.length() - 20, templateSequence.length());
             String[] nucleotides = primer.split("");
 
             for (int i = 0; i < nucleotides.length; i++) {
@@ -45,51 +40,35 @@ public class Reverseprimer {
                 }
             }
             primer = String.join("", nucleotides);
-            return primer;
+            reversePrimer = primer;
+            return reversePrimer;
 
         } else {
             return "The template sequence is too short!";
         }
     }
 
-    public String reversePrimerFromTextField() {
+    public Integer matchingNucleotides(String templateSequence) {
 
-        String sequence = PcrprimerdesignApplication.textField.getText();
-        sequence = sequence.replaceAll("\\n", "");
+        String[] template = templateSequence.split("");
+        String[] primer = reversePrimer.split("");
 
-        if (sequence.length() >= 100) {
-            String primer = sequence.substring(sequence.length() - 20, sequence.length());
+        int matches = 0;
 
-            String[] nucleotides = primer.split("");
+        for (int i = 0; i < primer.length; i++) {
 
-            for (int i = 0; i < nucleotides.length; i++) {
-
-                if (nucleotides[i].equalsIgnoreCase("A")) {
-                    nucleotides[i] = "T";
-                } else if (nucleotides[i].equalsIgnoreCase("T")) {
-                    nucleotides[i] = "A";
-                } else if (nucleotides[i].equalsIgnoreCase("C")) {
-                    nucleotides[i] = "G";
-                } else if (nucleotides[i].equalsIgnoreCase("G")) {
-                    nucleotides[i] = "C";
-                }
+            if (template[i].equalsIgnoreCase(primer[i])) {
+                matches++;
             }
-
-            primer = String.join("", nucleotides);
-            return primer;
-
-        } else {
-            return "The template sequence is too short!";
         }
+        return matches;
     }
 
-    public String gcPercentage() {
+    public Double gcPercentage() {
 
-        String primer = reversePrimerFromTextField();
+        if (!reversePrimer.equals("The template sequence is too short!")) {
 
-        if (!primer.equals("The template sequence is too short!")) {
-
-            String[] nucleotides = primer.split("");
+            String[] nucleotides = reversePrimer.split("");
             double gc = 0;
 
             for (int i = 0; i < nucleotides.length; i++) {
@@ -100,19 +79,17 @@ public class Reverseprimer {
             }
 
             Double gcPercentage = Math.floor((gc / nucleotides.length) * 100);
-            return "GC-percentage: " + gcPercentage.toString();
+            return gcPercentage;
         } else {
-            return "GC-percentage: 0";
+            return 0.0;
         }
     }
 
-    public String tmTemperature() {
+    public Integer tmTemperature() {
 
-        String primer = reversePrimerFromTextField();
+        if (!reversePrimer.equals("The template sequence is too short!")) {
 
-        if (!primer.equals("The template sequence is too short!")) {
-
-            String[] nucleotides = primer.split("");
+            String[] nucleotides = reversePrimer.split("");
 
             int meltingTemperature = 0;
 
@@ -124,9 +101,22 @@ public class Reverseprimer {
                     meltingTemperature += 2;
                 }
             }
-            return "Tm: " + meltingTemperature + "°C";
+            return meltingTemperature;
         } else {
-            return "Tm: 0";
+            return 0;
         }
+    }
+
+    public Integer getPrimerLength() {
+
+        if (!reversePrimer.equals("The template sequence is too short!")) {
+            return reversePrimer.length();
+        } else {
+            return 0;
+        }
+    }
+
+    public void setReversePrimer(String reversePrimer) {
+        this.reversePrimer = reversePrimer;
     }
 }
