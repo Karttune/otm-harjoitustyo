@@ -30,7 +30,7 @@ public class ReverseprimerTest {
         File file = new File("Testisekvenssi.fasta");
 
         temp.sequenceFromFile(file);
-        assertEquals("TTTTATTTTTATTTGTTTCC", rev.getReversePrimer(temp.getTemplateSequence()));
+        assertEquals("CCTTTGTTTATTTTTATTTT", rev.getReversePrimer(temp.getTemplateSequence()));
     }
 
     @Test

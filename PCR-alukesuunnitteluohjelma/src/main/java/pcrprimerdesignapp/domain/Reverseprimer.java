@@ -6,7 +6,9 @@
 package pcrprimerdesignapp.domain;
 
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 
 /**
  *
@@ -127,7 +129,7 @@ public class Reverseprimer {
     public Integer getPrimerLength() {
 
         if (!reversePrimer.equals("The template sequence is too short!")) {
-            return reversePrimer.length();
+            return reversePrimer.replace(" ", "").length();
         } else {
             return 0;
         }
@@ -135,5 +137,31 @@ public class Reverseprimer {
 
     public void setReversePrimer(String reversePrimer) {
         this.reversePrimer = reversePrimer;
+    }
+
+    public TextFlow reversePrimerAlignment(String templateSequence, String reversePrimer, TextFlow sequenceAlignment) {
+
+        String[] revprimer = reversePrimer.split("");
+        String[] revsequence = new StringBuilder(templateSequence).reverse().toString().split("");
+
+        for (int i = 0; i < revprimer.length; i++) {
+            
+            if (revprimer[i].equalsIgnoreCase("A") && revsequence[i].equalsIgnoreCase("T") || revprimer[i].equalsIgnoreCase("T") && revsequence[i].equalsIgnoreCase("A")) {
+                Text match = new Text(revprimer[i]);
+                match.setFill(Color.RED);
+                match.setFont(Font.font("Courier New"));
+                sequenceAlignment.getChildren().add(match);
+            } else if (revprimer[i].equalsIgnoreCase("C") && revsequence[i].equalsIgnoreCase("G") || revprimer[i].equalsIgnoreCase("G") && revsequence[i].equalsIgnoreCase("C")) {
+                Text match = new Text(revprimer[i]);
+                match.setFill(Color.RED);
+                match.setFont(Font.font("Courier New"));
+                sequenceAlignment.getChildren().add(match);
+            } else {
+                Text mismatch = new Text(revprimer[i]);
+                mismatch.setFont(Font.font("Courier New"));
+                sequenceAlignment.getChildren().add(mismatch);
+            }
+        }
+        return sequenceAlignment;
     }
 }

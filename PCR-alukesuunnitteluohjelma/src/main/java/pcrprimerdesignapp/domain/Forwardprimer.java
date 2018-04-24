@@ -5,6 +5,11 @@
  */
 package pcrprimerdesignapp.domain;
 
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+
 /**
  *
  * @author Konsta
@@ -101,7 +106,7 @@ public class Forwardprimer {
     public Integer getPrimerLength() {
 
         if (!forwardPrimer.equals("The template sequence is too short!")) {
-            return forwardPrimer.length();
+            return forwardPrimer.replace(" ", "").length();
         } else {
             return 0;
         }
@@ -109,5 +114,26 @@ public class Forwardprimer {
 
     public void setForwardPrimer(String forwardPrimer) {
         this.forwardPrimer = forwardPrimer;
+    }
+
+    public TextFlow forwardPrimerAlignment(String templateSequence, String forwardPrimer, TextFlow sequenceAlignment) {
+
+        String[] fwdprimer = forwardPrimer.split("");
+        String[] fwdsequence = templateSequence.split("");
+
+        for (int i = 0; i < fwdprimer.length; i++) {
+
+            if (fwdprimer[i].equalsIgnoreCase(fwdsequence[i])) {
+                Text match = new Text(fwdprimer[i]);
+                match.setFill(Color.RED);
+                match.setFont(Font.font("Courier New"));
+                sequenceAlignment.getChildren().add(match);
+            } else {
+                Text mismatch = new Text(fwdprimer[i]);
+                mismatch.setFont(Font.font("Courier New"));
+                sequenceAlignment.getChildren().add(mismatch);
+            }
+        }
+        return sequenceAlignment;
     }
 }
