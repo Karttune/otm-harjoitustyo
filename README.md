@@ -36,7 +36,7 @@ mvn jacoco:report
 
 ### Suoritettavan jarin generointi
 
-Komento
+Suoritetaan komennolla:
 
 ```
 mvn package
