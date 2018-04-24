@@ -18,6 +18,6 @@ Sen lisäksi tietokantatoiminnallisuutta ei ole vielä toteutettu, joten sen luo
 
 ### Sekvenssikaavio
 
-Sekvenssikaavio kuvaa tekstikenttään sekvenssin kirjoittamista.
+Sekvenssikaavio kuvaa tekstikenttään DNA-sekvenssin kirjoittamista.
 
-<img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/sekvenssikaavio.png">
+<img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/Sekvenssikaavio.png">
