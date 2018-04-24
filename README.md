@@ -10,6 +10,8 @@ Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, Jo
 
 [Arkkitehtuurikuvaus](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
+[Viimeisin release](https://github.com/Karttune/otm-harjoitustyo/releases)
+
 ## Komentorivitoiminnot
 
 ### Testaus
