@@ -1,6 +1,6 @@
 # **PCR-alukesuunnitteluohjelma**
 
-Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, Jossa toteutetaan [polymeraasiketjureaktiossa](https://fi.wikipedia.org/wiki/Polymeraasiketjureaktio) käytettävien alukkeiden suunnitteluun tarkoitettu ohjelma.
+Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, jossa toteutetaan [polymeraasiketjureaktiossa](https://fi.wikipedia.org/wiki/Polymeraasiketjureaktio) käytettävien alukkeiden suunnitteluun tarkoitettu ohjelma.
 
 ## Dokumentaatio
 
@@ -9,6 +9,8 @@ Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, Jo
 [Vaatimusmäärittely](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
 [Arkkitehtuurikuvaus](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+
+[Viimeisin release](https://github.com/Karttune/otm-harjoitustyo/releases)
 
 ## Komentorivitoiminnot
 
@@ -32,6 +34,14 @@ Testikattavuusraportti luodaan komennolla:
 
 ```
 mvn jacoco:report
+```
+
+### Suoritettavan jarin generointi
+
+Suoritetaan komennolla:
+
+```
+mvn package
 ```
 
 ### Checkstyle

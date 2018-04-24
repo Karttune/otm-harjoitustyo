@@ -7,4 +7,5 @@
 | 10.4  | 4    | Ui:ta muokattu, Fasta-tiedoston avaaminen eriytetty omaan luokkaansa, alukkeiden raakaversiot. |
 | 17.4  | 8    | Alukkeiden viilaamista, UI:n viilaamista, lisää toiminnallisuutta muokkaamiseen, Tm ja GC% -arvot. |
 | 23.4  | 8    | Lisätty sekvenssien linjausominaisuus ja täsmäävien nukleotidien määrä. |
+| 24.4  | 33   | Lisätty ominaisuus alukkeen aloituspisteen valitsemiseen, käyttäjäsyötettä siistitty. |
 | yht   | 25   |
