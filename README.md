@@ -1,6 +1,6 @@
 # **PCR-alukesuunnitteluohjelma**
 
-Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, Jossa toteutetaan [polymeraasiketjureaktiossa](https://fi.wikipedia.org/wiki/Polymeraasiketjureaktio) käytettävien alukkeiden suunnitteluun tarkoitettu ohjelma.
+Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, jossa toteutetaan [polymeraasiketjureaktiossa](https://fi.wikipedia.org/wiki/Polymeraasiketjureaktio) käytettävien alukkeiden suunnitteluun tarkoitettu ohjelma.
 
 ## Dokumentaatio
 
