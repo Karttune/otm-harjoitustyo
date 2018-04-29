@@ -6,8 +6,14 @@
 package pcrprimerdesignapp.ui;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.UnaryOperator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -29,6 +35,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import pcrprimerdesignapp.dao.ForwardprimerDao;
+import pcrprimerdesignapp.dao.ReverseprimerDao;
+import pcrprimerdesignapp.dao.TemplatesequenceDao;
+import pcrprimerdesignapp.database.Database;
 import pcrprimerdesignapp.domain.Forwardprimer;
 import pcrprimerdesignapp.domain.Reverseprimer;
 import pcrprimerdesignapp.domain.Templatesequence;
@@ -45,14 +55,18 @@ public class PcrprimerdesignApplication extends Application {
     }
 
     @Override
-    public void start(Stage stage) {
-
-        FileChooser fileChooser = new FileChooser();
-
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("FASTA files (*.fasta)", "*.fasta");
-        fileChooser.getExtensionFilters().add(extFilter);
+    public void start(Stage stage) throws Exception {
 
         stage.setTitle("PCR-primer design");
+
+        Database database = new Database("jdbc:sqlite:sequences.db");
+        ForwardprimerDao forwardDao = new ForwardprimerDao(database);
+        ReverseprimerDao reverseDao = new ReverseprimerDao(database);
+        TemplatesequenceDao templateDao = new TemplatesequenceDao(database);
+
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("FASTA files (*.fasta)", "*.fasta");
+        fileChooser.getExtensionFilters().add(extFilter);
 
         UnaryOperator<Change> filter = change -> {
             String text = change.getText();
@@ -85,7 +99,7 @@ public class PcrprimerdesignApplication extends Application {
         textArea.setTextFormatter(textFormatterArea);
 
         BorderPane layout = new BorderPane();
-        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setPadding(new Insets(5, 5, 5, 5));
 
         GridPane grid = new GridPane();
         grid.setHgap(12);
@@ -145,7 +159,11 @@ public class PcrprimerdesignApplication extends Application {
         TextFlow reverseSequenceAlignment = new TextFlow();
         reverseSequenceAlignment.setPrefSize(400, 50);
 
-        ChoiceBox databaseFunctions = new ChoiceBox();
+        ChoiceBox databaseSequences = new ChoiceBox();
+        databaseSequences.getItems().setAll(templateDao.findAllTitles());
+        TextField nameForDatabase = new TextField();
+        Button loadFromDatabase = new Button("Load");
+        Button saveToDatabase = new Button("Save");
 
         openFile.setOnAction((ActionEvent event) -> {
 
@@ -153,6 +171,7 @@ public class PcrprimerdesignApplication extends Application {
 
             templateSequence.headerLineFromFile(file);
             headerField.setText(templateSequence.getSequenceTitle());
+            nameForDatabase.setText(templateSequence.getSequenceTitle());
 
             templateSequence.sequenceFromFile(file);
             textArea.setText(templateSequence.splitSequence());
@@ -305,6 +324,47 @@ public class PcrprimerdesignApplication extends Application {
             }
         });
 
+        loadFromDatabase.setOnAction((ActionEvent event) -> {
+
+            String value = (String) databaseSequences.getValue();
+            Templatesequence template = new Templatesequence();
+            Forwardprimer forward = new Forwardprimer();
+            Reverseprimer reverse = new Reverseprimer();
+
+            try {
+                template = templateDao.findOne(value);
+            } catch (Exception ex) {
+                Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            headerField.setText(template.getSequenceTitle());
+            textArea.setText(template.getTemplateSequence());
+            forwardPrimerField.setText(forward.getForwardPrimer());
+            reversePrimerField.setText(reverse.getReversePrimer());
+
+        });
+
+        saveToDatabase.setOnAction((ActionEvent event) -> {
+
+            if (!nameForDatabase.getText().equals("")) {
+                String title = nameForDatabase.getText();
+                templateSequence.setSequenceTitle(title);
+
+                try {
+                    templateDao.saveOrUpdate(templateSequence);
+                    forwardDao.saveOrUpdate(forwardPrimer);
+                    reverseDao.saveOrUpdate(reversePrimer);
+                    databaseSequences.getItems().setAll(templateDao.findAllTitles());
+                    
+                } catch (Exception ex) {
+                    Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                nameForDatabase.setText("Enter a title!");
+            }
+
+        });
+
         HBox buttonsBox = new HBox();
         buttonsBox.setPadding(new Insets(5, 5, 5, 0));
         buttonsBox.setSpacing(10);
@@ -313,10 +373,15 @@ public class PcrprimerdesignApplication extends Application {
 
         HBox databaseFunctionBox = new HBox();
         databaseFunctionBox.setSpacing(10);
-        databaseFunctionBox.getChildren().add(databaseFunctions);
+        databaseFunctionBox.getChildren().add(databaseSequences);
+        databaseFunctionBox.getChildren().add(loadFromDatabase);
+        databaseFunctionBox.getChildren().add(saveToDatabase);
+        databaseFunctionBox.getChildren().add(nameForDatabase);
 
         VBox sequenceAlignmentBox = new VBox();
         sequenceAlignmentBox.setPadding(new Insets(5, 5, 5, 5));
+        sequenceAlignmentBox.getChildren().add(databaseFunctionBox);
+        sequenceAlignmentBox.getChildren().add(new Label(""));
         sequenceAlignmentBox.getChildren().add(new Label("Sequence alignment:"));
         sequenceAlignmentBox.getChildren().add(new Label(""));
         sequenceAlignmentBox.getChildren().add(alignmentForwardPrimer);

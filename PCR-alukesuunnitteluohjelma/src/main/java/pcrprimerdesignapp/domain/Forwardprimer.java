@@ -17,6 +17,7 @@ import javafx.scene.text.TextFlow;
 public class Forwardprimer {
 
     private String forwardPrimer;
+    private Integer id;
 
     public Forwardprimer() {
         forwardPrimer = "";
@@ -136,4 +137,13 @@ public class Forwardprimer {
         }
         return sequenceAlignment;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    
 }

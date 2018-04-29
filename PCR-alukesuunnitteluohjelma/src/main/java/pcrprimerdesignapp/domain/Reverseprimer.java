@@ -17,6 +17,7 @@ import javafx.scene.text.TextFlow;
 public class Reverseprimer {
 
     private String reversePrimer;
+    private Integer id;
 
     public Reverseprimer() {
         reversePrimer = "";
@@ -162,5 +163,13 @@ public class Reverseprimer {
             }
         }
         return sequenceAlignment;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

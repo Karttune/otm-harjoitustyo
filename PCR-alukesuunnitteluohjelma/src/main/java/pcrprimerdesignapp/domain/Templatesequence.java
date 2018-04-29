@@ -22,6 +22,9 @@ public class Templatesequence {
 
     private String sequenceTitle;
     private String templateSequence;
+    private Integer id;
+    private Integer forwardPrimerId;
+    private Integer reversePrimerId;
 
     public Templatesequence() {
         sequenceTitle = "";
@@ -125,4 +128,29 @@ public class Templatesequence {
         }
         return splitSequence;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getForwardPrimerId() {
+        return forwardPrimerId;
+    }
+
+    public void setForwardPrimerId(Integer forwardPrimerId) {
+        this.forwardPrimerId = forwardPrimerId;
+    }
+
+    public Integer getReversePrimerId() {
+        return reversePrimerId;
+    }
+
+    public void setReversePrimerId(Integer reversePrimerId) {
+        this.reversePrimerId = reversePrimerId;
+    }
+    
 }
