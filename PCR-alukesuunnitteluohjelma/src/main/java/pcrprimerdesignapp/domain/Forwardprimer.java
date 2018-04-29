@@ -125,11 +125,11 @@ public class Forwardprimer {
 
             if (fwdprimer[i].equalsIgnoreCase(fwdsequence[i])) {
                 Text match = new Text(fwdprimer[i]);
-                match.setFill(Color.RED);
                 match.setFont(Font.font("Courier New"));
                 sequenceAlignment.getChildren().add(match);
             } else {
                 Text mismatch = new Text(fwdprimer[i]);
+                mismatch.setFill(Color.RED);
                 mismatch.setFont(Font.font("Courier New"));
                 sequenceAlignment.getChildren().add(mismatch);
             }

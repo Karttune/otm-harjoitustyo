@@ -145,19 +145,18 @@ public class Reverseprimer {
         String[] revsequence = new StringBuilder(templateSequence).reverse().toString().split("");
 
         for (int i = 0; i < revprimer.length; i++) {
-            
+
             if (revprimer[i].equalsIgnoreCase("A") && revsequence[i].equalsIgnoreCase("T") || revprimer[i].equalsIgnoreCase("T") && revsequence[i].equalsIgnoreCase("A")) {
                 Text match = new Text(revprimer[i]);
-                match.setFill(Color.RED);
                 match.setFont(Font.font("Courier New"));
                 sequenceAlignment.getChildren().add(match);
             } else if (revprimer[i].equalsIgnoreCase("C") && revsequence[i].equalsIgnoreCase("G") || revprimer[i].equalsIgnoreCase("G") && revsequence[i].equalsIgnoreCase("C")) {
                 Text match = new Text(revprimer[i]);
-                match.setFill(Color.RED);
                 match.setFont(Font.font("Courier New"));
                 sequenceAlignment.getChildren().add(match);
             } else {
                 Text mismatch = new Text(revprimer[i]);
+                mismatch.setFill(Color.RED);
                 mismatch.setFont(Font.font("Courier New"));
                 sequenceAlignment.getChildren().add(mismatch);
             }
