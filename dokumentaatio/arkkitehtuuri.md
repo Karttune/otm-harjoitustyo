@@ -12,8 +12,11 @@ Ohjelman luokkarakenne on seuraava:
 <img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/luokkajapakkauskaavio.png">
 
 Sovelluksen loogisesta toiminnasta vastaa Templatesequence-, Forwardprimer- ja Reverseprimer-luokat. 
+
 Templatesequence vastaa templaattisekvenssin tallennuksesta, fasta-tiedostojen sekvenssien käsittelystä ja tallentamisesta luokan muuttujiin. 
+
 Forwardprimer vastaa forward-alukkeen käsittelystä, alukkeen tallentamisesta ja siihen kuuluvien metodien, kuten sekvenssien linjaustoiminnon käsittelystä.
+
 Reverseprimer-luokan toiminnallisuus on pitkälti samanlainen kuin Forwardprimer-luokassa, mutta reverse-alukkeen käsittely vaatii hieman erilaisen metodien toiminnallisuuden.
 
 UI-luokka vastaa tekstikenttien toiminnallisuudesta varsinkin siistimällä käyttäjäsyötettä: DNA-sekvenssi sisältää vain 4 eri emästä, A, T, C ja G, joten syöte täytyy rajoittaa näihin kirjaimiin. Kaikki syöte on merkkikoosta riippumatonta.
