@@ -10,7 +10,8 @@ import pcrprimerdesignapp.database.Database;
 import pcrprimerdesignapp.domain.Forwardprimer;
 
 public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
-   private Database database;
+
+    private Database database;
 
     public ForwardprimerDao(Database database) {
         this.database = database;
@@ -27,12 +28,10 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
             return null;
         }
 
-        Integer id = rs.getInt("id");
-        String sequence = rs.getString("sequence");
-
         Forwardprimer primer = new Forwardprimer();
-        primer.setId(id);
-        primer.setForwardPrimer(sequence);
+        primer.setId(rs.getInt("id"));
+        primer.setForwardPrimer(rs.getString("sequence"));
+        primer.setStart(rs.getInt("start"));
 
         rs.close();
         stmt.close();
@@ -45,7 +44,7 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
 
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("SELECT id, sequence FROM Forwardprimer WHERE sequence = ?"
-            + " COLLATE NOCASE");
+                    + " COLLATE NOCASE");
             stmt.setString(1, forwardprimer.getForwardPrimer());
 
             ResultSet result = stmt.executeQuery();
@@ -62,9 +61,10 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
 
         Connection conn = database.getConnection();
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO Forwardprimer"
-                + " (sequence)"
-                + " VALUES (?)");
+                + " (sequence, start)"
+                + " VALUES (?, ?)");
         stmt.setString(1, forwardprimer.getForwardPrimer());
+        stmt.setInt(2, forwardprimer.getStart());
 
         stmt.executeUpdate();
         stmt.close();
@@ -80,6 +80,7 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
         Forwardprimer primer = new Forwardprimer();
         primer.setId(rs.getInt("id"));
         primer.setForwardPrimer(rs.getString("sequence"));
+        primer.setStart(rs.getInt("start"));
 
         stmt.close();
         rs.close();
@@ -93,9 +94,10 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
 
         Connection conn = database.getConnection();
         PreparedStatement stmt = conn.prepareStatement("UPDATE Forwardprimer SET"
-                + " sequence = ? WHERE id = ?");
+                + " sequence = ?, start = ? WHERE id = ?");
         stmt.setString(1, forwardprimer.getForwardPrimer());
-        stmt.setInt(2, forwardprimer.getId());
+        stmt.setInt(2, forwardprimer.getStart());
+        stmt.setInt(3, forwardprimer.getId());
 
         stmt.executeUpdate();
 
@@ -114,12 +116,11 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
         ResultSet rs = stmt.executeQuery();
         List<Forwardprimer> primers = new ArrayList<>();
         while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String sequence = rs.getString("sequence");
 
             Forwardprimer primer = new Forwardprimer();
-            primer.setId(id);
-            primer.setForwardPrimer(sequence);
+            primer.setId(rs.getInt("id"));
+            primer.setForwardPrimer(rs.getString("sequence"));
+            primer.setStart(rs.getInt("start"));
             primers.add(primer);
         }
 
@@ -132,5 +133,5 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
 
     public void delete(Integer key) throws SQLException, Exception {
     }
- 
+
 }

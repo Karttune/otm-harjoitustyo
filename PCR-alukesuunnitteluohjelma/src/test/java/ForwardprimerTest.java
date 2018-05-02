@@ -46,7 +46,7 @@ public class ForwardprimerTest {
     public void getPrimerLengthWorks() {
         fwd.setForwardPrimer("ATCGATCGATCG");
 
-        assertEquals(12, (int) fwd.getPrimerLength());
+        assertEquals(12, (int) fwd.getForwardPrimer().length());
     }
 
     @Test

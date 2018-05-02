@@ -29,12 +29,10 @@ public class ReverseprimerDao implements Dao<Reverseprimer, Integer> {
             return null;
         }
 
-        Integer id = rs.getInt("id");
-        String sequence = rs.getString("sequence");
-
         Reverseprimer primer = new Reverseprimer();
-        primer.setId(id);
-        primer.setReversePrimer(sequence);
+        primer.setId(rs.getInt("id"));
+        primer.setReversePrimer(rs.getString("sequence"));
+        primer.setStart(rs.getInt("start"));
 
         rs.close();
         stmt.close();
@@ -64,9 +62,10 @@ public class ReverseprimerDao implements Dao<Reverseprimer, Integer> {
 
         Connection conn = database.getConnection();
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO Reverseprimer"
-                + " (sequence)"
-                + " VALUES (?)");
+                + " (sequence, start)"
+                + " VALUES (?, ?)");
         stmt.setString(1, reverseprimer.getReversePrimer());
+        stmt.setInt(2, reverseprimer.getStart());
 
         stmt.executeUpdate();
         stmt.close();
@@ -82,6 +81,7 @@ public class ReverseprimerDao implements Dao<Reverseprimer, Integer> {
         Reverseprimer primer = new Reverseprimer();
         primer.setId(rs.getInt("id"));
         primer.setReversePrimer(rs.getString("sequence"));
+        primer.setId(rs.getInt("start"));
 
         stmt.close();
         rs.close();
@@ -95,9 +95,10 @@ public class ReverseprimerDao implements Dao<Reverseprimer, Integer> {
 
         Connection conn = database.getConnection();
         PreparedStatement stmt = conn.prepareStatement("UPDATE Reverseprimer SET"
-                + " sequence = ? WHERE id = ?");
+                + " sequence = ?, start = ? WHERE id = ?");
         stmt.setString(1, reverseprimer.getReversePrimer());
-        stmt.setInt(2, reverseprimer.getId());
+        stmt.setInt(2, reverseprimer.getStart());
+        stmt.setInt(3, reverseprimer.getId());
 
         stmt.executeUpdate();
 
@@ -116,12 +117,11 @@ public class ReverseprimerDao implements Dao<Reverseprimer, Integer> {
         ResultSet rs = stmt.executeQuery();
         List<Reverseprimer> primers = new ArrayList<>();
         while (rs.next()) {
-            Integer id = rs.getInt("id");
-            String sequence = rs.getString("sequence");
 
             Reverseprimer primer = new Reverseprimer();
-            primer.setId(id);
-            primer.setReversePrimer(sequence);
+            primer.setId(rs.getInt("id"));
+            primer.setReversePrimer(rs.getString("sequence"));
+            primer.setStart(rs.getInt("start"));
             primers.add(primer);
         }
 

@@ -18,9 +18,11 @@ public class Forwardprimer {
 
     private String forwardPrimer;
     private Integer id;
+    private Integer start;
 
     public Forwardprimer() {
         forwardPrimer = "";
+        start = 0;
     }
 
     public String getForwardPrimer(String templateSequence) {
@@ -31,14 +33,13 @@ public class Forwardprimer {
             forwardPrimer = primer;
             return forwardPrimer;
         } else {
-            return "The template sequence is too short!";
+            return "";
         }
     }
 
     public String getForwardPrimer() {
 
         return forwardPrimer;
-
     }
 
     public Integer matchingNucleotides(String templateSequence) {
@@ -62,7 +63,7 @@ public class Forwardprimer {
 
     public Double gcPercentage() {
 
-        if (!forwardPrimer.equals("The template sequence is too short!")) {
+        if (!forwardPrimer.equals("")) {
 
             String[] nucleotides = forwardPrimer.split("");
 
@@ -84,7 +85,7 @@ public class Forwardprimer {
 
     public Integer tmTemperature() {
 
-        if (!forwardPrimer.equals("The template sequence is too short!")) {
+        if (!forwardPrimer.equals("")) {
 
             String[] nucleotides = forwardPrimer.split("");
 
@@ -99,15 +100,6 @@ public class Forwardprimer {
                 }
             }
             return meltingTemperature;
-        } else {
-            return 0;
-        }
-    }
-
-    public Integer getPrimerLength() {
-
-        if (!forwardPrimer.equals("The template sequence is too short!")) {
-            return forwardPrimer.replace(" ", "").length();
         } else {
             return 0;
         }
@@ -145,5 +137,13 @@ public class Forwardprimer {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
+    public Integer getStart() {
+        return start;
+    }
+
+    public void setStart(Integer start) {
+        this.start = start;
+    }
+
 }

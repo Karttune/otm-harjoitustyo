@@ -27,8 +27,6 @@ public class Templatesequence {
     private Integer reversePrimerId;
 
     public Templatesequence() {
-        sequenceTitle = "";
-        templateSequence = "";
     }
 
     public void headerLineFromFile(File file) {

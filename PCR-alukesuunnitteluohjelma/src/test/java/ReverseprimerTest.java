@@ -46,7 +46,7 @@ public class ReverseprimerTest {
     public void getPrimerLengthWorks() {
         rev.setReversePrimer("ATCGATCGATCG");
 
-        assertEquals(12, (int) rev.getPrimerLength());
+        assertEquals(12, (int) rev.getReversePrimer().length());
     }
 
     @Test

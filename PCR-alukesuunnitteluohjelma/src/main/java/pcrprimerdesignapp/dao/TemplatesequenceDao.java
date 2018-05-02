@@ -32,18 +32,12 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
             return null;
         }
 
-        Integer id = rs.getInt("id");
-        Integer forwardId = rs.getInt("forwardprimer_id");
-        Integer reverseId = rs.getInt("reverseprimer_id");
-        String name = rs.getString("title");
-        String sequence = rs.getString("sequence");
-
         Templatesequence template = new Templatesequence();
-        template.setId(id);
-        template.setForwardPrimerId(forwardId);
-        template.setReversePrimerId(reverseId);
-        template.setTemplateSequence(sequence);
-        template.setSequenceTitle(name);
+        template.setId(rs.getInt("id"));
+        template.setForwardPrimerId(rs.getInt("forwardprimer_id"));
+        template.setReversePrimerId(rs.getInt("reverseprimer_id"));
+        template.setSequenceTitle(rs.getString("title"));
+        template.setTemplateSequence(rs.getString("sequence"));
 
         rs.close();
         stmt.close();
@@ -73,18 +67,20 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
 
         Connection conn = database.getConnection();
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO Templatesequence"
-                + " (title, sequence)"
-                + " VALUES (?, ?)");
-        stmt.setString(1, templatesequence.getSequenceTitle());
-        stmt.setString(2, templatesequence.getTemplateSequence());
+                + " (forwardprimer_id, reverseprimer_id, title, sequence)"
+                + " VALUES (?, ?, ?, ?)");
+        stmt.setInt(1, templatesequence.getForwardPrimerId());
+        stmt.setInt(2, templatesequence.getReversePrimerId());
+        stmt.setString(3, templatesequence.getSequenceTitle());
+        stmt.setString(4, templatesequence.getTemplateSequence());
 
         stmt.executeUpdate();
         stmt.close();
 
         stmt = conn.prepareStatement("SELECT * FROM Templatesequence"
-                + " WHERE sequence = ?"
+                + " WHERE title = ?"
                 + " COLLATE NOCASE");
-        stmt.setString(1, templatesequence.getTemplateSequence());
+        stmt.setString(1, templatesequence.getSequenceTitle());
 
         ResultSet rs = stmt.executeQuery();
         rs.next();

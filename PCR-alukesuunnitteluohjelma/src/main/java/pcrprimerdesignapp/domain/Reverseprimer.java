@@ -18,9 +18,11 @@ public class Reverseprimer {
 
     private String reversePrimer;
     private Integer id;
+    private Integer start;
 
     public Reverseprimer() {
         reversePrimer = "";
+        start = 0;
     }
 
     public String getReversePrimer(String templateSequence) {
@@ -51,7 +53,7 @@ public class Reverseprimer {
             return reversePrimer;
 
         } else {
-            return "The template sequence is too short!";
+            return "";
         }
     }
 
@@ -86,7 +88,7 @@ public class Reverseprimer {
 
     public Double gcPercentage() {
 
-        if (!reversePrimer.equals("The template sequence is too short!")) {
+        if (!reversePrimer.equals("")) {
 
             String[] nucleotides = reversePrimer.split("");
             double gc = 0;
@@ -107,7 +109,7 @@ public class Reverseprimer {
 
     public Integer tmTemperature() {
 
-        if (!reversePrimer.equals("The template sequence is too short!")) {
+        if (!reversePrimer.equals("")) {
 
             String[] nucleotides = reversePrimer.split("");
 
@@ -122,15 +124,6 @@ public class Reverseprimer {
                 }
             }
             return meltingTemperature;
-        } else {
-            return 0;
-        }
-    }
-
-    public Integer getPrimerLength() {
-
-        if (!reversePrimer.equals("The template sequence is too short!")) {
-            return reversePrimer.replace(" ", "").length();
         } else {
             return 0;
         }
@@ -171,5 +164,13 @@ public class Reverseprimer {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+    public Integer getStart() {
+        return start;
+    }
+
+    public void setStart(Integer start) {
+        this.start = start;
     }
 }
