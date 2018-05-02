@@ -26,3 +26,6 @@ Sekvenssikaavio kuvaa tekstikenttään DNA-sekvenssin kirjoittamista.
 ForwardprimerDao, ReverseprimerDao sekä TemplatesequenceDao -luokat vastaavat tietojen talletuksesta SQL-tietokantaan. Luokat noudattavat Data Access Object -suunnittelumallia. 
 
 Sovellus tallettaa sekvenssit yhteen .db-tiedostoon, jossa on 3 eri tietokantataulua, jotka on kuvassa:
+
+<img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/tietokantakaavio.jpg">
+
