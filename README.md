@@ -56,4 +56,12 @@ mvn jxr:jxr checkstyle:checkstyle
 
 Virheilmoitukset selviävät avaamalla tiedosto _target/site/checkstyle.html_
 
+### Javadoc
+
+Javadoc-dokumentti luodaan komennolla:
+
+```
+mvn javadoc:javadoc
+```
+Dokumentti löytyy kansiosta _target\site\apidocs_
 
