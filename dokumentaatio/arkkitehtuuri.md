@@ -2,10 +2,11 @@
 
 ## Rakenne
 
-Ohjelman alustava pakkausrakenne on seuraava:
+Ohjelman pakkausrakenne on seuraava: ui sisältää käyttöliittymän toteutuksem. domain sisältää sovelluslogiikan ja dao sisältää tietokantatoiminnallisuuden.
 
 <img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/pakkausrakenne.jpg">
 
+## Sovelluslogiikka
 Ohjelman luokkarakenne on seuraava:
 
 <img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/luokkajapakkauskaavio.jpg">
