@@ -83,7 +83,6 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
      * @return palauttaa tallennetun Forwardprimer-luokan.
      */
     private Forwardprimer save(Forwardprimer forwardprimer) throws SQLException, Exception {
-
         Connection conn = database.getConnection();
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO Forwardprimer"
                 + " (sequence, start)"

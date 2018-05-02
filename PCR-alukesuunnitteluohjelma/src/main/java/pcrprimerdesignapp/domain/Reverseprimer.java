@@ -37,8 +37,6 @@ public class Reverseprimer {
     public String getReversePrimer(String templateSequence) {
 
         templateSequence = templateSequence.replaceAll("\n", "");
-        //Reverse-aluke kiinnittyy juosteen loppupäähän ja on komplementaarinen koodaavalle sekvenssille.
-        //Tämän takia reverse-aluke täytyy muokata komplementaariseksi.
         if (templateSequence.length() >= 100) {
 
             String primer = templateSequence.substring(templateSequence.length() - 20, templateSequence.length());
@@ -60,7 +58,6 @@ public class Reverseprimer {
             primer = new StringBuilder(primer).reverse().toString();
             reversePrimer = primer;
             return reversePrimer;
-
         } else {
             return "";
         }

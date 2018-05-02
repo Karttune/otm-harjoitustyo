@@ -157,32 +157,20 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
      */
     public List<String> findAllTitles() throws SQLException, Exception {
 
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Templatesequence");
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Templatesequence");
 
         ResultSet rs = stmt.executeQuery();
-        List<Templatesequence> sequences = new ArrayList<>();
+        List<String> titles = new ArrayList<>();
         while (rs.next()) {
 
-            Templatesequence template = new Templatesequence();
-            template.setId(rs.getInt("id"));
-            template.setForwardPrimerId(rs.getInt("forwardprimer_id"));
-            template.setReversePrimerId(rs.getInt("reverseprimer_id"));
-            template.setSequenceTitle(rs.getString("title"));
-            template.setTemplateSequence(rs.getString("sequence"));
-
-            sequences.add(template);
+            titles.add(rs.getString("title"));
         }
 
         rs.close();
         stmt.close();
-        connection.close();
+        conn.close();
 
-        ArrayList<String> titles = new ArrayList<>();
-
-        for (int i = 0; i < sequences.size(); i++) {
-            titles.add(sequences.get(i).getSequenceTitle());
-        }
         return titles;
     }
 
