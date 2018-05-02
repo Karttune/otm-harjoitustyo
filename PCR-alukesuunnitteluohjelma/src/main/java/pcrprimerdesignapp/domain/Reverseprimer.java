@@ -25,6 +25,15 @@ public class Reverseprimer {
         start = 0;
     }
 
+    /**
+     * Metodi palauttaa reverse-alukkeen muodostamalla se sille annetulla
+     * templaattisekvenssillä ja kääntämällä sen komplementaariseksi.
+     *
+     * @param templateSequence käyttäjän antama nukleotidisekvenssi
+     *
+     * @return oletusarvoinen 20 nukleotidin pituinen aluke, jos templaatti on
+     * yli 100 nukleotidiä pitkä.
+     */
     public String getReversePrimer(String templateSequence) {
 
         templateSequence = templateSequence.replaceAll("\n", "");
@@ -57,11 +66,14 @@ public class Reverseprimer {
         }
     }
 
-    public String getReversePrimer() {
-
-        return reversePrimer;
-    }
-
+    /**
+     * Metodi palauttaa templaattisekvenssin ja alukkeen toisiinsa täsmäävien
+     * nukleotidien määrän.
+     *
+     * @param templateSequence käyttäjän antama nukleotidisekvenssi
+     *
+     * @return palauttaa täsmäävien nukleotidien määrän
+     */
     public Integer matchingNucleotides(String templateSequence) {
 
         if (templateSequence.length() >= 100) {
@@ -86,6 +98,12 @@ public class Reverseprimer {
         return 0;
     }
 
+    /**
+     * Metodi palauttaa alukkeen G ja C -nukleotidien määrän prosentuaalisena
+     * osuutena.
+     *
+     * @return palauttaa alukkeen GC% liukulukuna.
+     */
     public Double gcPercentage() {
 
         if (!reversePrimer.equals("")) {
@@ -107,6 +125,11 @@ public class Reverseprimer {
         }
     }
 
+    /**
+     * Metodi palauttaa alukkeen tm-lämpötilan celsiusasteina.
+     *
+     * @return palauttaa alukkeen tm-lämpötilan kokonaislukuna.
+     */
     public Integer tmTemperature() {
 
         if (!reversePrimer.equals("")) {
@@ -129,10 +152,18 @@ public class Reverseprimer {
         }
     }
 
-    public void setReversePrimer(String reversePrimer) {
-        this.reversePrimer = reversePrimer;
-    }
-
+    /**
+     * Metodi palauttaa reverse-alukkeen ja templaattisekvenssin täsmäävien
+     * nukleotidien määrän ja palauttaa TextFlow-elementin, jossa täsmäävät
+     * nukleotidit ovat mustalla ja ei-täsmäävät punaisella.
+     *
+     * @param templateSequence Käyttäjän antama templaattisekvenssi.
+     * @param reversePrimer Käyttäjän antama aluke.
+     * @param sequenceAlignment Käyttäjän antama TextFlow-elementti, johon
+     * lisätään aluke värjättynä.
+     *
+     * @return TextFlow-elementti, jossa on aluke.
+     */
     public TextFlow reversePrimerAlignment(String templateSequence, String reversePrimer, TextFlow sequenceAlignment) {
 
         String[] revprimer = reversePrimer.split("");
@@ -158,6 +189,14 @@ public class Reverseprimer {
         return sequenceAlignment;
     }
 
+    public String getReversePrimer() {
+        return reversePrimer;
+    }
+
+    public void setReversePrimer(String reversePrimer) {
+        this.reversePrimer = reversePrimer;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -165,7 +204,7 @@ public class Reverseprimer {
     public void setId(Integer id) {
         this.id = id;
     }
-    
+
     public Integer getStart() {
         return start;
     }

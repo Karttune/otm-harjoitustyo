@@ -25,9 +25,17 @@ public class Forwardprimer {
         start = 0;
     }
 
+    /**
+     * Metodi palauttaa forward-alukkeen muodostamalla se sille annetulla
+     * templaattisekvenssillä.
+     *
+     * @param templateSequence käyttäjän antama nukleotidisekvenssi
+     *
+     * @return oletusarvoinen 20 nukleotidin pituinen aluke, jos templaatti on
+     * yli 100 nukleotidiä pitkä.
+     */
     public String getForwardPrimer(String templateSequence) {
 
-        //Palautetaan oletusarvoinen 20 nukleotidin pituinen aluke.
         if (templateSequence.length() >= 100) {
             String primer = templateSequence.substring(0, 20).toUpperCase();
             forwardPrimer = primer;
@@ -37,11 +45,14 @@ public class Forwardprimer {
         }
     }
 
-    public String getForwardPrimer() {
-
-        return forwardPrimer;
-    }
-
+    /**
+     * Metodi palauttaa templaattisekvenssin ja alukkeen toisiinsa täsmäävien
+     * nukleotidien määrän.
+     *
+     * @param templateSequence käyttäjän antama nukleotidisekvenssi
+     *
+     * @return palauttaa täsmäävien nukleotidien määrän
+     */
     public Integer matchingNucleotides(String templateSequence) {
 
         if (templateSequence.length() >= 100) {
@@ -61,6 +72,12 @@ public class Forwardprimer {
         return 0;
     }
 
+    /**
+     * Metodi palauttaa alukkeen G ja C -nukleotidien määrän prosentuaalisena
+     * osuutena.
+     *
+     * @return palauttaa alukkeen GC% liukulukuna.
+     */
     public Double gcPercentage() {
 
         if (!forwardPrimer.equals("")) {
@@ -83,6 +100,11 @@ public class Forwardprimer {
         }
     }
 
+    /**
+     * Metodi palauttaa alukkeen tm-lämpötilan celsiusasteina.
+     *
+     * @return palauttaa alukkeen tm-lämpötilan kokonaislukuna.
+     */
     public Integer tmTemperature() {
 
         if (!forwardPrimer.equals("")) {
@@ -105,10 +127,18 @@ public class Forwardprimer {
         }
     }
 
-    public void setForwardPrimer(String forwardPrimer) {
-        this.forwardPrimer = forwardPrimer;
-    }
-
+    /**
+     * Metodi palauttaa forward-alukkeen ja templaattisekvenssin täsmäävien
+     * nukleotidien määrän ja palauttaa TextFlow-elementin, jossa täsmäävät
+     * nukleotidit ovat mustalla ja ei-täsmäävät punaisella.
+     *
+     * @param templateSequence Käyttäjän antama templaattisekvenssi.
+     * @param forwardPrimer Käyttäjän antama aluke.
+     * @param sequenceAlignment Käyttäjän antama TextFlow-elementti, johon
+     * lisätään aluke värjättynä.
+     *
+     * @return TextFlow-elementti, jossa on aluke.
+     */
     public TextFlow forwardPrimerAlignment(String templateSequence, String forwardPrimer, TextFlow sequenceAlignment) {
 
         String[] fwdprimer = forwardPrimer.split("");
@@ -128,6 +158,14 @@ public class Forwardprimer {
             }
         }
         return sequenceAlignment;
+    }
+
+    public void setForwardPrimer(String forwardPrimer) {
+        this.forwardPrimer = forwardPrimer;
+    }
+
+    public String getForwardPrimer() {
+        return forwardPrimer;
     }
 
     public Integer getId() {

@@ -120,10 +120,10 @@ public class PcrprimerdesignApplication extends Application {
         reversePrimerField.setFont(Font.font("Courier New"));
         reversePrimerField.setTextFormatter(textFormatterRev);
 
-        TextField setForwardPrimerStart = new TextField();
+        TextField setForwardPrimerStart = new TextField("0");
         setForwardPrimerStart.setTextFormatter(textFormatterStartFwd);
 
-        TextField setReversePrimerStart = new TextField();
+        TextField setReversePrimerStart = new TextField("0");
         setReversePrimerStart.setTextFormatter(textFormatterStartRev);
 
         Label nucleotideLabel = new Label("Nucleotides: 0");
@@ -172,7 +172,7 @@ public class PcrprimerdesignApplication extends Application {
             nameForDatabase.setText(templateSequence.getSequenceTitle());
 
             templateSequence.sequenceFromFile(file);
-            textArea.setText(templateSequence.splitSequence());
+            textArea.setText(templateSequence.getTemplateSequence());
 
             forwardPrimerField.setText(forwardPrimer.getForwardPrimer(templateSequence.getTemplateSequence()));
             reversePrimerField.setText(reversePrimer.getReversePrimer(templateSequence.getTemplateSequence()));
@@ -341,27 +341,30 @@ public class PcrprimerdesignApplication extends Application {
         loadFromDatabase.setOnAction((ActionEvent event) -> {
 
             String value = (String) databaseSequences.getValue();
+            nameForDatabase.setText((String) databaseSequences.getValue());
 
-            try {
-                templateSequence = templateDao.findOne(value);
-                forwardPrimer = forwardDao.findOne(templateSequence.getForwardPrimerId());
-                reversePrimer = reverseDao.findOne(templateSequence.getForwardPrimerId());
-            } catch (Exception ex) {
-                Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
+            if (value != null) {
+                try {
+                    templateSequence = templateDao.findOne(value);
+                    forwardPrimer = forwardDao.findOne(templateSequence.getForwardPrimerId());
+                    reversePrimer = reverseDao.findOne(templateSequence.getForwardPrimerId());
+                } catch (Exception ex) {
+                    Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                headerField.setText(templateSequence.getSequenceTitle());
+                textArea.setText(templateSequence.getTemplateSequence());
+                setForwardPrimerStart.setText(Integer.toString(forwardPrimer.getStart()));
+                setReversePrimerStart.setText(Integer.toString(reversePrimer.getStart()));
+                forwardPrimerField.setText(forwardPrimer.getForwardPrimer());
+                reversePrimerField.setText(reversePrimer.getReversePrimer());
             }
-
-            headerField.setText(templateSequence.getSequenceTitle());
-            textArea.setText(templateSequence.getTemplateSequence());
-            setForwardPrimerStart.setText(Integer.toString(forwardPrimer.getStart()));
-            setReversePrimerStart.setText(Integer.toString(reversePrimer.getStart()));
-            forwardPrimerField.setText(forwardPrimer.getForwardPrimer());
-            reversePrimerField.setText(reversePrimer.getReversePrimer());
-
         });
 
         saveToDatabase.setOnAction((ActionEvent event) -> {
 
-            if (!nameForDatabase.getText().equals("")) {
+            if (templateSequence.getTemplateSequence().length() >= 100 && !nameForDatabase.getText().equals("")) {
+
                 String title = nameForDatabase.getText();
                 templateSequence.setSequenceTitle(title);
 
@@ -372,16 +375,14 @@ public class PcrprimerdesignApplication extends Application {
                 reversePrimer.setStart(Integer.parseInt(setReversePrimerStart.getText()));
 
                 try {
-
-                    Integer fwdId = forwardDao.findAll().size() + 1;
-                    Integer revId = reverseDao.findAll().size() + 1;
-                    templateSequence.setForwardPrimerId(fwdId);
-                    templateSequence.setReversePrimerId(revId);
+                    templateSequence.setForwardPrimerId(forwardDao.returnNextIndex());
+                    templateSequence.setReversePrimerId(reverseDao.returnNextIndex());
 
                     templateDao.saveOrUpdate(templateSequence);
                     forwardDao.saveOrUpdate(forwardPrimer);
                     reverseDao.saveOrUpdate(reversePrimer);
                     databaseSequences.getItems().setAll(templateDao.findAllTitles());
+                    nameForDatabase.setText(title + " saved!");
                 } catch (Exception ex) {
                     Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -392,6 +393,22 @@ public class PcrprimerdesignApplication extends Application {
 
         nameForDatabase.textProperty().addListener((change, oldValue, newValue) -> {
             headerField.setText(newValue);
+        });
+
+        deleteFromDatabase.setOnAction((ActionEvent event) -> {
+
+            String value = (String) databaseSequences.getValue();
+
+            try {
+                templateSequence = templateDao.findOne(value);
+                templateDao.delete(templateSequence.getId());
+                forwardDao.delete(templateSequence.getForwardPrimerId());
+                reverseDao.delete(templateSequence.getForwardPrimerId());
+                databaseSequences.getItems().setAll(templateDao.findAllTitles());
+                nameForDatabase.setText(value + " deleted!");
+            } catch (Exception ex) {
+                Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
 
         HBox buttonsBox = new HBox();

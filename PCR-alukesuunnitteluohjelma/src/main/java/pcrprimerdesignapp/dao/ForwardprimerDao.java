@@ -17,6 +17,14 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
         this.database = database;
     }
 
+    /**
+     * Metodi hakee tietokannasta yhden Forwardprimer-luokan, joka haetaan id:n
+     * perusteella.
+     *
+     * @param key Käyttäjän antama avain.
+     *
+     * @return palauttaa Forwardprimer-luokan, joka on haettu tietokannasta.
+     */
     public Forwardprimer findOne(Integer key) throws SQLException, Exception {
         Connection connection = database.getConnection();
         PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Forwardprimer WHERE id = ?");
@@ -40,6 +48,14 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
         return primer;
     }
 
+    /**
+     * Metodi määrittää, että tallennetaanko tietokantaan uusi
+     * Forwardprimer-luokka vai päivitetäänkö jo olemassaoleva luokka.
+     *
+     * @param forwardprimer Käyttäjän antama Forwardprimer-luokka.
+     *
+     * @return palauttaa joko save- tai update metodin.
+     */
     public Forwardprimer saveOrUpdate(Forwardprimer forwardprimer) throws SQLException, Exception {
 
         try (Connection conn = database.getConnection()) {
@@ -49,6 +65,8 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
 
             ResultSet result = stmt.executeQuery();
 
+            conn.close();
+
             if (!result.next()) {
                 return save(forwardprimer);
             } else {
@@ -57,6 +75,13 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
         }
     }
 
+    /**
+     * Metodi tallentaa tietokantaan parametrina annetun Forwardprimer-luokan.
+     *
+     * @param forwardprimer Käyttäjän antama Forwardprimer-luokka.
+     *
+     * @return palauttaa tallennetun Forwardprimer-luokan.
+     */
     private Forwardprimer save(Forwardprimer forwardprimer) throws SQLException, Exception {
 
         Connection conn = database.getConnection();
@@ -90,6 +115,13 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
         return primer;
     }
 
+    /**
+     * Metodi päivittää tietokannassa jo olemassaolevan Forwardsequence-luokan.
+     *
+     * @param forwardprimer Käyttäjän antama Forwardprimer-luokka.
+     *
+     * @return palauttaa tallennetun Forwardprimer-luokan.
+     */
     private Forwardprimer update(Forwardprimer forwardprimer) throws SQLException, Exception {
 
         Connection conn = database.getConnection();
@@ -107,31 +139,44 @@ public class ForwardprimerDao implements Dao<Forwardprimer, Integer> {
         return forwardprimer;
     }
 
-    @Override
-    public List<Forwardprimer> findAll() throws SQLException, Exception {
+    /**
+     * Metodi poistaa tietokannasta Forwardprimer-luokan, joka haetaan
+     * pääavaimen perusteella.
+     *
+     * @param key Käyttäjän antama avain.
+     *
+     */
+    public void delete(Integer key) throws SQLException, Exception {
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM Forwardprimer WHERE id = ?");
+        stmt.setInt(1, key);
 
-        Connection connection = database.getConnection();
-        PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Forwardprimer");
+        stmt.executeUpdate();
+
+        stmt.close();
+        conn.close();
+    }
+
+    /**
+     * Metodi hakee tietokannasta Forwardprimer-luokan viimeisimmän id-luvun
+     * lisättynä yhdellä, jota käytetään ui: luokassa uuden Forwardprimer-luokan
+     * id:nä.
+     *
+     * @return palauttaa kokonaislukuna id:n.
+     */
+    public Integer returnNextIndex() throws SQLException, Exception {
+        Connection conn = database.getConnection();
+        PreparedStatement stmt = conn.prepareStatement("SELECT MAX(id) FROM Forwardprimer");
 
         ResultSet rs = stmt.executeQuery();
-        List<Forwardprimer> primers = new ArrayList<>();
-        while (rs.next()) {
 
-            Forwardprimer primer = new Forwardprimer();
-            primer.setId(rs.getInt("id"));
-            primer.setForwardPrimer(rs.getString("sequence"));
-            primer.setStart(rs.getInt("start"));
-            primers.add(primer);
-        }
+        rs.next();
+        Integer i = rs.getInt("MAX(id)") + 1;
 
         rs.close();
         stmt.close();
-        connection.close();
+        conn.close();
 
-        return primers;
+        return i;
     }
-
-    public void delete(Integer key) throws SQLException, Exception {
-    }
-
 }

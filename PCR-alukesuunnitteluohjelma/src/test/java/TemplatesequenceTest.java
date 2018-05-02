@@ -76,4 +76,38 @@ public class TemplatesequenceTest {
         fail(templateSequence.getSequenceTitle());
     }
 
+    @Test
+    public void idWorks() {
+        templateSequence.setId(1);
+
+        assertEquals(1, (int) templateSequence.getId());
+    }
+
+    @Test
+    public void fwdIdWorks() {
+        templateSequence.setForwardPrimerId(1);
+
+        assertEquals(1, (int) templateSequence.getForwardPrimerId());
+    }
+
+    @Test
+    public void revIdWorks() {
+        templateSequence.setReversePrimerId(1);
+
+        assertEquals(1, (int) templateSequence.getReversePrimerId());
+    }
+
+    @Test
+    public void setTemplateSequenceWorks() {
+        templateSequence.setTemplateSequence("GCATCTAGCTGACTAGC");
+
+        assertEquals("GCATCTAGCTGACTAGC", templateSequence.getTemplateSequence());
+    }
+
+    @Test
+    public void setSequenceTitleWorks() {
+        templateSequence.setSequenceTitle(">Testi");
+
+        assertEquals(">Testi", templateSequence.getSequenceTitle());
+    }
 }

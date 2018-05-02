@@ -27,11 +27,17 @@ public class Templatesequence {
     private Integer reversePrimerId;
 
     public Templatesequence() {
+        templateSequence = "";
     }
 
+    /**
+     * Metodi lukee annetusta fasta-tiedostosta sen >-merkillä alkavan
+     * otsikkorivin.
+     *
+     * @param file fasta-muotoinen tiedosto
+     */
     public void headerLineFromFile(File file) {
 
-        //Luetaan tiedostosta pelkkä ">" -merkillä alkava otsikkorivi.
         if (file != null) {
 
             StringBuilder sb = new StringBuilder();
@@ -63,9 +69,14 @@ public class Templatesequence {
         }
     }
 
+    /**
+     * Metodi lukee annetusta fasta-tiedostosta sen sekvenssi-osuuden ilman
+     * otsikkoa
+     *
+     * @param file fasta-muotoinen tiedosto
+     */
     public void sequenceFromFile(File file) {
 
-        //Luetaan sekvenssi tiedostosta ilman ">" -merkkiä alkavaa otsikkoriviä.
         if (file != null) {
 
             StringBuilder sb = new StringBuilder();
@@ -114,19 +125,6 @@ public class Templatesequence {
         this.sequenceTitle = sequenceTitle;
     }
 
-    public String splitSequence() {
-
-        //jaetaan sekvenssi 50 nukleotidin pätkiin tekstikenttään syöttämistä varten.
-        String splitSequence = "";
-
-        int i = 0;
-        while (i < templateSequence.length()) {
-            splitSequence = splitSequence.concat(templateSequence.substring(i, Math.min(templateSequence.length(), i + 50)) + "\n");
-            i += 50;
-        }
-        return splitSequence;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -150,5 +148,5 @@ public class Templatesequence {
     public void setReversePrimerId(Integer reversePrimerId) {
         this.reversePrimerId = reversePrimerId;
     }
-    
+
 }

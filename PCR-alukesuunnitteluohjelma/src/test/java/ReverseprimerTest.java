@@ -39,7 +39,19 @@ public class ReverseprimerTest {
         File file = new File("Lyhyttestisekvenssi.fasta");
 
         temp.sequenceFromFile(file);
-        assertEquals("The template sequence is too short!", rev.getReversePrimer(temp.getTemplateSequence()));
+        assertEquals("", rev.getReversePrimer(temp.getTemplateSequence()));
+    }
+
+    @Test
+    public void matchingNucleotidesWorks() {
+
+        File file = new File("Testisekvenssi.fasta");
+
+        temp.sequenceFromFile(file);
+
+        rev.getReversePrimer(temp.getTemplateSequence());
+
+        assertEquals(20, (int) rev.matchingNucleotides(temp.getTemplateSequence()));
     }
 
     @Test
@@ -61,5 +73,19 @@ public class ReverseprimerTest {
         rev.setReversePrimer("ATCGATCGATCG");
 
         assertEquals(50.0, (double) rev.gcPercentage(), 1e-15);
+    }
+
+    @Test
+    public void idWorks() {
+        rev.setId(1);
+
+        assertEquals(1, (int) rev.getId());
+    }
+
+    @Test
+    public void startWorks() {
+        rev.setStart(10);
+
+        assertEquals(10, (int) rev.getStart());
     }
 }
