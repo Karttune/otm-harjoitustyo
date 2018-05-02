@@ -11,14 +11,18 @@ Ohjelman luokkarakenne on seuraava:
 
 <img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/luokkajapakkauskaavio.png">
 
-Pari huomiota luokka/pakkauskaaviosta:
+Sovelluksen loogisesta toiminnasta vastaa Templatesequence-, Forwardprimer- ja Reverseprimer-luokat. Templatesequence vastaa templaattisekvenssin tallennuksesta, fasta-tiedostojen sekvenssien käsittelystä ja tallentamisesta luokan muuttujiin. Forwardprimer vastaa forward-alukkeen käsittelystä, alukkeen tallentamisesta ja siihen kuuluvien metodien, kuten sekvenssien linjaustoiminnon käsittelystä. Reverseprimer-luokan toiminnallisuus on pitkälti samanlainen kuin Forwardprimer-luokassa, mutta Reverse-alukkeen käsittely vaatii erilaisen metodien toiminnallisuuden.
 
-Tällä hetkellä yksittäiset luokat eivät ole varsinaisesti yhden templaattisekvenssin tai alukkeen ilmentymiä, vaan niissä on vain toiminnallisuus UI:n tekstikentässä olevien sekvenssien muokkaamiseen. Tämä todennäköisesti muuttuu, jolloin yksittäiseen luokkaan liittyy aina muokattava sekvenssi. Tämä mahdollistaa esimerkiksi myös useamman alukkeen suunnittelun yhdelle templaattisekvenssille.
-
-Sen lisäksi tietokantatoiminnallisuutta ei ole vielä toteutettu, joten sen luokkarakenne voi muuttua.
+UI-luokka vastaa tekstikenttien toiminnallisuudesta varsinkin siistimällä käyttäjäsyötettä: DNA-sekvenssi sisältää vain 4 eri emästä, A, T, C ja G, joten syöte täytyy rajoittaa näihin kirjaimiin. Kaikki syöte on merkkikoosta riippumatonta.
 
 ### Sekvenssikaavio
 
 Sekvenssikaavio kuvaa tekstikenttään DNA-sekvenssin kirjoittamista.
 
 <img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/Sekvenssikaavio.png">
+
+## Tietokantatoiminnallisuus
+
+ForwardprimerDao, ReverseprimerDao sekä TemplatesequenceDao -luokat vastaavat tietojen talletuksesta SQL-tietokantaan. Luokat noudattavat Data Access Object -suunnittelumallia. 
+
+Sovellus tallettaa sekvenssit yhteen .db-tiedostoon, jossa on 3 eri tietokantataulua, jotka on kuvassa:
