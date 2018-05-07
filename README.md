@@ -10,6 +10,8 @@ Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, jo
 
 [Arkkitehtuurikuvaus](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
 
+[Käyttöohje](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
+
 [Viimeisin release](https://github.com/Karttune/otm-harjoitustyo/releases)
 
 ## Komentorivitoiminnot
@@ -54,4 +56,12 @@ mvn jxr:jxr checkstyle:checkstyle
 
 Virheilmoitukset selviävät avaamalla tiedosto _target/site/checkstyle.html_
 
+### Javadoc
+
+Javadoc-dokumentti luodaan komennolla:
+
+```
+mvn javadoc:javadoc
+```
+Dokumentti löytyy kansiosta _target\site\apidocs_
 
