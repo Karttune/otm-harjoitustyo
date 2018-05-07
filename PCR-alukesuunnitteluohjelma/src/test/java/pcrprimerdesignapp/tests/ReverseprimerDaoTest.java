@@ -1,3 +1,5 @@
+package pcrprimerdesignapp.tests;
+
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -22,7 +24,7 @@ public class ReverseprimerDaoTest {
 
     public ReverseprimerDaoTest() throws ClassNotFoundException {
         database = new Database("jdbc:sqlite:test.db");
-        reverseDao = new ReverseprimerDao(database);
+        reverseDao = new ReverseprimerDao(database, "Reverseprimer");
     }
 
     @Test
@@ -30,7 +32,7 @@ public class ReverseprimerDaoTest {
 
         Reverseprimer rev = reverseDao.findOne(5);
 
-        assertEquals("GCTAGCTAGCTACTAGCTAC", rev.getReversePrimer());
+        assertEquals("GCTAGCTAGCTACTAGCTAC", rev.getPrimer());
     }
 
     @Test
@@ -38,10 +40,10 @@ public class ReverseprimerDaoTest {
 
         Reverseprimer rev = new Reverseprimer();
         rev.setId(5);
-        rev.setReversePrimer("GCTAGCTAGCTACTAGCTAC");
+        rev.setPrimer("GCTAGCTAGCTACTAGCTAC");
         rev.setStart(200);
 
-        assertEquals("GCTAGCTAGCTACTAGCTAC", reverseDao.saveOrUpdate(rev).getReversePrimer());
+        assertEquals("GCTAGCTAGCTACTAGCTAC", reverseDao.saveOrUpdate(rev).getPrimer());
     }
 
     @Test
@@ -49,10 +51,10 @@ public class ReverseprimerDaoTest {
 
         Reverseprimer rev = new Reverseprimer();
         rev.setId(6);
-        rev.setReversePrimer("GCATACGACCGATAGCT");
+        rev.setPrimer("GCATACGACCGATAGCT");
         rev.setStart(200);
 
-        assertEquals("GCATACGACCGATAGCT", reverseDao.saveOrUpdate(rev).getReversePrimer());
+        assertEquals("GCATACGACCGATAGCT", reverseDao.saveOrUpdate(rev).getPrimer());
     }
 
     @Test

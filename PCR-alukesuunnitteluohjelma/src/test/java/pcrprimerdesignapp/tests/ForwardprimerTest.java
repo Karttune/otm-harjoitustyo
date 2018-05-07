@@ -1,3 +1,5 @@
+package pcrprimerdesignapp.tests;
+
 
 import java.io.File;
 import static org.junit.Assert.*;
@@ -56,21 +58,21 @@ public class ForwardprimerTest {
 
     @Test
     public void getPrimerLengthWorks() {
-        fwd.setForwardPrimer("ATCGATCGATCG");
+        fwd.setPrimer("ATCGATCGATCG");
 
-        assertEquals(12, (int) fwd.getForwardPrimer().length());
+        assertEquals(12, (int) fwd.getPrimer().length());
     }
 
     @Test
     public void tmTemperatureWorks() {
-        fwd.setForwardPrimer("ATCGATCGATCG");
+        fwd.setPrimer("ATCGATCGATCG");
 
         assertEquals(36, (int) fwd.tmTemperature());
     }
 
     @Test
     public void gcPercentageWorks() {
-        fwd.setForwardPrimer("ATCGATCGATCG");
+        fwd.setPrimer("ATCGATCGATCG");
 
         assertEquals(50.0, (double) fwd.gcPercentage(), 1e-15);
     }

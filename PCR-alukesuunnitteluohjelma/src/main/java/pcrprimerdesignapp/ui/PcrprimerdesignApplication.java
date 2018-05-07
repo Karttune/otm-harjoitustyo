@@ -40,6 +40,7 @@ import pcrprimerdesignapp.dao.ReverseprimerDao;
 import pcrprimerdesignapp.dao.TemplatesequenceDao;
 import pcrprimerdesignapp.database.Database;
 import pcrprimerdesignapp.domain.Forwardprimer;
+import pcrprimerdesignapp.domain.PrimerDesignChecks;
 import pcrprimerdesignapp.domain.Reverseprimer;
 import pcrprimerdesignapp.domain.Templatesequence;
 
@@ -48,6 +49,7 @@ public class PcrprimerdesignApplication extends Application {
     private Templatesequence templateSequence;
     private Forwardprimer forwardPrimer;
     private Reverseprimer reversePrimer;
+    private PrimerDesignChecks primerChecks;
     public static TextArea textArea;
 
     public PcrprimerdesignApplication() {
@@ -55,6 +57,7 @@ public class PcrprimerdesignApplication extends Application {
         templateSequence = new Templatesequence();
         forwardPrimer = new Forwardprimer();
         reversePrimer = new Reverseprimer();
+        primerChecks = new PrimerDesignChecks();
     }
 
     @Override
@@ -63,8 +66,8 @@ public class PcrprimerdesignApplication extends Application {
         stage.setTitle("PCR-primer design");
 
         Database database = new Database("jdbc:sqlite:sequences.db");
-        ForwardprimerDao forwardDao = new ForwardprimerDao(database);
-        ReverseprimerDao reverseDao = new ReverseprimerDao(database);
+        ForwardprimerDao forwardDao = new ForwardprimerDao(database, "Forwardprimer");
+        ReverseprimerDao reverseDao = new ReverseprimerDao(database, "Reverseprimer");
         TemplatesequenceDao templateDao = new TemplatesequenceDao(database);
 
         FileChooser fileChooser = new FileChooser();
@@ -127,6 +130,7 @@ public class PcrprimerdesignApplication extends Application {
         setReversePrimerStart.setTextFormatter(textFormatterStartRev);
 
         Label nucleotideLabel = new Label("Nucleotides: 0");
+        Label productSizeLabel = new Label("PCR product size: 0");
 
         Label forwardPrimerLength = new Label("Nucleotides: 0");
         Label reversePrimerLength = new Label("Nucleotides: 0");
@@ -139,9 +143,15 @@ public class PcrprimerdesignApplication extends Application {
 
         Label forwardPrimerTm = new Label("Tm: 0°C");
         Label reversePrimerTm = new Label("Tm: 0°C");
+        Label taTemperature = new Label("Ta: 0°C");
 
         Label alignmentForwardPrimer = new Label("Forward primer: (0-0)");
         Label alignmentReversePrimer = new Label("Reverse primer: (0-0)");
+
+        Label matchingNucleotidesCheck = new Label("");
+        Label gcCheck = new Label("");
+        Label tmCheck = new Label("");
+        Label repeatCheck = new Label("");
 
         Text f = new Text();
         f.setFont(Font.font("Courier New"));
@@ -155,6 +165,7 @@ public class PcrprimerdesignApplication extends Application {
         reverseSequenceAlignment.setPrefSize(400, 50);
 
         ChoiceBox databaseSequences = new ChoiceBox();
+        databaseSequences.setMaxWidth(100);
         databaseSequences.getItems().setAll(templateDao.findAllTitles());
         TextField nameForDatabase = new TextField();
         Button loadFromDatabase = new Button("Load");
@@ -174,12 +185,13 @@ public class PcrprimerdesignApplication extends Application {
             templateSequence.sequenceFromFile(file);
             textArea.setText(templateSequence.getTemplateSequence());
 
+            setForwardPrimerStart.setText("0");
+            forwardPrimer.setStart(0);
+            setReversePrimerStart.setText(Integer.toString(templateSequence.getTemplateSequence().length()));
+            reversePrimer.setStart(templateSequence.getTemplateSequence().length());
+
             forwardPrimerField.setText(forwardPrimer.getForwardPrimer(templateSequence.getTemplateSequence()));
             reversePrimerField.setText(reversePrimer.getReversePrimer(templateSequence.getTemplateSequence()));
-
-            setForwardPrimerStart.setText("0");
-            setReversePrimerStart.setText(Integer.toString(templateSequence.getTemplateSequence().length()));
-
         });
 
         textArea.textProperty().addListener((change, oldValue, newValue) -> {
@@ -201,6 +213,7 @@ public class PcrprimerdesignApplication extends Application {
 
             int nucleotides = newValue.length();
             nucleotideLabel.setText("Nucleotides: " + nucleotides);
+            productSizeLabel.setText("PCR product size: " + Integer.toString(reversePrimer.getStart() - forwardPrimer.getStart()));
 
             forwardPrimerGc.setText("GC-percentage: " + forwardPrimer.gcPercentage());
             reversePrimerGc.setText("GC-percentage: " + reversePrimer.gcPercentage());
@@ -216,13 +229,7 @@ public class PcrprimerdesignApplication extends Application {
                 forwardPrimerField.setText(oldValue);
             }
 
-            forwardPrimer.setForwardPrimer(newValue);
-
-            forwardPrimerLength.setText("Nucleotides: " + forwardPrimer.getForwardPrimer().length());
-            forwardPrimerMatches.setText("Matching nucleotides: " + forwardPrimer.matchingNucleotides(templateSequence.getTemplateSequence()));
-
-            forwardPrimerGc.setText("GC-percentage: " + forwardPrimer.gcPercentage());
-            forwardPrimerTm.setText("Tm: " + forwardPrimer.tmTemperature() + " °C");
+            forwardPrimer.setPrimer(newValue);
 
             if (templateSequence.getTemplateSequence().length() >= 100) {
 
@@ -232,11 +239,23 @@ public class PcrprimerdesignApplication extends Application {
                 forwardSequenceAlignment.getChildren().clear();
                 forwardSequenceAlignment.getChildren().add(f);
 
-                forwardPrimer.forwardPrimerAlignment(templateSequence.getTemplateSequence().substring(forwardPrimer.getStart(), templateSequence.getTemplateSequence().length()), forwardPrimer.getForwardPrimer(), forwardSequenceAlignment);
+                forwardPrimer.forwardPrimerAlignment(templateSequence.getTemplateSequence().substring(forwardPrimer.getStart(), templateSequence.getTemplateSequence().length()), forwardSequenceAlignment);
             } else {
                 forwardSequenceAlignment.getChildren().clear();
                 forwardPrimerField.clear();
             }
+
+            forwardPrimerLength.setText("Nucleotides: " + forwardPrimer.getPrimer().length());
+            forwardPrimerMatches.setText("Matching nucleotides: " + forwardPrimer.matchingNucleotides(templateSequence.getTemplateSequence()));
+
+            forwardPrimerGc.setText("GC-percentage: " + forwardPrimer.gcPercentage());
+            forwardPrimerTm.setText("Tm: " + forwardPrimer.tmTemperature() + " °C");
+
+            matchingNucleotidesCheck.setText(primerChecks.checkLowGcPercentage(forwardPrimer, reversePrimer) + " " + primerChecks.checkHighGcPercentage(forwardPrimer, reversePrimer));
+            gcCheck.setText(primerChecks.checkMatchingNucleotides(forwardPrimer, reversePrimer, templateSequence));
+            tmCheck.setText(primerChecks.checkLowTm(forwardPrimer, reversePrimer) + " " + primerChecks.checkHighTm(forwardPrimer, reversePrimer) + " " + primerChecks.checkTmMismatch(forwardPrimer, reversePrimer));
+            repeatCheck.setText(primerChecks.checkForRepeats(forwardPrimer, reversePrimer));
+            taTemperature.setText("Ta: " + Double.toString(primerChecks.taTemperature(forwardPrimer, reversePrimer, templateSequence)) + " °C");
         });
 
         reversePrimerField.textProperty().addListener((change, oldValue, newValue) -> {
@@ -245,31 +264,33 @@ public class PcrprimerdesignApplication extends Application {
                 reversePrimerField.setText(oldValue);
             }
 
-            reversePrimer.setReversePrimer(newValue);
+            reversePrimer.setPrimer(newValue);
 
-            reversePrimerLength.setText("Nucleotides: " + reversePrimer.getReversePrimer().length());
+            if (templateSequence.getTemplateSequence().length() >= 100 && reversePrimer.getStart() >= 100) {
+
+                String revsequence = templateSequence.getTemplateSequence().substring(0, reversePrimer.getStart());
+                r.setText(new StringBuilder(revsequence).reverse().toString().substring(0, 50) + "\n");
+
+                reverseSequenceAlignment.getChildren().clear();
+                reverseSequenceAlignment.getChildren().add(r);
+
+                reversePrimer.reversePrimerAlignment(revsequence, reverseSequenceAlignment);
+            } else {
+                reverseSequenceAlignment.getChildren().clear();
+                reversePrimerField.clear();
+            }
+
+            reversePrimerLength.setText("Nucleotides: " + reversePrimer.getPrimer().length());
             reversePrimerMatches.setText("Matching nucleotides: " + reversePrimer.matchingNucleotides(templateSequence.getTemplateSequence()));
 
             reversePrimerGc.setText("GC-percentage: " + reversePrimer.gcPercentage());
-
             reversePrimerTm.setText("Tm: " + reversePrimer.tmTemperature() + " °C");
 
-            try {
-                if (templateSequence.getTemplateSequence().length() >= 100 && reversePrimer.getStart() >= 100) {
-
-                    String revsequence = templateSequence.getTemplateSequence().substring(0, reversePrimer.getStart());
-                    r.setText(new StringBuilder(revsequence).reverse().toString().substring(0, 50) + "\n");
-
-                    reverseSequenceAlignment.getChildren().clear();
-                    reverseSequenceAlignment.getChildren().add(r);
-
-                    reversePrimer.reversePrimerAlignment(revsequence, reversePrimer.getReversePrimer(), reverseSequenceAlignment);
-                } else {
-                    reverseSequenceAlignment.getChildren().clear();
-                    reversePrimerField.clear();
-                }
-            } catch (NumberFormatException e) {
-            }
+            matchingNucleotidesCheck.setText(primerChecks.checkLowGcPercentage(forwardPrimer, reversePrimer) + " " + primerChecks.checkHighGcPercentage(forwardPrimer, reversePrimer));
+            gcCheck.setText(primerChecks.checkMatchingNucleotides(forwardPrimer, reversePrimer, templateSequence));
+            tmCheck.setText(primerChecks.checkLowTm(forwardPrimer, reversePrimer) + " " + primerChecks.checkHighTm(forwardPrimer, reversePrimer));
+            repeatCheck.setText(primerChecks.checkForRepeats(forwardPrimer, reversePrimer));
+            taTemperature.setText("Ta: " + Double.toString(primerChecks.taTemperature(forwardPrimer, reversePrimer, templateSequence)) + " °C");
         });
 
         setForwardPrimerStart.textProperty().addListener((change, oldValue, newValue) -> {
@@ -286,6 +307,7 @@ public class PcrprimerdesignApplication extends Application {
                 }
 
                 forwardPrimer.setStart(Integer.parseInt(setForwardPrimerStart.getText()));
+                productSizeLabel.setText("PCR product size: " + Integer.toString(reversePrimer.getStart() - forwardPrimer.getStart()));
                 String fwdsequence = templateSequence.getTemplateSequence();
 
                 if (fwdsequence.length() >= 100) {
@@ -296,7 +318,7 @@ public class PcrprimerdesignApplication extends Application {
                     forwardSequenceAlignment.getChildren().clear();
                     forwardSequenceAlignment.getChildren().add(f);
 
-                    forwardPrimer.forwardPrimerAlignment(fwdsequence.substring(forwardPrimer.getStart(), fwdsequence.length()), forwardPrimer.getForwardPrimer(), forwardSequenceAlignment);
+                    forwardPrimer.forwardPrimerAlignment(fwdsequence.substring(forwardPrimer.getStart(), fwdsequence.length()), forwardSequenceAlignment);
                     alignmentForwardPrimer.setText("Forward primer: (" + forwardPrimer.getStart() + "-" + (forwardPrimer.getStart() + 50) + ")");
 
                 } else {
@@ -316,6 +338,7 @@ public class PcrprimerdesignApplication extends Application {
                 }
 
                 reversePrimer.setStart(Integer.parseInt(setReversePrimerStart.getText()));
+                productSizeLabel.setText("PCR product size: " + Integer.toString(reversePrimer.getStart() - forwardPrimer.getStart()));
                 String revsequence = templateSequence.getTemplateSequence().substring(0, reversePrimer.getStart());
 
                 if (revsequence.length() >= 100 && reversePrimer.getStart() >= 100) {
@@ -327,7 +350,7 @@ public class PcrprimerdesignApplication extends Application {
                     reverseSequenceAlignment.getChildren().clear();
                     reverseSequenceAlignment.getChildren().add(r);
 
-                    reversePrimer.reversePrimerAlignment(revsequence, reversePrimer.getReversePrimer(), reverseSequenceAlignment);
+                    reversePrimer.reversePrimerAlignment(revsequence, reverseSequenceAlignment);
                     alignmentReversePrimer.setText("Reverse primer: (" + revsequence.length() + "-" + (revsequence.length() - 50) + ")");
                 } else {
                     alignmentReversePrimer.setText("Reverse primer: (0-0)");
@@ -356,8 +379,8 @@ public class PcrprimerdesignApplication extends Application {
                 textArea.setText(templateSequence.getTemplateSequence());
                 setForwardPrimerStart.setText(Integer.toString(forwardPrimer.getStart()));
                 setReversePrimerStart.setText(Integer.toString(reversePrimer.getStart()));
-                forwardPrimerField.setText(forwardPrimer.getForwardPrimer());
-                reversePrimerField.setText(reversePrimer.getReversePrimer());
+                forwardPrimerField.setText(forwardPrimer.getPrimer());
+                reversePrimerField.setText(reversePrimer.getPrimer());
             }
         });
 
@@ -436,30 +459,34 @@ public class PcrprimerdesignApplication extends Application {
         sequenceAlignmentBox.getChildren().add(alignmentReversePrimer);
         sequenceAlignmentBox.getChildren().add(reverseSequenceAlignment);
 
-        grid.add(nucleotideLabel, 1, 0, 5, 1);
+        grid.add(nucleotideLabel, 0, 0, 4, 1);
+        grid.add(productSizeLabel, 6, 0, 5, 1);
 
-        grid.add(new Label("Forward-primer:"), 1, 1);
-        grid.add(new Label("Reverse-primer:"), 8, 1);
+        grid.add(new Label("Forward-primer:"), 0, 1);
+        grid.add(new Label("Reverse-primer:"), 6, 1);
 
-        grid.add(forwardPrimerField, 1, 2, 4, 1);
-        grid.add(new Label("5'"), 0, 2, 1, 1);
-        grid.add(new Label("3'"), 5, 2, 1, 1);
-        grid.add(new Label("Set starting nucleotide:"), 1, 3);
-        grid.add(setForwardPrimerStart, 1, 4, 4, 1);
-        grid.add(forwardPrimerLength, 1, 5);
-        grid.add(forwardPrimerMatches, 1, 6);
-        grid.add(forwardPrimerGc, 1, 7);
-        grid.add(forwardPrimerTm, 1, 8);
+        grid.add(forwardPrimerField, 0, 2, 4, 1);
+        grid.add(new Label("Set starting nucleotide:"), 0, 3);
+        grid.add(setForwardPrimerStart, 0, 4, 4, 1);
+        grid.add(forwardPrimerLength, 0, 5);
+        grid.add(forwardPrimerMatches, 0, 6);
+        grid.add(forwardPrimerGc, 0, 7);
+        grid.add(forwardPrimerTm, 0, 8);
+        grid.add(taTemperature, 0, 9);
 
-        grid.add(reversePrimerField, 8, 2, 4, 1);
-        grid.add(new Label("5'"), 7, 2, 1, 1);
-        grid.add(new Label("3'"), 12, 2, 1, 1);
-        grid.add(new Label("Set starting nucleotide:"), 8, 3);
-        grid.add(setReversePrimerStart, 8, 4, 4, 1);
-        grid.add(reversePrimerLength, 8, 5);
-        grid.add(reversePrimerMatches, 8, 6);
-        grid.add(reversePrimerGc, 8, 7);
-        grid.add(reversePrimerTm, 8, 8);
+        grid.add(reversePrimerField, 6, 2, 4, 1);
+        grid.add(new Label("Set starting nucleotide:"), 6, 3);
+        grid.add(setReversePrimerStart, 6, 4, 4, 1);
+        grid.add(reversePrimerLength, 6, 5);
+        grid.add(reversePrimerMatches, 6, 6);
+        grid.add(reversePrimerGc, 6, 7);
+        grid.add(reversePrimerTm, 6, 8);
+
+        grid.add(new Label("Warnings:"), 12, 4);
+        grid.add(matchingNucleotidesCheck, 12, 5);
+        grid.add(gcCheck, 12, 6);
+        grid.add(tmCheck, 12, 7);
+        grid.add(repeatCheck, 12, 8);
 
         layout.setTop(buttonsBox);
         layout.setCenter(textArea);

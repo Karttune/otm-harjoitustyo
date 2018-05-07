@@ -14,15 +14,10 @@ import javafx.scene.text.TextFlow;
  *
  * @author Konsta
  */
-public class Reverseprimer {
-
-    private String reversePrimer;
-    private Integer id;
-    private Integer start;
-
+public class Reverseprimer extends AbstractPrimerObject {
+    
     public Reverseprimer() {
-        reversePrimer = "";
-        start = 0;
+        super();
     }
 
     /**
@@ -35,15 +30,14 @@ public class Reverseprimer {
      * yli 100 nukleotidiä pitkä.
      */
     public String getReversePrimer(String templateSequence) {
-
+        
         templateSequence = templateSequence.replaceAll("\n", "");
         if (templateSequence.length() >= 100) {
-
-            String primer = templateSequence.substring(templateSequence.length() - 20, templateSequence.length());
-            String[] nucleotides = primer.split("");
-
+            
+            String[] nucleotides = templateSequence.substring(templateSequence.length() - 20, templateSequence.length()).split("");
+            
             for (int i = 0; i < nucleotides.length; i++) {
-
+                
                 if (nucleotides[i].equalsIgnoreCase("A")) {
                     nucleotides[i] = "T";
                 } else if (nucleotides[i].equalsIgnoreCase("T")) {
@@ -54,10 +48,9 @@ public class Reverseprimer {
                     nucleotides[i] = "C";
                 }
             }
-            primer = String.join("", nucleotides);
-            primer = new StringBuilder(primer).reverse().toString();
-            reversePrimer = primer;
-            return reversePrimer;
+            String revprimer = String.join("", nucleotides);
+            primer = new StringBuilder(revprimer).reverse().toString();
+            return primer;
         } else {
             return "";
         }
@@ -72,81 +65,25 @@ public class Reverseprimer {
      * @return palauttaa täsmäävien nukleotidien määrän
      */
     public Integer matchingNucleotides(String templateSequence) {
-
+        
         if (templateSequence.length() >= 100) {
-
-            String[] template = templateSequence.substring(templateSequence.length() - 50, templateSequence.length()).split("");
-            String[] primer = reversePrimer.split("");
-
+            
+            String[] template = new StringBuilder(templateSequence.substring(0, this.getStart())).reverse().toString().split("");
+            String[] primerSequence = primer.split("");
+            
             int matches = 0;
-            int y = 49;
-
-            for (int i = 0; i < primer.length; i++) {
-
-                if (primer[i].equalsIgnoreCase("A") && template[y].equalsIgnoreCase("T") || primer[i].equalsIgnoreCase("T") && template[y].equalsIgnoreCase("A")) {
+            
+            for (int i = 0; i < primerSequence.length; i++) {
+                
+                if (primerSequence[i].equalsIgnoreCase("A") && template[i].equalsIgnoreCase("T") || primerSequence[i].equalsIgnoreCase("T") && template[i].equalsIgnoreCase("A")) {
                     matches++;
-                } else if (primer[i].equalsIgnoreCase("C") && template[y].equalsIgnoreCase("G") || primer[i].equalsIgnoreCase("G") && template[y].equalsIgnoreCase("C")) {
+                } else if (primerSequence[i].equalsIgnoreCase("C") && template[i].equalsIgnoreCase("G") || primerSequence[i].equalsIgnoreCase("G") && template[i].equalsIgnoreCase("C")) {
                     matches++;
                 }
-                y--;
             }
             return matches;
         }
         return 0;
-    }
-
-    /**
-     * Metodi palauttaa alukkeen G ja C -nukleotidien määrän prosentuaalisena
-     * osuutena.
-     *
-     * @return palauttaa alukkeen GC% liukulukuna.
-     */
-    public Double gcPercentage() {
-
-        if (!reversePrimer.equals("")) {
-
-            String[] nucleotides = reversePrimer.split("");
-            double gc = 0;
-
-            for (int i = 0; i < nucleotides.length; i++) {
-
-                if (nucleotides[i].matches("[GCgc]")) {
-                    gc++;
-                }
-            }
-
-            Double gcPercentage = Math.floor((gc / nucleotides.length) * 100);
-            return gcPercentage;
-        } else {
-            return 0.0;
-        }
-    }
-
-    /**
-     * Metodi palauttaa alukkeen tm-lämpötilan celsiusasteina.
-     *
-     * @return palauttaa alukkeen tm-lämpötilan kokonaislukuna.
-     */
-    public Integer tmTemperature() {
-
-        if (!reversePrimer.equals("")) {
-
-            String[] nucleotides = reversePrimer.split("");
-
-            int meltingTemperature = 0;
-
-            for (int i = 0; i < nucleotides.length; i++) {
-
-                if (nucleotides[i].matches("[GCgc]")) {
-                    meltingTemperature += 4;
-                } else if (nucleotides[i].matches("[ATat]")) {
-                    meltingTemperature += 2;
-                }
-            }
-            return meltingTemperature;
-        } else {
-            return 0;
-        }
     }
 
     /**
@@ -155,19 +92,18 @@ public class Reverseprimer {
      * nukleotidit ovat mustalla ja ei-täsmäävät punaisella.
      *
      * @param templateSequence Käyttäjän antama templaattisekvenssi.
-     * @param reversePrimer Käyttäjän antama aluke.
      * @param sequenceAlignment Käyttäjän antama TextFlow-elementti, johon
      * lisätään aluke värjättynä.
      *
      * @return TextFlow-elementti, jossa on aluke.
      */
-    public TextFlow reversePrimerAlignment(String templateSequence, String reversePrimer, TextFlow sequenceAlignment) {
-
-        String[] revprimer = reversePrimer.split("");
+    public TextFlow reversePrimerAlignment(String templateSequence, TextFlow sequenceAlignment) {
+        
+        String[] revprimer = primer.split("");
         String[] revsequence = new StringBuilder(templateSequence).reverse().toString().split("");
-
+        
         for (int i = 0; i < revprimer.length; i++) {
-
+            
             if (revprimer[i].equalsIgnoreCase("A") && revsequence[i].equalsIgnoreCase("T") || revprimer[i].equalsIgnoreCase("T") && revsequence[i].equalsIgnoreCase("A")) {
                 Text match = new Text(revprimer[i]);
                 match.setFont(Font.font("Courier New"));
@@ -184,29 +120,5 @@ public class Reverseprimer {
             }
         }
         return sequenceAlignment;
-    }
-
-    public String getReversePrimer() {
-        return reversePrimer;
-    }
-
-    public void setReversePrimer(String reversePrimer) {
-        this.reversePrimer = reversePrimer;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getStart() {
-        return start;
-    }
-
-    public void setStart(Integer start) {
-        this.start = start;
     }
 }

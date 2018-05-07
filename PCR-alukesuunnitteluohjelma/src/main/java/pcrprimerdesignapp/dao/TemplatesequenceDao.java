@@ -17,10 +17,6 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
         this.database = database;
     }
 
-    public Templatesequence findOne(Integer key) throws SQLException, Exception {
-        return null;
-    }
-
     /**
      * Metodi hakee tietokannasta yhden Templatesequence-luokan, joka haetaan
      * otsikkorivin perusteella.
@@ -36,8 +32,7 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
         stmt.setObject(1, title);
 
         ResultSet rs = stmt.executeQuery();
-        boolean hasOne = rs.next();
-        if (!hasOne) {
+        if (!rs.next()) {
             return null;
         }
 
@@ -62,6 +57,7 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
      * @param templatesequence Käyttäjän antama Templatesequence-luokka.
      *
      * @return palauttaa joko save- tai update metodin.
+     * @throws java.sql.SQLException
      */
     public Templatesequence saveOrUpdate(Templatesequence templatesequence) throws SQLException, Exception {
 
@@ -121,7 +117,6 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
 
         stmt.close();
         rs.close();
-
         conn.close();
 
         return template;
@@ -154,6 +149,7 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
      * Metodi palauttaa kaikki tietokannassa olevat otsikkorivit, jotka
      * syötetään ui:ssa tietokantavalikkoon. * @return palauttaa listan
      * Templatesequence-otsikkoriveistä.
+     * @throws java.sql.SQLException
      */
     public List<String> findAllTitles() throws SQLException, Exception {
 
@@ -191,4 +187,9 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
         stmt.close();
         conn.close();
     }
+
+    public Templatesequence findOne(Integer key) throws SQLException, Exception {
+        return null;
+    }
+
 }

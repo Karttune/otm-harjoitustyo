@@ -1,3 +1,5 @@
+package pcrprimerdesignapp.tests;
+
 
 import java.io.File;
 import static org.junit.Assert.assertEquals;
@@ -48,29 +50,31 @@ public class ReverseprimerTest {
         File file = new File("Testisekvenssi.fasta");
 
         temp.sequenceFromFile(file);
-
         rev.getReversePrimer(temp.getTemplateSequence());
-
-        assertEquals(20, (int) rev.matchingNucleotides(temp.getTemplateSequence()));
+        rev.setStart(temp.getTemplateSequence().length());
+        
+        int matches = rev.matchingNucleotides(temp.getTemplateSequence());
+        
+        assertEquals(20, (int) matches);
     }
 
     @Test
     public void getPrimerLengthWorks() {
-        rev.setReversePrimer("ATCGATCGATCG");
+        rev.setPrimer("ATCGATCGATCG");
 
-        assertEquals(12, (int) rev.getReversePrimer().length());
+        assertEquals(12, (int) rev.getPrimer().length());
     }
 
     @Test
     public void tmTemperatureWorks() {
-        rev.setReversePrimer("ATCGATCGATCG");
+        rev.setPrimer("ATCGATCGATCG");
 
         assertEquals(36, (int) rev.tmTemperature());
     }
 
     @Test
     public void gcPercentageWorks() {
-        rev.setReversePrimer("ATCGATCGATCG");
+        rev.setPrimer("ATCGATCGATCG");
 
         assertEquals(50.0, (double) rev.gcPercentage(), 1e-15);
     }

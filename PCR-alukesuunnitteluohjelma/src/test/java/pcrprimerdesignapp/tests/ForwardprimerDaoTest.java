@@ -1,3 +1,5 @@
+package pcrprimerdesignapp.tests;
+
 
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
@@ -22,7 +24,7 @@ public class ForwardprimerDaoTest {
 
     public ForwardprimerDaoTest() throws ClassNotFoundException {
         database = new Database("jdbc:sqlite:test.db");
-        forwardDao = new ForwardprimerDao(database);
+        forwardDao = new ForwardprimerDao(database, "Forwardprimer");
     }
 
     @Test
@@ -30,7 +32,7 @@ public class ForwardprimerDaoTest {
 
         Forwardprimer fwd = forwardDao.findOne(5);
 
-        assertEquals("CATCGATGCTAGCGATGCTA", fwd.getForwardPrimer());
+        assertEquals("CATCGATGCTAGCGATGCTA", fwd.getPrimer());
     }
 
     @Test
@@ -38,10 +40,10 @@ public class ForwardprimerDaoTest {
 
         Forwardprimer fwd = new Forwardprimer();
         fwd.setId(5);
-        fwd.setForwardPrimer("CATCGATGCTAGCGATGCTA");
+        fwd.setPrimer("CATCGATGCTAGCGATGCTA");
         fwd.setStart(50);
 
-        assertEquals("CATCGATGCTAGCGATGCTA", forwardDao.saveOrUpdate(fwd).getForwardPrimer());
+        assertEquals("CATCGATGCTAGCGATGCTA", forwardDao.saveOrUpdate(fwd).getPrimer());
     }
 
     @Test
@@ -49,10 +51,10 @@ public class ForwardprimerDaoTest {
 
         Forwardprimer fwd = new Forwardprimer();
         fwd.setId(6);
-        fwd.setForwardPrimer("GTAGCTAGCTAGCTAGCTA");
+        fwd.setPrimer("GTAGCTAGCTAGCTAGCTA");
         fwd.setStart(30);
 
-        assertEquals("GTAGCTAGCTAGCTAGCTA", forwardDao.saveOrUpdate(fwd).getForwardPrimer());
+        assertEquals("GTAGCTAGCTAGCTAGCTA", forwardDao.saveOrUpdate(fwd).getPrimer());
     }
 
     @Test
