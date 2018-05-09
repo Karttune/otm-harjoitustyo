@@ -53,25 +53,15 @@ public abstract class AbstractPrimerObject {
      *
      * @return palauttaa alukkeen tm-lämpötilan kokonaislukuna.
      */
-    public Integer tmTemperature() {
+    public Double tmTemperature() {
 
         if (!primer.equals("")) {
 
-            String[] nucleotides = primer.split("");
+            Double tm = 81.5 + 16.6 * (Math.log10(0.05)) + 0.41 * this.gcPercentage() - 675 / this.getPrimer().length();
 
-            int meltingTemperature = 0;
-
-            for (int i = 0; i < nucleotides.length; i++) {
-
-                if (nucleotides[i].matches("[GCgc]")) {
-                    meltingTemperature += 4;
-                } else if (nucleotides[i].matches("[ATat]")) {
-                    meltingTemperature += 2;
-                }
-            }
-            return meltingTemperature;
+            return (double) Math.round(tm * 100d) / 100d;
         } else {
-            return 0;
+            return 0.0;
         }
     }
 

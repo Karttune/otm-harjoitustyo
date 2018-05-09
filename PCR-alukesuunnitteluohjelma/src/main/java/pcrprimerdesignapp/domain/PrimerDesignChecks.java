@@ -50,11 +50,11 @@ public class PrimerDesignChecks {
         Double fwdMatchPercentage = ((double) fwdprimer.matchingNucleotides(template) / (double) fwdprimer.getPrimer().length()) * 100;
         Double revMatchPercentage = ((double) revprimer.matchingNucleotides(template) / (double) revprimer.getPrimer().length()) * 100;
 
-        if (fwdMatchPercentage < 90.0 && revMatchPercentage < 90.0) {
+        if (fwdMatchPercentage < 80.0 && revMatchPercentage < 80.0) {
             return "Forward and reverse primer match% is too low!";
-        } else if (fwdMatchPercentage < 90.0) {
+        } else if (fwdMatchPercentage < 80.0) {
             return "Forward primer match% is too low!";
-        } else if (revMatchPercentage < 90.0) {
+        } else if (revMatchPercentage < 80.0) {
             return "Reverse primer match% is too low!";
         } else {
             return "";
@@ -107,40 +107,43 @@ public class PrimerDesignChecks {
 
     public String checkTmMismatch(Forwardprimer fwdprimer, Reverseprimer revprimer) {
 
-        Integer mismatchTemperature = Math.abs(fwdprimer.tmTemperature() - revprimer.tmTemperature());
+        Double mismatchTemperature = Math.abs(fwdprimer.tmTemperature() - revprimer.tmTemperature());
 
-        if (mismatchTemperature > 5) {
+        if (mismatchTemperature >= 5) {
             return "Tm-temperatures are mismatched!";
         } else {
             return "";
         }
     }
 
-    public Double taTemperature(Forwardprimer fwdprimer, Reverseprimer revprimer, Templatesequence templatesequence) {
-
-        String[] template = templatesequence.getTemplateSequence().substring(fwdprimer.getStart(), revprimer.getStart()).split("");
-
-        int templateMeltingTemperature = 0;
-
-        for (int i = 0; i < template.length; i++) {
-
-            if (template[i].matches("[GCgc]")) {
-                templateMeltingTemperature += 4;
-            } else if (template[i].matches("[ATat]")) {
-                templateMeltingTemperature += 2;
-            }
-        }
-
-        Integer lessStableTm = 0;
+    public Double taTemperature(Forwardprimer fwdprimer, Reverseprimer revprimer) {
 
         if (fwdprimer.tmTemperature() < revprimer.tmTemperature()) {
-            lessStableTm = fwdprimer.tmTemperature();
+            return fwdprimer.tmTemperature() - 5;
         } else {
-            lessStableTm = revprimer.tmTemperature();
+            return revprimer.tmTemperature() - 5;
         }
+    }
 
-        Double taTemperature = (0.3 * lessStableTm) + (0.7 * templateMeltingTemperature) - 14.9;
-        System.out.println(taTemperature);
-        return taTemperature;
+    public String checkGcClamp(AbstractPrimerObject primer, String name) {
+
+        if (!primer.getPrimer().equals("")) {
+            String[] fwdPrimerSequence = primer.getPrimer().substring((primer.getPrimer().length() - 5), primer.getPrimer().length() - 1).split("");
+            int gcClamp = 0;
+
+            for (int i = 0; i < fwdPrimerSequence.length; i++) {
+
+                if (fwdPrimerSequence[i].matches("[GCgc]")) {
+                    gcClamp++;
+                }
+            }
+
+            if (gcClamp > 3) {
+                return name + " primer has too many GC nucleotides in 3' end!";
+            } else if (gcClamp == 0) {
+                return name + " primer has no GC nucleotides in 3' end!";
+            }
+        }
+        return "";
     }
 }

@@ -69,7 +69,7 @@ public class ReverseprimerTest {
     public void tmTemperatureWorks() {
         rev.setPrimer("ATCGATCGATCG");
 
-        assertEquals(36, (int) rev.tmTemperature());
+        assertEquals(36, (double) rev.tmTemperature());
     }
 
     @Test

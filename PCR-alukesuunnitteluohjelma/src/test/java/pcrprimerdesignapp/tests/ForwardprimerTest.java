@@ -67,7 +67,7 @@ public class ForwardprimerTest {
     public void tmTemperatureWorks() {
         fwd.setPrimer("ATCGATCGATCG");
 
-        assertEquals(36, (int) fwd.tmTemperature());
+        assertEquals(36, (double) fwd.tmTemperature());
     }
 
     @Test

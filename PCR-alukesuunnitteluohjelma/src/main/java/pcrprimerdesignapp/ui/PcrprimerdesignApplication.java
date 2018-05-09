@@ -152,6 +152,7 @@ public class PcrprimerdesignApplication extends Application {
         Label gcCheck = new Label("");
         Label tmCheck = new Label("");
         Label repeatCheck = new Label("");
+        Label gcClampCheck = new Label("");
 
         Text f = new Text();
         f.setFont(Font.font("Courier New"));
@@ -173,6 +174,7 @@ public class PcrprimerdesignApplication extends Application {
         Button deleteFromDatabase = new Button("Delete");
 
         forwardPrimer.setStart(0);
+        String measure = "0        10        20        30        40        50";
 
         openFile.setOnAction((ActionEvent event) -> {
 
@@ -234,7 +236,7 @@ public class PcrprimerdesignApplication extends Application {
             if (templateSequence.getTemplateSequence().length() >= 100) {
 
                 String fwdsequence = templateSequence.getTemplateSequence();
-                f.setText(fwdsequence.substring(forwardPrimer.getStart(), (forwardPrimer.getStart() + 50)) + "\n");
+                f.setText(measure + "\n" + fwdsequence.substring(forwardPrimer.getStart(), (forwardPrimer.getStart() + 50)) + "\n");
 
                 forwardSequenceAlignment.getChildren().clear();
                 forwardSequenceAlignment.getChildren().add(f);
@@ -255,7 +257,8 @@ public class PcrprimerdesignApplication extends Application {
             gcCheck.setText(primerChecks.checkMatchingNucleotides(forwardPrimer, reversePrimer, templateSequence));
             tmCheck.setText(primerChecks.checkLowTm(forwardPrimer, reversePrimer) + " " + primerChecks.checkHighTm(forwardPrimer, reversePrimer) + " " + primerChecks.checkTmMismatch(forwardPrimer, reversePrimer));
             repeatCheck.setText(primerChecks.checkForRepeats(forwardPrimer, reversePrimer));
-            taTemperature.setText("Ta: " + Double.toString(primerChecks.taTemperature(forwardPrimer, reversePrimer, templateSequence)) + " °C");
+            gcClampCheck.setText(primerChecks.checkGcClamp(forwardPrimer, "Forward") + " " + primerChecks.checkGcClamp(reversePrimer, "Reverse"));
+            taTemperature.setText("Ta: " + primerChecks.taTemperature(forwardPrimer, reversePrimer) + " °C");
         });
 
         reversePrimerField.textProperty().addListener((change, oldValue, newValue) -> {
@@ -290,7 +293,9 @@ public class PcrprimerdesignApplication extends Application {
             gcCheck.setText(primerChecks.checkMatchingNucleotides(forwardPrimer, reversePrimer, templateSequence));
             tmCheck.setText(primerChecks.checkLowTm(forwardPrimer, reversePrimer) + " " + primerChecks.checkHighTm(forwardPrimer, reversePrimer));
             repeatCheck.setText(primerChecks.checkForRepeats(forwardPrimer, reversePrimer));
-            taTemperature.setText("Ta: " + Double.toString(primerChecks.taTemperature(forwardPrimer, reversePrimer, templateSequence)) + " °C");
+            gcClampCheck.setText(primerChecks.checkGcClamp(forwardPrimer, "Forward") + " " + primerChecks.checkGcClamp(reversePrimer, "Reverse"));
+            taTemperature.setText("Ta: " + primerChecks.taTemperature(forwardPrimer, reversePrimer) + " °C");
+
         });
 
         setForwardPrimerStart.textProperty().addListener((change, oldValue, newValue) -> {
@@ -313,7 +318,7 @@ public class PcrprimerdesignApplication extends Application {
                 if (fwdsequence.length() >= 100) {
 
                     forwardPrimerField.setText(forwardPrimer.getForwardPrimer(fwdsequence.substring(forwardPrimer.getStart(), fwdsequence.length())));
-                    f.setText(fwdsequence.substring(forwardPrimer.getStart(), forwardPrimer.getStart() + 50) + "\n");
+                    f.setText(measure + "\n" + fwdsequence.substring(forwardPrimer.getStart(), forwardPrimer.getStart() + 50) + "\n");
 
                     forwardSequenceAlignment.getChildren().clear();
                     forwardSequenceAlignment.getChildren().add(f);
@@ -337,21 +342,23 @@ public class PcrprimerdesignApplication extends Application {
                     setReversePrimerStart.setText(oldValue);
                 }
 
-                reversePrimer.setStart(Integer.parseInt(setReversePrimerStart.getText()));
+                reversePrimer.setStart(Integer.parseInt(newValue));
                 productSizeLabel.setText("PCR product size: " + Integer.toString(reversePrimer.getStart() - forwardPrimer.getStart()));
-                String revsequence = templateSequence.getTemplateSequence().substring(0, reversePrimer.getStart());
+                String revSequence = templateSequence.getTemplateSequence().substring(0, reversePrimer.getStart());
 
-                if (revsequence.length() >= 100 && reversePrimer.getStart() >= 100) {
+                String[] revMeasure = new String[50];
+                String[] ayy = newValue.split("");
 
-                    reversePrimerField.setText(reversePrimer.getReversePrimer(revsequence));
+                if (revSequence.length() >= 100 && reversePrimer.getStart() >= 100) {
 
-                    r.setText(new StringBuilder(revsequence).reverse().toString().substring(0, 50) + "\n");
+                    reversePrimerField.setText(reversePrimer.getReversePrimer(revSequence));
+                    r.setText(measure + "\n" + new StringBuilder(revSequence).reverse().toString().substring(0, 50) + "\n");
 
                     reverseSequenceAlignment.getChildren().clear();
                     reverseSequenceAlignment.getChildren().add(r);
 
-                    reversePrimer.reversePrimerAlignment(revsequence, reverseSequenceAlignment);
-                    alignmentReversePrimer.setText("Reverse primer: (" + revsequence.length() + "-" + (revsequence.length() - 50) + ")");
+                    reversePrimer.reversePrimerAlignment(revSequence, reverseSequenceAlignment);
+                    alignmentReversePrimer.setText("Reverse primer: (" + revSequence.length() + "-" + (revSequence.length() - 50) + ")");
                 } else {
                     alignmentReversePrimer.setText("Reverse primer: (0-0)");
                     reverseSequenceAlignment.getChildren().clear();
@@ -487,13 +494,14 @@ public class PcrprimerdesignApplication extends Application {
         grid.add(gcCheck, 12, 6);
         grid.add(tmCheck, 12, 7);
         grid.add(repeatCheck, 12, 8);
+        grid.add(gcClampCheck, 12, 9);
 
         layout.setTop(buttonsBox);
         layout.setCenter(textArea);
         layout.setRight(sequenceAlignmentBox);
         layout.setBottom(grid);
 
-        Scene scene = new Scene(layout, 850, 500);
+        Scene scene = new Scene(layout, 900, 600);
 
         stage.setScene(scene);
         stage.show();
