@@ -53,16 +53,24 @@ public abstract class AbstractPrimerObject {
      *
      * @return palauttaa alukkeen tm-lämpötilan kokonaislukuna.
      */
-    public Double tmTemperature() {
+    public Integer tmTemperature() {
+
+        Integer tmTemperature = 0;
 
         if (!primer.equals("")) {
 
-            Double tm = 81.5 + 16.6 * (Math.log10(0.05)) + 0.41 * this.gcPercentage() - 675 / this.getPrimer().length();
+            String[] nucleotides = primer.split("");
 
-            return (double) Math.round(tm * 100d) / 100d;
-        } else {
-            return 0.0;
+            for (int i = 0; i < nucleotides.length; i++) {
+
+                if (nucleotides[i].matches("[ATat]")) {
+                    tmTemperature = tmTemperature + 2;
+                } else if (nucleotides[i].matches("[GCgc]")) {
+                    tmTemperature = tmTemperature + 4;
+                }
+            }
         }
+        return tmTemperature;
     }
 
     public void setPrimer(String primer) {
