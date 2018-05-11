@@ -10,9 +10,9 @@ Laita PcrPrimerDesignApplication.jar ja sequences.db samaan kansioon.
 
 Ohjelma voidaan käynnistää komennolla:
 
-...
+```
 java -jar PcrPrimerDesignApplication.jar
-...
+```
 
 ## Ikkuna
 
