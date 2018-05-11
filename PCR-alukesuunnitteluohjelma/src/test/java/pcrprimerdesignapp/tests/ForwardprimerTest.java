@@ -68,4 +68,5 @@ public class ForwardprimerTest {
 
         assertEquals(50.0, (double) fwd.gcPercentage(), 1e-15);
     }
+    
 }

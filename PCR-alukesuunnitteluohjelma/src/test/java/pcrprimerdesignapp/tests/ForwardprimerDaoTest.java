@@ -1,6 +1,5 @@
 package pcrprimerdesignapp.tests;
 
-
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import pcrprimerdesignapp.dao.ForwardprimerDao;
@@ -61,5 +60,11 @@ public class ForwardprimerDaoTest {
 
         forwardDao.delete(6);
         assertEquals(null, forwardDao.findOne(6));
+    }
+
+    @Test
+    public void returnNextIndexWorks() throws Exception {
+
+        assertEquals(6, (int) forwardDao.returnNextIndex());
     }
 }
