@@ -26,9 +26,9 @@ PrimerDesignChecks-luokka vastaa alukkeisiin liittyvistä tarkistuksista ja pala
 
 UI-luokka vastaa tekstikenttien toiminnallisuudesta varsinkin siistimällä käyttäjäsyötettä: DNA-sekvenssi sisältää vain 4 eri emästä, A, T, C ja G, joten syöte täytyy rajoittaa näihin kirjaimiin. Kaikki syöte on merkkikoosta riippumatonta.
 
-### Sekvenssikaavio
+### Päätoiminnallisuudet
 
-Sekvenssikaavio kuvaa tekstikenttään DNA-sekvenssin kirjoittamista.
+Sekvenssikaavio kuvaa tekstikenttään DNA-sekvenssin kirjoittamista. Sekvenssikaavio ilmentää luokkien yhteistoiminnallisuutta: alukkeet muodostetaan templaattisekvenssin perusteella ja palauttaa valmiit alukkeet UI-luokalle, sen lisäksi muodostaa alukkeen sekvenssin perusteella GC- ja Tm-arvot.
 
 <img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/Sekvenssikaavio.png">
 
