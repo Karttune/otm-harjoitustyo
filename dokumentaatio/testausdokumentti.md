@@ -14,7 +14,7 @@ DAO-luokkien testit toimivat niille määriteltyn test.db -tietokantatiedoston a
 
 ### Testauskattavuus
 
-<img src="https://raw.githubusercontent.com/Karttune/otm-harjoitustyo/master/dokumentaatio/testikattavuus.png" width="800">
+<img src="https://raw.githubusercontent.com/Karttune/otm-harjoitustyo/master/dokumentaatio/testikattavuus.png">
 
 Testaamatta jäivät Forwardprimer- ja Reverseprimer-luokkien forwardPrimerAlignment -metodit.
 
@@ -32,3 +32,4 @@ Vaatimusmäärittelyn mukainen toiminnallisuus on testattu UI:n kautta myös vir
 
 ## Sovellukseen jääneet laatuongelmat
 
+Jos avaa tiedostonavausikkunan mutta sulkee sen avaamatta tiedostoa, sovellus printtaa errorin.
