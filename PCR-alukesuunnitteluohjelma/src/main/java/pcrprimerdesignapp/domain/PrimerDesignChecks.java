@@ -332,7 +332,7 @@ public class PrimerDesignChecks {
      */
     public String checkFwdThreePrimeMatch() {
 
-        if (fwdPrimer.getPrimer().length() > 10) {
+        if (fwdPrimer.getPrimer().length() > 10 && tempSequence.getTemplateSequence().length() >= 100) {
 
             String fwdTemplate = tempSequence.getTemplateSequence().substring(fwdPrimer.getStart() + (fwdPrimer.getPrimer().length() - 2), (fwdPrimer.getStart() + fwdPrimer.getPrimer().length()));
             String fwdPrimerSequence = fwdPrimer.getPrimer().substring((fwdPrimer.getPrimer().length() - 2), fwdPrimer.getPrimer().length());

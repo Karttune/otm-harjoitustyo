@@ -318,25 +318,10 @@ public class PcrprimerdesignApplication extends Application {
                 productSizeLabel.setText("PCR product size: " + Integer.toString(reversePrimer.getStart() - forwardPrimer.getStart()));
                 String fwdSequence = templateSequence.getTemplateSequence();
 
-                String fwdMeasure = forwardPrimer.getStart().toString();
-
-                for (int i = forwardPrimer.getStart().toString().length(); i <= 50; i++) {
-
-                    if (i % 10 == 0 && i != 0) {
-                        fwdMeasure = fwdMeasure + (forwardPrimer.getStart() + i);
-                        i = i + forwardPrimer.getStart().toString().length();
-
-                        System.out.println(i);
-
-                    } else {
-                        fwdMeasure = fwdMeasure + " ";
-                    }
-                }
-
                 if (fwdSequence.length() >= 100) {
 
                     forwardPrimerField.setText(forwardPrimer.getForwardPrimer(fwdSequence.substring(forwardPrimer.getStart(), fwdSequence.length())));
-                    f.setText(fwdMeasure + "\n" + fwdSequence.substring(forwardPrimer.getStart(), forwardPrimer.getStart() + 50) + "\n");
+                    f.setText(measure + "\n" + fwdSequence.substring(forwardPrimer.getStart(), forwardPrimer.getStart() + 50) + "\n");
 
                     forwardSequenceAlignment.getChildren().clear();
                     forwardSequenceAlignment.getChildren().add(f);
@@ -356,7 +341,7 @@ public class PcrprimerdesignApplication extends Application {
         setReversePrimerStart.textProperty().addListener((change, oldValue, newValue) -> {
 
             try {
-                if (Integer.parseInt(newValue) > templateSequence.getTemplateSequence().length()) {
+                if (Integer.parseInt(newValue) > templateSequence.getTemplateSequence().length() || newValue == null) {
                     setReversePrimerStart.setText(oldValue);
                 }
 
@@ -399,16 +384,17 @@ public class PcrprimerdesignApplication extends Application {
 
                 textArea.setText(templateSequence.getTemplateSequence());
                 headerField.setText(templateSequence.getSequenceTitle());
-                setForwardPrimerStart.setText(Integer.toString(forwardPrimer.getStart()));
-                setReversePrimerStart.setText(Integer.toString(reversePrimer.getStart()));
-                forwardPrimerField.setText(forwardPrimer.getPrimer());
-                reversePrimerField.setText(reversePrimer.getPrimer());
+
+                if (forwardPrimer.getPrimer() != null && reversePrimer.getPrimer() != null) {
+                    forwardPrimerField.setText(forwardPrimer.getPrimer());
+                    reversePrimerField.setText(reversePrimer.getPrimer());
+                }
             }
         });
 
         saveToDatabase.setOnAction((ActionEvent event) -> {
 
-            if (templateSequence.getTemplateSequence().length() >= 100 && !nameForDatabase.getText().equals("")) {
+            if (templateSequence.getTemplateSequence().length() >= 100 && !nameForDatabase.getText().equals("") && !forwardPrimer.getPrimer().equals("") && !reversePrimer.getPrimer().equals("")) {
 
                 String title = nameForDatabase.getText();
                 templateSequence.setSequenceTitle(title);
@@ -416,8 +402,7 @@ public class PcrprimerdesignApplication extends Application {
                 templateSequence.setId(-1);
                 forwardPrimer.setId(-1);
                 reversePrimer.setId(-1);
-                forwardPrimer.setStart(Integer.parseInt(setForwardPrimerStart.getText()));
-                reversePrimer.setStart(Integer.parseInt(setReversePrimerStart.getText()));
+
 
                 try {
                     templateSequence.setForwardPrimerId(forwardDao.returnNextIndex());
@@ -432,7 +417,7 @@ public class PcrprimerdesignApplication extends Application {
                     Logger.getLogger(PcrprimerdesignApplication.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
-                nameForDatabase.setText("Enter a title!");
+                nameForDatabase.setText("Enter a title, nucleotide sequence of over 100 nucleotides or primers!");
             }
         });
 
