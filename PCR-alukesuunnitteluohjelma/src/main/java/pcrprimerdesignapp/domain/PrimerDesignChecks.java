@@ -24,6 +24,12 @@ public class PrimerDesignChecks {
         this.tempSequence = tempSequence;
     }
 
+    /**
+     * Metodi palauttaa varoituksen, jos forward- tai reverse-alukkeen GC% on
+     * alle 40% koko alukkeen pituudesta.
+     *
+     * @return tekstivaroitus, jos GC% on alukkeissa alle 40.
+     */
     public String checkLowGcPercentage() {
 
         if (fwdPrimer.gcPercentage() < 40 && revPrimer.gcPercentage() < 40) {
@@ -37,6 +43,12 @@ public class PrimerDesignChecks {
         }
     }
 
+    /**
+     * Metodi palauttaa varoituksen, jos forward- tai reverse-alukkeen GC% on
+     * yli 60% koko alukkeen pituudesta.
+     *
+     * @return tekstivaroitus, jos GC% on alukkeissa yli 60%.
+     */
     public String checkHighGcPercentage() {
 
         if (fwdPrimer.gcPercentage() > 60 && revPrimer.gcPercentage() > 60) {
@@ -50,6 +62,14 @@ public class PrimerDesignChecks {
         }
     }
 
+    /**
+     * Metodi palauttaa varoituksen, jos forward- tai reverse-alukkeen
+     * templaattisekvenssiin täsmäävien nukleotidien prosenttiluku on alle 80%
+     * koko nukleotidin pituudesta.
+     *
+     * @return tekstivaroitus, jos täsmäävien nukleotidien prosenttiluku on alle
+     * 80%.
+     */
     public String checkMatchingNucleotides() {
 
         String template = tempSequence.getTemplateSequence();
@@ -67,6 +87,19 @@ public class PrimerDesignChecks {
         }
     }
 
+    /**
+     * Metodi tarkastaa, onko alukkeessa yli 4 saman emäksen pituisia
+     * toistojaksoja, esimerkiksi TTTTT.
+     *
+     * @param primer parametrina annetaan alukeluokka, eli Forward- tai
+     * Reverseprimer-luokka.
+     * @param name parametrina joko "Forward" tai "Reverse", riippuen kumman
+     * luokan muuttujaksi määrittelee. Nimeä käytetään, kun metodi palauttaa
+     * varoituksen.
+     *
+     * @return tekstivaroitus, jos alukkeesta löytyy toistojaksoja.
+     *
+     */
     public String checkRepeats(AbstractPrimerObject primer, String name) {
 
         Pattern regex = Pattern.compile("AAAA|TTTT|CCCC|GGGG", Pattern.CASE_INSENSITIVE);
@@ -80,6 +113,12 @@ public class PrimerDesignChecks {
         }
     }
 
+    /**
+     * Metodi palauttaa varoituksen, jos forward- tai reverse-alukkeen Tm on
+     * alle 50°C.
+     *
+     * @return tekstivaroitus, jos Tm on alle 50°C.
+     */
     public String checkLowTm() {
 
         if (fwdPrimer.tmTemperature() < 50.0 && revPrimer.tmTemperature() < 50.0) {
@@ -93,6 +132,12 @@ public class PrimerDesignChecks {
         }
     }
 
+    /**
+     * Metodi palauttaa varoituksen, jos forward- tai reverse-alukkeen Tm on yli
+     * 65°C.
+     *
+     * @return tekstivaroitus, jos Tm on yli 65°C.
+     */
     public String checkHighTm() {
 
         if (fwdPrimer.tmTemperature() > 65.0 && revPrimer.tmTemperature() > 65.0) {
@@ -106,6 +151,12 @@ public class PrimerDesignChecks {
         }
     }
 
+    /**
+     * Metodi palauttaa varoituksen, jos forward- tai reverse-alukkeen
+     * Tm-lämpötilat välillä on yli 5°C eroa.
+     *
+     * @return tekstivaroitus, jos Tm-lämpötilat eroavat on yli 5°C.
+     */
     public String checkTmMismatch() {
 
         Integer mismatchTemperature = Math.abs(fwdPrimer.tmTemperature() - revPrimer.tmTemperature());
@@ -117,6 +168,12 @@ public class PrimerDesignChecks {
         }
     }
 
+    /**
+     * Metodi palauttaa Ta-lämpötilan, joka on alukkeista matalampi Tm-lämpötila
+     * vähennettynä 5°C.
+     *
+     * @return Ta-lämpötila, eli Tm - 5°C.
+     */
     public Integer taTemperature() {
 
         if (fwdPrimer.tmTemperature() < revPrimer.tmTemperature()) {
@@ -126,6 +183,19 @@ public class PrimerDesignChecks {
         }
     }
 
+    /**
+     * Metodi tarkastaa, onko alukkeessa yli 4 saman emäksen pituisia
+     * toistojaksoja, esimerkiksi TTTTT.
+     *
+     * @param primer parametrina annetaan alukeluokka, eli Forward- tai
+     * Reverseprimer-luokka.
+     * @param name parametrina joko "Forward" tai "Reverse", riippuen kumman
+     * luokan muuttujaksi määrittelee. Nimeä käytetään, kun metodi palauttaa
+     * varoituksen.
+     *
+     * @return tekstivaroitus, jos alukkeesta löytyy toistojaksoja.
+     *
+     */
     public String checkGcClamp(AbstractPrimerObject primer, String name) {
 
         if (primer.getPrimer().length() > 10) {
@@ -147,6 +217,19 @@ public class PrimerDesignChecks {
         return "";
     }
 
+    /**
+     * Metodi tarkastaa, onko alukkeessa yli 4 parin pituisia
+     * dinukleotiditoistoja, eli esimerkiksi ATATATAT-toistoja.
+     *
+     * @param primer parametrina annetaan alukeluokka, eli Forward- tai
+     * Reverseprimer-luokka.
+     * @param name parametrina joko "Forward" tai "Reverse", riippuen kumman
+     * luokan muuttujaksi määrittelee. Nimeä käytetään, kun metodi palauttaa
+     * varoituksen.
+     *
+     * @return tekstivaroitus, jos alukkeesta löytyy dinukleotiditoistojaksoja.
+     *
+     */
     public String checkDinucleotideRepeats(AbstractPrimerObject primer, String name) {
 
         Pattern pattern = Pattern.compile("ATATAT(AT)+|TATATA(TA)+|GCGCGC(GC)+|CGCGCG(CG)+", Pattern.CASE_INSENSITIVE);
@@ -160,6 +243,20 @@ public class PrimerDesignChecks {
         }
     }
 
+    /**
+     * Metodi tarkastaa, onko alukkeessa 4 emäksen pituisia palindromisia
+     * sekvenssejä, esimerkiksi ATCG ja CGTA, jotka voivat pariutua toisiensa
+     * kanssa.
+     *
+     * @param primer parametrina annetaan alukeluokka, eli Forward- tai
+     * Reverseprimer-luokka.
+     * @param name parametrina joko "Forward" tai "Reverse", riippuen kumman
+     * luokan muuttujaksi määrittelee. Nimeä käytetään, kun metodi palauttaa
+     * varoituksen.
+     *
+     * @return tekstivaroitus, jos paindromisia sekvenssejä.
+     *
+     */
     public String checkPalindromicSequences(AbstractPrimerObject primer, String name) {
 
         if (primer.getPrimer().length() > 10) {
@@ -192,6 +289,14 @@ public class PrimerDesignChecks {
         return "";
     }
 
+    /**
+     * Metodi tarkastaa, onko alukkeiden 3' päät käänteisesti komplementaarisia,
+     * jolloin ne voivat paritua toistensa kanssa.
+     *
+     * @return tekstivaroitus, jos 3' päässä on käänteisesti komplementaariset
+     * jaksot.
+     *
+     */
     public String checkPrimerDimer() {
 
         int matches = 0;
@@ -217,6 +322,14 @@ public class PrimerDesignChecks {
         return "";
     }
 
+    /**
+     * Metodi tarkastaa, onko Forward-alukkeen 3'-pää komplementaarinen
+     * templaattisekvenssin kanssa.
+     *
+     * @return tekstivaroitus, jos 3' pää ei ole komplementaarinen templaatin
+     * kanssa.
+     *
+     */
     public String checkFwdThreePrimeMatch() {
 
         if (fwdPrimer.getPrimer().length() > 10) {
@@ -231,6 +344,14 @@ public class PrimerDesignChecks {
         return "";
     }
 
+    /**
+     * Metodi tarkastaa, onko Reverse-alukkeen 3'-pää komplementaarinen
+     * templaattisekvenssin kanssa.
+     *
+     * @return tekstivaroitus, jos 3' pää ei ole komplementaarinen templaatin
+     * kanssa.
+     *
+     */
     public String checkRevThreePrimeMatch() {
 
         int matches = 0;
