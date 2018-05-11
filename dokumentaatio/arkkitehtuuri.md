@@ -9,7 +9,6 @@ Ohjelman pakkausrakenne on seuraava: ui sisältää käyttöliittymän toteutuks
 ## Sovelluslogiikka
 Ohjelman luokkarakenne on seuraava:
 
-<img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/luokkajapakkauskaavio.png">
 
 Sovelluksen loogisesta toiminnasta vastaa Templatesequence-, Forwardprimer- ja Reverseprimer-luokat. 
 
