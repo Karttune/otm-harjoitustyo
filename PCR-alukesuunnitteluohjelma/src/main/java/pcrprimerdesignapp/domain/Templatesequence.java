@@ -71,7 +71,7 @@ public class Templatesequence {
 
     /**
      * Metodi lukee annetusta fasta-tiedostosta sen sekvenssi-osuuden ilman
-     * otsikkoa
+     * otsikkoa.
      *
      * @param file fasta-muotoinen tiedosto
      */
@@ -103,9 +103,7 @@ public class Templatesequence {
                 }
             }
 
-            String sequence = sb.toString();
-            sequence = sequence.replaceAll("\n", "");
-            templateSequence = sequence;
+            templateSequence = sb.toString().replaceAll("\n", "");
         }
     }
 

@@ -25,6 +25,7 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
      * haetaan.
      *
      * @return palauttaa Templatesequence-luokan, joka on haettu tietokannasta.
+     * @throws java.sql.SQLException
      */
     public Templatesequence findOne(String title) throws SQLException, Exception {
         Connection connection = database.getConnection();
@@ -54,26 +55,26 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
      * Metodi määrittää, että tallennetaanko tietokantaan uusi
      * Templatesequence-luokka vai päivitetäänkö jo olemassaoleva luokka.
      *
-     * @param templatesequence Käyttäjän antama Templatesequence-luokka.
+     * @param templateSequence Käyttäjän antama Templatesequence-luokka.
      *
      * @return palauttaa joko save- tai update metodin.
      * @throws java.sql.SQLException
      */
-    public Templatesequence saveOrUpdate(Templatesequence templatesequence) throws SQLException, Exception {
+    public Templatesequence saveOrUpdate(Templatesequence templateSequence) throws SQLException, Exception {
 
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT id, title, sequence FROM Templatesequence WHERE sequence = ?"
+            PreparedStatement stmt = conn.prepareStatement("SELECT id, title, sequence FROM Templatesequence WHERE title = ?"
                     + " COLLATE NOCASE");
-            stmt.setString(1, templatesequence.getTemplateSequence());
+            stmt.setString(1, templateSequence.getSequenceTitle());
 
             ResultSet result = stmt.executeQuery();
 
             conn.close();
 
             if (!result.next()) {
-                return save(templatesequence);
+                return save(templateSequence);
             } else {
-                return update(templatesequence);
+                return update(templateSequence);
             }
         }
     }
@@ -82,20 +83,20 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
      * Metodi tallentaa tietokantaan parametrina annetun
      * Templatesequence-luokan.
      *
-     * @param templatesequence Käyttäjän antama Templatesequence-luokka.
+     * @param templateSequence Käyttäjän antama Templatesequence-luokka.
      *
      * @return palauttaa tallennetun Templatesequence-luokan.
      */
-    private Templatesequence save(Templatesequence templatesequence) throws SQLException, Exception {
+    private Templatesequence save(Templatesequence templateSequence) throws SQLException, Exception {
 
         Connection conn = database.getConnection();
         PreparedStatement stmt = conn.prepareStatement("INSERT INTO Templatesequence"
                 + " (forwardprimer_id, reverseprimer_id, title, sequence)"
                 + " VALUES (?, ?, ?, ?)");
-        stmt.setInt(1, templatesequence.getForwardPrimerId());
-        stmt.setInt(2, templatesequence.getReversePrimerId());
-        stmt.setString(3, templatesequence.getSequenceTitle());
-        stmt.setString(4, templatesequence.getTemplateSequence());
+        stmt.setInt(1, templateSequence.getForwardPrimerId());
+        stmt.setInt(2, templateSequence.getReversePrimerId());
+        stmt.setString(3, templateSequence.getSequenceTitle());
+        stmt.setString(4, templateSequence.getTemplateSequence());
 
         stmt.executeUpdate();
         stmt.close();
@@ -103,7 +104,7 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
         stmt = conn.prepareStatement("SELECT * FROM Templatesequence"
                 + " WHERE title = ?"
                 + " COLLATE NOCASE");
-        stmt.setString(1, templatesequence.getSequenceTitle());
+        stmt.setString(1, templateSequence.getSequenceTitle());
 
         ResultSet rs = stmt.executeQuery();
         rs.next();
@@ -129,26 +130,28 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
      *
      * @return palauttaa tallennetun Templatesequence-luokan.
      */
-    private Templatesequence update(Templatesequence templatesequence) throws SQLException, Exception {
+    private Templatesequence update(Templatesequence templateSequence) throws SQLException, Exception {
 
         Connection conn = database.getConnection();
         PreparedStatement stmt = conn.prepareStatement("UPDATE Templatesequence SET"
                 + " sequence = ? WHERE id = ?");
-        stmt.setString(1, templatesequence.getTemplateSequence());
-        stmt.setInt(2, templatesequence.getId());
+        stmt.setString(1, templateSequence.getTemplateSequence());
+        stmt.setInt(2, templateSequence.getId());
 
         stmt.executeUpdate();
 
         stmt.close();
         conn.close();
 
-        return templatesequence;
+        return templateSequence;
     }
 
     /**
      * Metodi palauttaa kaikki tietokannassa olevat otsikkorivit, jotka
-     * syötetään ui:ssa tietokantavalikkoon. * @return palauttaa listan
-     * Templatesequence-otsikkoriveistä.
+     * syötetään ui:ssa tietokantavalikkoon.
+     *
+     * @return palauttaa listan Templatesequence-otsikkoriveistä.
+     *
      * @throws java.sql.SQLException
      */
     public List<String> findAllTitles() throws SQLException, Exception {
@@ -175,6 +178,7 @@ public class TemplatesequenceDao implements Dao<Templatesequence, Integer> {
      * pääavaimen perusteella.
      *
      * @param key Käyttäjän antama avain.
+     * @throws java.sql.SQLException
      *
      */
     public void delete(Integer key) throws SQLException, Exception {

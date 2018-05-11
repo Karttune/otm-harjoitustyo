@@ -15,7 +15,7 @@ import javafx.scene.text.TextFlow;
  * @author Konsta
  */
 public class Forwardprimer extends AbstractPrimerObject {
-    
+
     public Forwardprimer() {
         super();
     }
@@ -30,7 +30,7 @@ public class Forwardprimer extends AbstractPrimerObject {
      * yli 100 nukleotidiä pitkä.
      */
     public String getForwardPrimer(String templateSequence) {
-        
+
         if (templateSequence.length() >= 100) {
             String primerSequence = templateSequence.substring(0, 20).toUpperCase();
             primer = primerSequence;
@@ -49,15 +49,15 @@ public class Forwardprimer extends AbstractPrimerObject {
      * @return palauttaa täsmäävien nukleotidien määrän
      */
     public Integer matchingNucleotides(String templateSequence) {
-        
+
         if (templateSequence.length() >= 100) {
             String[] template = templateSequence.substring(this.getStart(), this.getStart() + 50).split("");
             String[] primerSequence = primer.split("");
-            
+
             int matches = 0;
-            
+
             for (int i = 0; i < primerSequence.length; i++) {
-                
+
                 if (template[i].equalsIgnoreCase(primerSequence[i])) {
                     matches++;
                 }
@@ -79,18 +79,18 @@ public class Forwardprimer extends AbstractPrimerObject {
      * @return TextFlow-elementti, jossa on aluke.
      */
     public TextFlow forwardPrimerAlignment(String templateSequence, TextFlow sequenceAlignment) {
-        
-        String[] fwdprimer = primer.split("");
-        String[] fwdsequence = templateSequence.split("");
-        
-        for (int i = 0; i < fwdprimer.length; i++) {
-            
-            if (fwdprimer[i].equalsIgnoreCase(fwdsequence[i])) {
-                Text match = new Text(fwdprimer[i]);
+
+        String[] fwdPrimer = primer.split("");
+        String[] fwdSequence = templateSequence.split("");
+
+        for (int i = 0; i < fwdPrimer.length; i++) {
+
+            if (fwdPrimer[i].equalsIgnoreCase(fwdSequence[i])) {
+                Text match = new Text(fwdPrimer[i]);
                 match.setFont(Font.font("Courier New"));
                 sequenceAlignment.getChildren().add(match);
             } else {
-                Text mismatch = new Text(fwdprimer[i]);
+                Text mismatch = new Text(fwdPrimer[i]);
                 mismatch.setFill(Color.RED);
                 mismatch.setFont(Font.font("Courier New"));
                 sequenceAlignment.getChildren().add(mismatch);

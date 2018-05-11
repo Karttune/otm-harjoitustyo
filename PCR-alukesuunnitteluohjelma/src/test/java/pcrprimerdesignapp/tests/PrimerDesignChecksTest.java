@@ -9,6 +9,7 @@ import java.io.File;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import pcrprimerdesignapp.domain.Forwardprimer;
+import pcrprimerdesignapp.domain.PrimerDesignChecks;
 import pcrprimerdesignapp.domain.Reverseprimer;
 import pcrprimerdesignapp.domain.Templatesequence;
 
@@ -18,6 +19,7 @@ import pcrprimerdesignapp.domain.Templatesequence;
  */
 public class PrimerDesignChecksTest {
 
+    private PrimerDesignChecks checks;
     private Forwardprimer fwd;
     private Reverseprimer rev;
     private Templatesequence temp;
@@ -26,24 +28,48 @@ public class PrimerDesignChecksTest {
         fwd = new Forwardprimer();
         rev = new Reverseprimer();
         temp = new Templatesequence();
+        checks = new PrimerDesignChecks(fwd, rev, temp);
+
     }
 
     @Test
     public void checkLowGcPercentageWorks() {
 
-        File file = new File("Testisekvenssi.fasta");
+        fwd.setPrimer("ATATAATATATATATGATATATCATATA");
+        rev.setPrimer("ATATTAATGCTATATATAGCTATATATA");
 
-        temp.sequenceFromFile(file);
-        assertEquals("GCGGCAGGTGGATATGCTGA", fwd.getForwardPrimer(temp.getTemplateSequence()));
+        assertEquals("Forward primer GC% is too low! Reverse primer GC% is too low!", checks.checkLowGcPercentage());
+
+        fwd.setPrimer("ATATAATATATATATGATATATCATATA");
+        rev.setPrimer("GGCCGGCCGTACGCCGCGCAGCGCGCCA");
+
+        assertEquals("Forward primer GC% is too low!", checks.checkLowGcPercentage());
+
+        rev.setPrimer("ATATAATATATATATGATATATCATATA");
+        fwd.setPrimer("GGCCGGCCGTACGCCGCGCAGCGCGCCA");
+
+        assertEquals("Reverse primer GC% is too low!", checks.checkLowGcPercentage());
+
     }
 
     @Test
     public void checkHighGcPercentageWorks() {
 
-        File file = new File("Lyhyttestisekvenssi.fasta");
+        fwd.setPrimer("GCGCGCGATCGCGCGCGCGGCACTGCGCG");
+        rev.setPrimer("GCGCGCATGCGCGATCGCGGCGCGCGCGC");
 
-        temp.sequenceFromFile(file);
-        assertEquals("", fwd.getForwardPrimer(temp.getTemplateSequence()));
+        assertEquals("Forward primer GC% is too high! Reverse primer GC% is too high!", checks.checkHighGcPercentage());
+
+        fwd.setPrimer("GCGCGCGATCGCGCGCGCGGCACTGCGCG");
+        rev.setPrimer("TATATATATATTATTATATATATATTATA");
+
+        assertEquals("Forward primer GC% is too high!", checks.checkHighGcPercentage());
+
+        rev.setPrimer("GCGCGCGATCGCGCGCGCGGCACTGCGCG");
+        fwd.setPrimer("TATATATATGCGATTATATATATATTATA");
+
+        assertEquals("Reverse primer GC% is too high!", checks.checkHighGcPercentage());
+
     }
 
     @Test
@@ -53,58 +79,149 @@ public class PrimerDesignChecksTest {
 
         temp.sequenceFromFile(file);
 
+        fwd.setPrimer("GATCGCATCGTACTACTGCGATCGC");
+        rev.setPrimer("GACAGACACCGCGCGACAGCGCGAC");
+
+        fwd.setStart(0);
+        rev.setStart(4016);
+
+        assertEquals("Forward primer match% is too low! Reverse primer match% is too low!", checks.checkMatchingNucleotides());
+
         fwd.getForwardPrimer(temp.getTemplateSequence());
-        assertEquals(20, (int) fwd.matchingNucleotides(temp.getTemplateSequence()));
+        
+        assertEquals("Reverse primer match% is too low!", checks.checkMatchingNucleotides());
+
     }
 
     @Test
-    public void checkFwdRepeatsWorks() {
-        fwd.setPrimer("ATCGATCGATCG");
+    public void checkRepeatsWorks() {
+        fwd.setPrimer("ATCGAAAAATATGTCGATCG");
+        rev.setPrimer("ATCGAAAAATATGTCGATCG");
 
-        assertEquals(12, (int) fwd.getPrimer().length());
-    }
+        assertEquals("Forward primer contains repeated sequences!", checks.checkRepeats(fwd, "Forward"));
+        assertEquals("Reverse primer contains repeated sequences!", checks.checkRepeats(rev, "Reverse"));
 
-    @Test
-    public void checkRevRepeatsWorksa() {
-        fwd.setPrimer("ATCGATCGATCG");
-
-        assertEquals(36, (double) fwd.tmTemperature());
     }
 
     @Test
     public void checkLowTmWorks() {
         fwd.setPrimer("ATCGATCGATCG");
+        rev.setPrimer("ATCGATCGATCG");
 
-        assertEquals(50.0, (double) fwd.gcPercentage(), 1e-15);
+        assertEquals("Forward primer Tm is too low! Reverse primer Tm is too low!", checks.checkLowTm());
+
+        fwd.setPrimer("ATCGATCGATCG");
+        rev.setPrimer("GCATCTGACCGCGCATCGTACATCGAT");
+
+        assertEquals("Forward primer Tm is too low!", checks.checkLowTm());
+
+        rev.setPrimer("ATCGATCGATCG");
+        fwd.setPrimer("GCATCTGACCGCGCATCGTACATCGAT");
+
+        assertEquals("Reverse primer Tm is too low!", checks.checkLowTm());
     }
 
     @Test
     public void checkHighTmWorks() {
-        fwd.setId(1);
+        fwd.setPrimer("GCGCGCGCGCGCGGCGGGCGCGC");
+        rev.setPrimer("GCGCCGGCGCGCGCCGCGCGCGC");
 
-        assertEquals(1, (int) fwd.getId());
+        assertEquals("Forward primer Tm is too high! Reverse primer Tm is too high!", checks.checkHighTm());
+
+        fwd.setPrimer("GCGCGCGCGCGCGGCGGGCGCGC");
+        rev.setPrimer("ATATATATGCTATTATATGCTAT");
+
+        assertEquals("Forward primer Tm is too high!", checks.checkHighTm());
+
+        rev.setPrimer("GCGCGCGCGCGCGGCGGGCGCGC");
+        fwd.setPrimer("ATATATATGCTATTATATGCTAT");
+
+        assertEquals("Reverse primer Tm is too high!", checks.checkHighTm());
+
     }
 
     @Test
     public void checkTmMismatchWorks() {
-        fwd.setStart(10);
+        fwd.setPrimer("GCGCGCGGCGGGGCGCTATGC");
+        rev.setPrimer("TATATATATTAGCTATATATA");
 
-        assertEquals(10, (int) fwd.getStart());
+        assertEquals("Tm-temperatures are mismatched!", checks.checkTmMismatch());
+
     }
 
+    @Test
     public void taTemperatureWorks() {
 
+        fwd.setPrimer("ATCGATCGATCG");
+        rev.setPrimer("ATCGTAGCGCATGCGA");
+
+        assertEquals(31, (int) checks.taTemperature());
+
+        rev.setPrimer("ATCGATCGATCG");
+        fwd.setPrimer("ATCGTAGCGCATGCGA");
+
+        assertEquals(31, (int) checks.taTemperature());
     }
 
+    @Test
     public void checkGcClampWorks() {
 
+        fwd.setPrimer("TGCTACACTCGAATTATATA");
+        rev.setPrimer("ATATGCGACTACATCGCGGCGC");
+
+        assertEquals("Forward primer has no GC nucleotides in 3' end!", checks.checkGcClamp(fwd, "Forward"));
+        assertEquals("Reverse primer has too many GC nucleotides in 3' end!", checks.checkGcClamp(rev, "Reverse"));
     }
 
-    public void checkFwdDinucleotideRepeatsWorks() {
+    @Test
+    public void checkDinucleotideRepeatsWorks() {
+
+        fwd.setPrimer("TACGATGTATATATATAGCGCTACGTA");
+        rev.setPrimer("ATATGCGACTACATCGCGGCGC");
+
+        assertEquals("Forward primer contains dinucleotide repeats!", checks.checkDinucleotideRepeats(fwd, "Forward"));
+        assertEquals("", checks.checkDinucleotideRepeats(rev, "Reverse"));
+    }
+
+    @Test
+    public void checkPalindromicSequencesWorks() {
+
+        fwd.setPrimer("ATATCGCGTGTCTAGCTCGATAT");
+        rev.setPrimer("AAATGCGCGATATATACATCAC");
+
+        assertEquals("Forward primer contains palindromic sequences!", checks.checkPalindromicSequences(fwd, "Forward"));
+        assertEquals("", checks.checkPalindromicSequences(rev, "Reverse"));
 
     }
 
-    public void checkRevDinucleotideRepeats() {
+    @Test
+    public void checkPrimerDimerWorks() {
+
+        fwd.setPrimer("ATATCGCGTGTCTAGCTCGATAGCAT");
+        rev.setPrimer("ATATGCGACTACATCGCGAGTAATGC");
+
+        assertEquals("Primer 3' ends are complementary!", checks.checkPrimerDimer());
+    }
+
+    @Test
+    public void checkFwdThreePrimeMatchWorks() {
+
+        temp.setTemplateSequence("ATATCGCGTGTCTAGCTCGGTAGCATTTACGCGATCGCATCGGGCTACGATCGCTAGCATCGACTACGATCGATCGTAGCATTACTCGCGATCTAGTCGCATATGCTAGCTAGCTATATCATGCTACTACTAGTAGCTAC");
+
+        fwd.setPrimer("ATATCGCGTGTCTAGCTCGATAGCCGT");
+
+        assertEquals("Forward primer 3' end is mismatched!", checks.checkFwdThreePrimeMatch());
+    }
+
+    @Test
+    public void checkRevThreePrimeMatchWorks() {
+
+        temp.setTemplateSequence("ATATCGCGTGTCTAGCTCGGTAGCATTTACGCGATCGCATCGGGCTACGATCGCTAGCATCGACTACGATCGATCGTAGCATTACTCGCGATCTAGTCGCATATGCTAGCTAGCTATATCATGCTACTACTAGTAGCTACGCATTACTCGCGATCTAGTCGCATAT");
+
+        rev.setPrimer("ATATGCGACTACATCGCGAGTAATACA");
+        rev.setStart(166);
+
+        assertEquals("Reverse primer 3' end is mismatched!", checks.checkRevThreePrimeMatch());
 
     }
 }

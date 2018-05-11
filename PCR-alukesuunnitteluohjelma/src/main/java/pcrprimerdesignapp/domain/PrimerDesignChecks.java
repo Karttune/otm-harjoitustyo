@@ -5,7 +5,6 @@
  */
 package pcrprimerdesignapp.domain;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -211,12 +210,11 @@ public class PrimerDesignChecks {
                 }
                 j--;
             }
+            if (matches >= 3) {
+                return "Primer 3' ends are complementary!";
+            }
         }
-        if (matches >= 3) {
-            return "Primer 3' ends are complementary!";
-        } else {
-            return "";
-        }
+        return "";
     }
 
     public String checkFwdThreePrimeMatch() {
@@ -237,7 +235,7 @@ public class PrimerDesignChecks {
 
         int matches = 0;
 
-        if (revPrimer.getPrimer().length() > 10) {
+        if (revPrimer.getPrimer().length() > 10 && tempSequence.getTemplateSequence().length() >= 100) {
 
             String[] revTemplate = tempSequence.getTemplateSequence().substring((revPrimer.getStart() - revPrimer.getPrimer().length()), (revPrimer.getStart() - revPrimer.getPrimer().length()) + 2).split("");
             String[] revPrimerSequence = revPrimer.getPrimer().substring((revPrimer.getPrimer().length() - 2), revPrimer.getPrimer().length()).split("");

@@ -31,12 +31,10 @@ public abstract class AbstractPrimerObject {
         if (!primer.equals("")) {
 
             String[] nucleotides = primer.split("");
-
             double gc = 0;
 
-            for (int i = 0; i < nucleotides.length; i++) {
-
-                if (nucleotides[i].matches("[GCgc]")) {
+            for (String nucleotide : nucleotides) {
+                if (nucleotide.matches("[GCgc]")) {
                     gc++;
                 }
             }
@@ -61,11 +59,10 @@ public abstract class AbstractPrimerObject {
 
             String[] nucleotides = primer.split("");
 
-            for (int i = 0; i < nucleotides.length; i++) {
-
-                if (nucleotides[i].matches("[ATat]")) {
+            for (String nucleotide : nucleotides) {
+                if (nucleotide.matches("[ATat]")) {
                     tmTemperature = tmTemperature + 2;
-                } else if (nucleotides[i].matches("[GCgc]")) {
+                } else if (nucleotide.matches("[GCgc]")) {
                     tmTemperature = tmTemperature + 4;
                 }
             }

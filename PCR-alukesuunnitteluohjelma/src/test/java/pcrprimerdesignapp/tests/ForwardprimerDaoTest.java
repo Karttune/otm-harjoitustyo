@@ -6,7 +6,6 @@ import org.junit.Test;
 import pcrprimerdesignapp.dao.ForwardprimerDao;
 import pcrprimerdesignapp.database.Database;
 import pcrprimerdesignapp.domain.Forwardprimer;
-import pcrprimerdesignapp.domain.Templatesequence;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
