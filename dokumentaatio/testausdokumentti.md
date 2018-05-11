@@ -14,7 +14,7 @@ DAO-luokkien testit toimivat niille määriteltyn test.db -tietokantatiedoston a
 
 ### Testauskattavuus
 
-<img src="https://raw.githubusercontent.com/Karttune/otm-harjoitustyo/master/dokumentaatio/kuvat/testikattavuus.png" width="800">
+<img src="https://raw.githubusercontent.com/Karttune/otm-harjoitustyo/master/dokumentaatio/testikattavuus.png">
 
 Testaamatta jäivät Forwardprimer- ja Reverseprimer-luokkien forwardPrimerAlignment -metodit.
 
@@ -29,6 +29,3 @@ Sovellus on testattu käyttöohjeen mukaisin ohjein Windows-käyttöjärjestelm�
 ### Toiminnallisuudet
 
 Vaatimusmäärittelyn mukainen toiminnallisuus on testattu UI:n kautta myös virheellisien syötteiden kanssa. Sovellus estää suurimman osan virheellisistä syötteistä jo UI:n puolella, esimerkiksi sekvessikenttiin voi kirjoittaa vain nukleotidisekvenssiä (ATCG/atcg) ja starting nucleotide -kenttiin vain numeroita (0-9). Tämä varmistaa, että sovelluslogiikan puolelle syötetään vain oikein muotoisia syötteitä.
-
-## Sovellukseen jääneet laatuongelmat
-
