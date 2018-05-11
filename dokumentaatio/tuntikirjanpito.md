@@ -11,4 +11,9 @@
 | 29.4  | 4    | Tietokantatoiminnallisuuden tekoa. |
 | 1.5   | 3    | Lisää tietokantatoiminnallisuutta. |
 | 2.5   | 6    | Tietokantaa, testejä, dokumentaatiota. |
-| yht   | 41   |
+| 10.5  | 4    | Suunnitteluvirheiden kehitystä |
+| 9.5   | 3    | Suunnitteluvirheilmoitusten kehitystä. |
+| 9.5   | 5    | Suunnitteluvirheilmoitusten kehitystä lisää. |
+| 10.5  | 4    | Suunnitteluvirheilmoitusten kehitystä vielä lisää. |
+| 11.5  | 5    | Dokumentaatio ja testaus yms. viimeseen releaseen. |
+| yht   | 62   |
