@@ -16,7 +16,7 @@ java -jar PcrPrimerDesignApplication.jar
 
 ## Ikkuna
 
-<img src="https://raw.githubusercontent.com/Karttune/otm-harjoitustyo/master/dokumentaatio/ui.png" width="800">
+<img src="https://raw.githubusercontent.com/Karttune/otm-harjoitustyo/master/dokumentaatio/ui.png" width="900">
 
 
 Ohjelma avautuu suoraan ikkunaan, jossa on kaikki toiminnallisuus. Alukkeiden muokkaamisen voi aloittaa syöttämällä tekstikenttään yli 100 nukleotidin pituinen koodaava (5'-3' suunnassa kirjoitettu) sekvenssi, avaamalla sekvenssi fasta-tiedostosta tai avaamalla sekvenssi tietokannasta. Tämän jälkeen alukkeille voi syöttää niiden aloituspisteet Starting nucleotide -kenttiin ja muokata alukkeita oman halun mukaan tekstikentistä. Alukekenttien alapuolella näkyvät alukespesifiset tiedot, kuten GC%, tm-lämpötila, ta-lämpötila sekä templaattisekvenssin kanssa täsmäävien nukleotidien määrä.
