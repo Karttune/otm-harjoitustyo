@@ -14,7 +14,7 @@ Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, jo
 
 [Testausdokumentti](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/testausdokumentti.md)
 
-[Viimeisin release](https://github.com/Karttune/otm-harjoitustyo/releases)
+[Viimeinen release](https://github.com/Karttune/otm-harjoitustyo/releases/tag/final)
 
 ## Komentorivitoiminnot
 
