@@ -22,7 +22,7 @@ Testaamatta jäivät Forwardprimer- ja Reverseprimer-luokkien forwardPrimerAlign
 
 Sovelluksen järjestelmätestaus on suoritettu manuaalisesti.
 
-### Asennus ja kanfigurointi
+### Asennus ja konfigurointi
 
 Sovellus on testattu käyttöohjeen mukaisin ohjein Windows-käyttöjärjestelmällä. Sovellusta on testattu myös ilman sequences.db -tiedostoa samassa kansiossa kuin .jar -tiedostoa, jolloin sovellus luo tiedoston itse.
 
