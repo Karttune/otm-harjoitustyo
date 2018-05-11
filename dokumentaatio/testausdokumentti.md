@@ -10,7 +10,7 @@ Testit testaavat domain-pakkauksen luokkia, eli Forwardprimer-, PrimerDesignChec
 
 ### DAO-luokat
 
-DAO-luokkien testit toimivat niille määriteltyn test.db -tietokantatiedoston avulla.
+DAO-luokkien testit toimivat niille määriteltyn test.db -tietokantatiedoston avulla. Myös Dao-luokissa abstraktia AbstractPrimerDao-luokkaa testataan sen toteutuksien kautta.
 
 ### Testauskattavuus
 
