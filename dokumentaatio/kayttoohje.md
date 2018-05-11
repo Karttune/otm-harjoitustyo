@@ -1,5 +1,18 @@
 # Käyttöohje
 
+Lataa tiedosto PcrPrimerDesignApplication.jar ja sequences.db.
+
+## Konfiguraatio
+
+Laita PcrPrimerDesignApplication.jar ja sequences.db samaan kansioon.
+
+## Konfiguraatio
+
+Ohjelma voidaan käynnistää komennolla:
+
+...
+java -jar PcrPrimerDesignApplication.jar
+...
 
 ## Ikkuna
 
