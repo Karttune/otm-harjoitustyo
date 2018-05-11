@@ -23,7 +23,7 @@ Sovelluksen käyttöliittymä avautuu suoraan yhteen ikkunaan, jossa on kaikki o
 - Luo automaattisesti sekä forward- että reverse -alukkeet sekvenssille. Alukkeiden alku- ja loppupaikkaa ja alukkeiden sekvenssiä voi myös muokata oman maun mukaan.
 - Ohjelma laskee perustiedot alukkeista, kuten niiden nukleotidipituuden, kuinka monta nukleotidiä täsmää templaattijuosteen kanssa, GC-pitoisuuden prosenteissa, Tm-lämpötilan Wallacen kaavalla (Tm = 2°C x (A/T) + 4° x (C/G)) sekä Ta -lämpötilan (Ta = Tm - 5°C). Tm-lämpötila tarkoittaa lämpötilaa PCR-reaktiosyklissä, jossa aluke irtoaa templaattijuosteesta, ja Ta tarkoittaa lämpötilaa jossa aluke pystyy kiinnittymään templaattijuosteeseen.
 - Ohjelma ilmoittaa suunnitteluvirheistä alukkeissa, esimerkiksi liian suuresta tai vähäisestä GC-pitoisuudesta, dinukleotiditoistojaksoista (esimerkiksi ATATATATAT), yli 4 saman emäksen pituisista toistoista, palindromisista sekvenssijaksoista, alukkeiden välisistä 3'-pään komplementaarisista jaksoista, 3'-pään täsmäämisestä templaattisekvenssin kanssa, liian matalasta, korkeasta tai alukkeiden välisestä liian erilaisesta Tm -lämpotilasta. Alukkeiden suunnittelusta voi lukea lisää [täältä.](http://www.premierbiosoft.com/tech_notes/PCR_Primer_Design.html)
-- Ohjelma mahdollistaa valmiiden alukkeiden ja templaattisekvenssib tallentamista tietokantaan, josta niitä voi hakea ja halutessaan muokata.
+- Ohjelma mahdollistaa valmiiden alukkeiden ja templaattisekvenssin tallentamisen tietokantaan, josta niitä voi hakea ja halutessaan muokata.
 
 
 _Kuva 2: Havainnollistava kuva alukkeiden paikoista DNA-juosteessa_
