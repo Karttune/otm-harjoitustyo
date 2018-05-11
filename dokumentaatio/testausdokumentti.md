@@ -14,7 +14,7 @@ DAO-luokkien testit toimivat niille määriteltyn test.db -tietokantatiedoston a
 
 ### Testauskattavuus
 
-<img src="https://raw.githubusercontent.com/Karttune/otm-harjoitustyo/master/dokumentaatio/kuvat/testikattavuus.png" width="800">
+<img src="https://raw.githubusercontent.com/Karttune/otm-harjoitustyo/master/dokumentaatio/testikattavuus.png" width="800">
 
 Testaamatta jäivät Forwardprimer- ja Reverseprimer-luokkien forwardPrimerAlignment -metodit.
 
