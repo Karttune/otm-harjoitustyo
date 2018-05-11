@@ -12,7 +12,7 @@ Ohjelman luokkarakenne on seuraava:
 
 <img src="https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/pakkausjaluokkakaavio.png">
 
-Sovelluksen loogisesta toiminnasta vastaa Templatesequence-, Forwardprimer- ja Reverseprimer-luokat. 
+Sovelluksen loogisesta toiminnasta vastaa PrimerDesignChecks-, Templatesequence-, Forwardprimer- ja Reverseprimer-luokat. 
 
 Templatesequence vastaa templaattisekvenssin tallennuksesta, fasta-tiedostojen sekvenssien käsittelystä ja tallentamisesta luokan muuttujiin.
 
