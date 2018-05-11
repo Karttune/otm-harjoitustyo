@@ -12,6 +12,8 @@ Tämä on ohjelmistotekniikan menetelmät -kurssilla tehtävä harjoitustyö, jo
 
 [Käyttöohje](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
 
+[Testausdokumentti](https://github.com/Karttune/otm-harjoitustyo/blob/master/dokumentaatio/testausdokumentti.md)
+
 [Viimeisin release](https://github.com/Karttune/otm-harjoitustyo/releases)
 
 ## Komentorivitoiminnot
