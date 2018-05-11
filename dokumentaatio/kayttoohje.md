@@ -6,7 +6,7 @@ Lataa tiedosto PcrPrimerDesignApplication.jar ja sequences.db.
 
 Laita PcrPrimerDesignApplication.jar ja sequences.db samaan kansioon.
 
-## Konfiguraatio
+## Käynnistys
 
 Ohjelma voidaan käynnistää komennolla:
 
@@ -30,6 +30,7 @@ Sovellus tarkistaa alukkeiden suunnittelussa yleisimpiä virheitä. Sovellus var
 * Alukkeen GC-nukleotidien prosentuaalinen lukumäärä on alle 40% tai yli 60%.
 * Alukkeiden Tm-lämpötila on alle 50°C tai yli 60°C, ja alukkeiden Tm-lämpötiloissa on yli 5°C ero.
 * Alukkeissa on yli 4 nukleotidin pituisia yhden emäksen toistojaksoja.
+* Alukkeissa on dinukleotiditoistojaksoja, eli esimerkiksi ATATATAT -kaltaisia kahden emäksen toistoja.
 * Alukkeissa on yli 4 nukleotidin pituisia palindromisia sekvenssejä; tämä tarkoittaa sitä, että alukkeessa on esim. ATCG -sekvenssi, jonka jälkeen tulee CGAT -sekvenssi, joka on ATCG-sekvenssille käänteisesti komplementaarinen. Näiden välillä voi tapahtua emäspariutumista, jolloin aluke voi muodostaa itsensä kanssa ns. hiuspinnirakenteen, joka heikentää PCR-reaktion onnistumista.
 * Alukkeiden 3' pään kahden viimeisen emäksen täsmääminen templaattisekvenssiin; 3'-pään täytyy olla täysin komplementaarinen templaattiin, sillä muuten polymeraasientsyymi ei voi aloittaa elongaatiota.
 * Alukkeiden 3' pään käänteiden komplementaarisuus, eli [primer dimerin](https://en.wikipedia.org/wiki/Primer_dimer) muodostuminen.
