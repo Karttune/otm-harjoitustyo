@@ -29,7 +29,3 @@ Sovellus on testattu käyttöohjeen mukaisin ohjein Windows-käyttöjärjestelm�
 ### Toiminnallisuudet
 
 Vaatimusmäärittelyn mukainen toiminnallisuus on testattu UI:n kautta myös virheellisien syötteiden kanssa. Sovellus estää suurimman osan virheellisistä syötteistä jo UI:n puolella, esimerkiksi sekvessikenttiin voi kirjoittaa vain nukleotidisekvenssiä (ATCG/atcg) ja starting nucleotide -kenttiin vain numeroita (0-9). Tämä varmistaa, että sovelluslogiikan puolelle syötetään vain oikein muotoisia syötteitä.
-
-## Sovellukseen jääneet laatuongelmat
-
-Jos avaa tiedostonavausikkunan mutta sulkee sen avaamatta tiedostoa, sovellus printtaa errorin.
